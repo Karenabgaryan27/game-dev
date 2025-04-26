@@ -23,7 +23,7 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://call-of-dragons.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://call-of-dragons-1up.vercel.app";
 
 export const metadata: Metadata = {
   title: "Call of Dragons",
