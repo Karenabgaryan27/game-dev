@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     siteName: "Website-page",
     images: [
       {
-        url: `${siteUrl}/assets/images/og-image.jpeg`,
+        url: `${siteUrl}/assets/images/og-image.jpg`,
         width: 612,
         height: 334,
         alt: "Your Website Logo",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     description: "Call of Dragons: Epic Fantasy Strategy Game with Real-Time Battles",
     images: [
       {
-        url: `${siteUrl}/assets/images/og-image.jpeg`,
+        url: `${siteUrl}/assets/images/og-image.jpg`,
         width: 612,
         height: 334,
         alt: "Your Website Logo",
