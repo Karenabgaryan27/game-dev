@@ -31,15 +31,14 @@ const defaultState = {
 const EventCardCreateDialog = () => {
   return (
     <DialogDemo
-      color="success"
+      color="blue"
       title="Create Event"
       description="Choose an event type or create a custom one"
       trigger={
         <ButtonDemo
           text="Create Event"
           variant="outline"
-          color="success"
-          className={`bg-transparent w-full h-full  absolute top-0 left-0  fill-success flex-col text-lg cursor-pointer `}
+          className={`bg-blue-400 hover:bg-blue-500 w-full h-full  text-white hover:text-white  absolute top-0 left-0  fill-white flex-col text-lg cursor-pointer `}
           endIcon={plusIcon}
         />
       }
@@ -236,6 +235,7 @@ const Content = ({ closeDialog = () => {} }) => {
           text={`${isLoading ? "Adding..." : "Add Event"}`}
           className={`w-full mb-5 text-sm`}
           disabled={isLoading || state.type === ""}
+          color='blue'
         />
       </form>
     </div>

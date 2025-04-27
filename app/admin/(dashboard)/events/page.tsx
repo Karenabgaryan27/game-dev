@@ -20,6 +20,8 @@ const breadcrumbItems = [
 ];
 
 const Pages = () => {
+  
+
   return (
     <main className="pages-page p-5">
       <h2 className="text-2xl mb-3">Events</h2>
@@ -33,8 +35,8 @@ const Pages = () => {
 };
 
 const Events = () => {
-  const { fetchedData, getEvents } = useApiContext();
-  const [filteredData, setFilteredData] = useState<Record<string, unknown>[]>([]);
+  const { fetchedData, getEvents ,fetchedUser} = useApiContext();
+  const [filteredData, setFilteredData] = useState<{[key:string]: any}[]>([]);
 
   useEffect(() => {
     getEvents({});
@@ -72,12 +74,14 @@ const Events = () => {
           return <EventCard key={index} {...{ item, ...item }} />;
         })
       )}
-      <div className="">
-        <div className="text-sm font-medium mb-1 opacity-0">Created by</div>
-        <div className="wrapper shadow border rounded-lg p-3 relative h-0 pt-[56.25%]">
-          <EventCardCreateDialog />
+      {fetchedUser?.role == "admin" && (
+        <div className="">
+          <div className="text-sm font-medium mb-1 opacity-0">Created by</div>
+          <div className="wrapper shadow border rounded-lg p-3 relative h-0 pt-[56.25%]">
+            <EventCardCreateDialog />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

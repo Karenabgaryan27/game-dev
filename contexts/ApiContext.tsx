@@ -5,6 +5,7 @@ import { db, auth } from "@/config/firebase";
 import {
   collection,
   getDocs,
+  getDoc,
   addDoc,
   deleteDoc,
   updateDoc,
@@ -14,6 +15,7 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import useAlert from "@/hooks/alert/useAlert";
+import { useAuthContext } from "./AuthContext";
 
 type StateType = {
   // movies: {id: string, name: string, releaseDate: number, receivedAnOscar: boolean, country:string}[]
@@ -23,11 +25,13 @@ type StateType = {
 
 type ApiContextType = {
   fetchedData: StateType;
+  fetchedUser: {[key:string]: any}
   setFetchedData: (newState: StateType) => void;
   getEvents: ({ setIsLoading }: { [key: string]: any }) => void;
   addEvent: ({ setIsLoading }: { [key: string]: any }) => void;
   updateEvent: ({ id, setIsLoading, ...fields }: { [key: string]: any }) => void;
   deleteEvent: ({ id, setIsLoading }: { [key: string]: any }) => void;
+  getUser: ({ setIsLoading }: { [key: string]: any }) => void;
 };
 
 export const ApiContext = createContext<ApiContextType | null>(null);
@@ -44,9 +48,14 @@ export default function ApiProvider({
     },
     users: [],
   });
+
+  const [fetchedUser,setFetchedUser] = useState<{[key:string]:any}>({})
+
+  const {currentUser} = useAuthContext()
   const { successAlert, errorAlert } = useAlert();
 
   const eventsCollectionRef = collection(db, "events");
+  const usersCollectionRef = collection(db, "users");
 
   const getEvents = async ({ setIsLoading = (_: boolean) => {} }) => {
     setIsLoading(true);
@@ -141,16 +150,45 @@ export default function ApiProvider({
     callback();
   };
 
+  const getUser = async ({ id = "", setIsLoading = (_: boolean) => {} }) => {
+    setIsLoading(true);
+
+    try {
+      const userDocRef = doc(usersCollectionRef, id);
+      const res = await getDoc(userDocRef);
+
+      if (res.exists()) {
+        const data = { id: res.id, ...res.data() };
+        setFetchedUser(data)
+        console.log(data);
+      } else {
+        console.log("No such document!");
+      }
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=getUser= request error");
+    }
+    setIsLoading(false);
+  };
+
+    useEffect(() => {
+      if(!currentUser?.uid) return
+      getUser({id: currentUser?.uid})
+      
+    }, [currentUser]);
+
   return (
     <ApiContext.Provider
       value={{
         fetchedData,
         ...fetchedData,
+        fetchedUser,
         setFetchedData,
         getEvents,
         addEvent,
         deleteEvent,
         updateEvent,
+        getUser,
       }}
     >
       {children}

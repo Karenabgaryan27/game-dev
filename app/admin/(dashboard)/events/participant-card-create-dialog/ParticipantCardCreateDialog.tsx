@@ -134,7 +134,7 @@ const Content = ({
           />
 
           <div className=" label absolute bg-black text-white shadow-[1px_1px_3px_rgba(255,255,255,0.3)] rounded-r-lg py-[1px] pl-1 pr-3 top-0 left-0 mt-2 text-xs z-1">
-            <h5>Event type: {item.type}</h5>
+            <h5>Type: {item.type}</h5>
           </div>
         </div>
       </div>

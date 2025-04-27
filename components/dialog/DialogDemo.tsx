@@ -23,7 +23,7 @@ type DialogDemoProps = {
   color?: string;
 };
 
-const { elkridersImage, workelkImage, redDragonImage } = localData.images;
+const { elkridersImage, workelkImage, redDragonImage,knightsImage } = localData.images;
 
 export function DialogDemo({
   contentClassName = "",
@@ -38,6 +38,9 @@ export function DialogDemo({
 
   useEffect(() => {
     switch (color) {
+      case "blue":
+        setIconImage(knightsImage);
+        break;
       case "success":
         setIconImage(elkridersImage);
         break;

@@ -93,8 +93,9 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           <div className={`text-xs ${isNearExpiry || isExpired ? "text-red-500" : ""} w-[60px] `}>
             {timeLeft}
           </div>
-          
-        ):<div className="text-xs text-gray-400">No time limit</div>}
+        ) : (
+          <div className="text-xs text-gray-400">No time limit</div>
+        )}
 
         <h2 className=" font-medium whitespace-nowrap text-xs ml-auto">
           Created by <span className="capitalize underline">{item.createdBy}</span>{" "}
@@ -118,7 +119,7 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           />
 
           <div className=" label absolute bg-black text-white shadow-[1px_1px_3px_rgba(255,255,255,0.3)] rounded-r-lg py-[1px] pl-1 pr-3 top-0 left-0 mt-2 text-xs z-1">
-            <h5>Event type: {item.type}</h5>
+            <h5>Type: {item.type}</h5>
           </div>
         </div>
 
@@ -131,7 +132,12 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
                 className={` ${item.ttl != null && isExpired ? "hidden" : ""}`}
               />
             )}
-            {!isExpired && <ParticipantCardCreateDialog item={item} parentState={state} />}
+
+            <ParticipantCardCreateDialog
+              className={` ${item.ttl != null && isExpired ? "hidden" : ""}`}
+              item={item}
+              parentState={state}
+            />
           </div>
         </div>
       </div>
