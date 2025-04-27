@@ -1,14 +1,8 @@
 "use client";
 
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useApiContext } from "@/contexts/ApiContext";
-import {
-  ButtonDemo,
-  InputDemo,
-  TextareaDemo,
-  SelectScrollable,
-  DialogDemo,
-} from "@/components/index";
+import { ButtonDemo, InputDemo, TextareaDemo, SelectScrollable, DialogDemo } from "@/components/index";
 import useUtil from "@/hooks/useUtil";
 import localData from "@/localData";
 
@@ -20,6 +14,7 @@ type EventStateProps = {
   points: string | number;
   expiry: string | number;
   background: string;
+  screenshot: string;
   description: string;
 };
 
@@ -29,6 +24,7 @@ const defaultState = {
   points: 5,
   expiry: 12,
   background: "",
+  screenshot: "",
   description: "",
 };
 
@@ -63,7 +59,7 @@ const Content = ({ closeDialog = () => {} }) => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const hours = Number(state.expiry)  * 60;
+    const hours = Number(state.expiry) * 60;
     const expires = new Date(Date.now() + hours * 60 * 1000);
 
     if (state.type === "Custom") {
@@ -74,6 +70,7 @@ const Content = ({ closeDialog = () => {} }) => {
         points: state.points,
         expires,
         background: state.background,
+        screenshot: state.screenshot,
         setIsLoading,
         callback: () => {
           closeDialog();
@@ -102,14 +99,14 @@ const Content = ({ closeDialog = () => {} }) => {
     }));
   };
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: string) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
     try {
       const compressedBlob = await compressImage(file, 100); // target 300KB
       const imageBase64 = await convertToBase64(compressedBlob);
       console.log(imageBase64);
-      setState((prev) => ({ ...prev, background: imageBase64 }));
+      setState((prev) => ({ ...prev, [type]: imageBase64 }));
     } catch (err) {
       console.error("Error during upload process:", err);
     }
@@ -122,13 +119,15 @@ const Content = ({ closeDialog = () => {} }) => {
           label="Type*"
           triggerClassName="w-full mb-5"
           contentClassName=""
-          defaultItems={["Behemoth", "Caravan", "Gates", "Merit Farming", "Custom"].map((type) => {
-            return {
-              label: type,
-              value: type,
-              isSelected: false,
-            };
-          })}
+          defaultItems={["Behemoth", "Caravan", "Gates", "Merit Farming", "Resource Donation", "Custom"].map(
+            (type) => {
+              return {
+                label: type,
+                value: type,
+                isSelected: false,
+              };
+            }
+          )}
           callback={(selectedItem) => {
             setState((prev) => ({
               ...prev,
@@ -155,6 +154,11 @@ const Content = ({ closeDialog = () => {} }) => {
                   triggerClassName="w-full mb-5"
                   contentClassName=""
                   defaultItems={[
+                    {
+                      label: "No time limit",
+                      value: "none",
+                      isSelected: false,
+                    },
                     ...Array.from({ length: 24 }, (_, i) => {
                       const value = `${i + 1}`;
                       return {
@@ -163,11 +167,6 @@ const Content = ({ closeDialog = () => {} }) => {
                         isSelected: value === state.expiry.toString(),
                       };
                     }),
-                    {
-                      label: "No time limit",
-                      value: "none",
-                      isSelected: false,
-                    },
                   ]}
                   callback={(selectedItem) => {
                     setState((prev) => ({
@@ -183,6 +182,11 @@ const Content = ({ closeDialog = () => {} }) => {
                   triggerClassName="w-full mb-5"
                   contentClassName=""
                   defaultItems={[
+                    {
+                      label: "No points",
+                      value: "0",
+                      isSelected: false,
+                    },
                     ...Array.from({ length: 100 }, (_, i) => {
                       const value = `${i + 1}`;
                       return {
@@ -191,11 +195,6 @@ const Content = ({ closeDialog = () => {} }) => {
                         isSelected: value === state.points.toString(),
                       };
                     }),
-                    {
-                      label: "No points",
-                      value: "none",
-                      isSelected: false,
-                    },
                   ]}
                   callback={(selectedItem) => {
                     setState((prev) => ({
@@ -207,12 +206,20 @@ const Content = ({ closeDialog = () => {} }) => {
               </div>
             </div>
 
-            <InputDemo
-              label="Background"
-              type="file"
-              callback={(e) => handleUpload(e)}
-              className="mb-5 find-me"
-            />
+            <div className="flex gap-2">
+              <InputDemo
+                label="Background"
+                type="file"
+                callback={(e) => handleUpload(e, "background")}
+                className="mb-5 find-me"
+              />
+              <InputDemo
+                label="Example"
+                type="file"
+                callback={(e) => handleUpload(e, "screenshot")}
+                className="mb-5 find-me"
+              />
+            </div>
             <TextareaDemo
               label="Description"
               placeholder="Description"

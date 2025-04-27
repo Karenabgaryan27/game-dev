@@ -2,11 +2,21 @@
 import React, { useState, useEffect } from "react";
 import EventCardUpdateDialog from "../event-card-update-dialog/EventCardUpdateDialog";
 import EventCardDeleteDialog from "../event-card-delete-dialog/EventCardDeleteDialog";
+import ParticipantCardCreateDialog from "../participant-card-create-dialog/ParticipantCardCreateDialog";
 import localData from "@/localData";
 import useExpiryCountdown from "@/hooks/useExpiryCountdown";
 import { useAuthContext } from "@/contexts/AuthContext";
 
-const { placeholderImage, behemothImage, caravanImage, passImage, meritsImage } = localData.images;
+const {
+  placeholderImage,
+  behemothImage,
+  caravanImage,
+  passImage,
+  meritsImage,
+  resourcesImage,
+  escortScreenshotImage,
+  behemothcreenshotImage,
+} = localData.images;
 
 const eventTypes = {
   Behemoth: {
@@ -14,12 +24,14 @@ const eventTypes = {
     description: "Taking down the Behemoth – step one: don’t die. Step two: repeat step one.",
     points: 5,
     background: behemothImage,
+    screenshot: behemothcreenshotImage,
   },
   Caravan: {
     name: "Caravan event",
     description: "Escort the caravan safely through bandits, bad roads, and surprise goat attacks.",
     points: 3,
     background: caravanImage,
+    screenshot: escortScreenshotImage,
   },
   Gates: {
     name: "Gates event",
@@ -33,6 +45,12 @@ const eventTypes = {
     points: 0,
     background: meritsImage,
   },
+  "Resource Donation": {
+    name: "Resource Donation",
+    description: "Give your stuff, get some alliance love! 😜",
+    points: 5,
+    background: resourcesImage,
+  },
 };
 
 type EventType = keyof typeof eventTypes;
@@ -45,7 +63,7 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
     background: "",
   });
 
-  const { timeLeft, isNearExpiry, isExpired } = useExpiryCountdown(item.ttl.seconds);
+  const { timeLeft, isNearExpiry, isExpired } = useExpiryCountdown(item.ttl?.seconds || 0);
   const { currentUser } = useAuthContext();
 
   useEffect(() => {
@@ -59,7 +77,11 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
 
   return (
     <div className={`card event-card `}>
-      <div className={`card-header flex mb-1  items-center  gap-1 px-2 ${isExpired ? "opacity-50" : ""}`}>
+      <div
+        className={`card-header flex mb-1  items-center  gap-1 px-2 ${
+          item.ttl != null && isExpired ? "opacity-20" : ""
+        }`}
+      >
         <span className="flex items-center gap-1">
           <div className="badge bg-success rounded-full w-5 h-5 flex items-center justify-center text-custom-sm  font-normal text-white">
             <span className="ml-[-2px]  ">+{state.points}</span>
@@ -67,19 +89,30 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           <span className="text-[10px] font-medium text-success">Points</span>
         </span>
 
-        <div className={`text-xs ${isNearExpiry || isExpired ? "text-red-500" : ""} w-[60px] `}>
-          {timeLeft}
-        </div>
+        {item.ttl != null ? (
+          <div className={`text-xs ${isNearExpiry || isExpired ? "text-red-500" : ""} w-[60px] `}>
+            {timeLeft}
+          </div>
+          
+        ):<div className="text-xs text-gray-400">No time limit</div>}
 
         <h2 className=" font-medium whitespace-nowrap text-xs ml-auto">
           Created by <span className="capitalize underline">{item.createdBy}</span>{" "}
         </h2>
       </div>
 
-      <div className="wrapper shadow border rounded-lg p-3 relative h-0 pt-[56.25%] overflow-hidden">
-        <div className={` ${isExpired ? "opacity-50 pointer-events-none" : ""}`}>
+      <div
+        className={`wrapper ${
+          item.ttl != null && isExpired ? "bg-blue-300 " : "bg-blue-400 "
+        }  shadow-lg border rounded-lg p-3 relative h-0 pt-[56.25%] overflow-hidden`}
+      >
+        <div
+          className={`wrapper-inner   ${
+            item.ttl != null && isExpired ? "opacity-20 pointer-events-none" : ""
+          }`}
+        >
           <img
-            className={`absolute w-full h-full object-cover top-0 left-0 block`}
+            className={`absolute w-[70%] h-[90%] object-contain top-[50%] left-[50%] transform-[translate(-50%,-50%)] block`}
             src={state.background || placeholderImage}
             alt=""
           />
@@ -93,8 +126,12 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           <div className="flex flex-col w-[fit-content] gap-1 ">
             {currentUser?.uid === item.userId && <EventCardDeleteDialog item={item} state={state} />}
             {currentUser?.uid === item.userId && item.type === "Custom" && (
-              <EventCardUpdateDialog item={item} className={` ${isExpired ? "hidden" : ""}`} />
+              <EventCardUpdateDialog
+                item={item}
+                className={` ${item.ttl != null && isExpired ? "hidden" : ""}`}
+              />
             )}
+            {!isExpired && <ParticipantCardCreateDialog item={item} parentState={state} />}
           </div>
         </div>
       </div>

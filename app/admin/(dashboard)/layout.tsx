@@ -2,6 +2,7 @@ import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { NavUser } from "@/components/index";
+import { Footer } from "@/components/index";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,17 +12,18 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider >
+    <SidebarProvider>
       <AppSidebar />
       <SidebarInset className="bg-neutral-100 dark:bg-background">
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-          <div className="flex items-center justify-between gap-2 px-4 w-full">
+          <div className={`flex items-center justify-between gap-2 px-4 w-full`}>
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <NavUser />
           </div>
         </header>
         {children}
+        <Footer/>
       </SidebarInset>
     </SidebarProvider>
   );

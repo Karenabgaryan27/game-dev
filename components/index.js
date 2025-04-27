@@ -1,3 +1,4 @@
+export { default as Footer } from "./footer/Footer.tsx";
 export { ButtonDemo } from "./button/ButtonDemo.tsx";
 export { InputDemo } from "./input/InputDemo.tsx";
 export { TextareaDemo } from "./textarea/TextareaDemo.tsx";

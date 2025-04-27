@@ -4,13 +4,7 @@ import React, { useState } from "react";
 import { useApiContext } from "@/contexts/ApiContext";
 import { ButtonDemo, DialogDemo } from "@/components/index";
 
-const EventCardDeleteDialog = ({
-  item = {},
-  state = {},
-}: {
-  item: Record<string, unknown>;
-  state: Record<string, unknown>;
-}) => {
+const EventCardDeleteDialog = ({ item = {}, state = {} }:{ [key: string]: any}) => {
   return (
     <DialogDemo
       color="destructive"

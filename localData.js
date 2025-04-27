@@ -1,17 +1,29 @@
 const images = {
   logo: "/assets/images/logo.png",
   exampleImage: "/assets/images/example.png",
-  placeholderImage: "/assets/images/placeholder.jpg",
+  placeholderImage: "/assets/images/placeholder.png",
   googleLogo: "/assets/images/google-logo.png",
   poorMeImage: "/assets/images/poor-me.png",
   chakchaImage: "/assets/images/chakcha.webp",
+  navbarCover: "/assets/images/navbar-cover.jpg",
 
   // EVENTS
-  behemothImage: "/assets/images/events/behemoth.jpg",
-  passImage: "/assets/images/events/pass.jpg",
-  caravanImage: "/assets/images/events/caravan.jpg",
-  passImage: "/assets/images/events/pass.jpg",
-  meritsImage: "/assets/images/events/merits.jpg",
+  behemothImage: "/assets/images/events/behemoth.png",
+  passImage: "/assets/images/events/pass.png",
+  caravanImage: "/assets/images/events/caravan.png",
+  meritsImage: "/assets/images/events/merits.png",
+  resourcesImage: "/assets/images/events/resources.png",
+  
+  // EVENTS SCREENSHOTS
+  escortScreenshotImage: "/assets/images/events/screenshots/escort-screenshot.png",
+  behemothcreenshotImage: "/assets/images/events/screenshots/behemoth-screenshot.png",
+  
+  // REST
+  hero1Image: "/assets/images/rest/hero-1.png",
+  hero2Image: "/assets/images/rest/hero-2.png",
+  elkridersImage: "/assets/images/rest/elkriders.png",
+  workelkImage: "/assets/images/rest/workelk.png",
+  redDragonImage: "/assets/images/rest/red-dragon.png",
 
   
 };
