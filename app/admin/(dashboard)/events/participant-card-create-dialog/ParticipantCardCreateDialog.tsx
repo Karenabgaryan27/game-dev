@@ -140,7 +140,7 @@ const Content = ({
       </div>
       {(parentState.name || parentState.description || parentState.screenshot) && (
         <div className="bg-gray-100 p-3 mb-5 rounded-md">
-          <h2 className="text-2xl font-bold text-success">{parentState.name}</h2>
+          <h2 className="text-2xl font-bold text-success mb-3">{parentState.name}</h2>
           <h4 className="text-ghost mb-3 text-xs">{parentState.description}</h4>
 
           {parentState.screenshot && (

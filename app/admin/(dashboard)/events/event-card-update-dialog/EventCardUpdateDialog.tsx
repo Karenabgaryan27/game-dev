@@ -101,7 +101,7 @@ const Content = ({
     if (!e.target.files) return;
     const file = e.target.files[0];
     try {
-      const compressedBlob = await compressImage(file, 100); // target 300KB
+      const compressedBlob = await compressImage(file, type === "screenshot" ? 100 : 500);
       const imageBase64 = await convertToBase64(compressedBlob);
       console.log(imageBase64);
       setState((prev) => ({ ...prev, [type]: imageBase64 }));
@@ -146,7 +146,6 @@ const Content = ({
                         isSelected: value === state.expiry.toString(),
                       };
                     }),
-                   
                   ]}
                   callback={(selectedItem) => {
                     setState((prev) => ({
@@ -174,7 +173,7 @@ const Content = ({
                         value,
                         isSelected: value === state.points.toString(),
                       };
-                    })
+                    }),
                   ]}
                   callback={(selectedItem) => {
                     setState((prev) => ({

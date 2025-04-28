@@ -62,8 +62,8 @@ export default function ApiProvider({
     setFetchedData((prev) => ({ ...prev, events: { ...prev.events, isLoading: true } }));
 
     try {
-      const orderedMoviesQuery = query(eventsCollectionRef, orderBy("createdAt", "desc"));
-      const res = await getDocs(orderedMoviesQuery);
+      const orderedEventsQuery = query(eventsCollectionRef, orderBy("createdAt", "asc"));
+      const res = await getDocs(orderedEventsQuery);
       const data = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setFetchedData((prev) => ({ ...prev, events: { isLoading: false, list: data } }));
 
@@ -126,7 +126,7 @@ export default function ApiProvider({
       const movieDoc = doc(db, "events", id);
       await updateDoc(movieDoc, filteredData);
       getEvents({});
-      successAlert("Movie has been updated successfully.");
+      successAlert("Event has been updated successfully.");
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=updateEvent= request error");
@@ -160,7 +160,6 @@ export default function ApiProvider({
       if (res.exists()) {
         const data = { id: res.id, ...res.data() };
         setFetchedUser(data)
-        console.log(data);
       } else {
         console.log("No such document!");
       }
