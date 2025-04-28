@@ -6,7 +6,7 @@ import { ButtonDemo, InputDemo, TextareaDemo, SelectScrollable, DialogDemo } fro
 import localData from "@/localData";
 import useUtil from "@/hooks/useUtil";
 
-const { placeholderImage, elkridersImage } = localData.images;
+const { placeholderImage, maintenanceWorkerImage } = localData.images;
 
 type EventStateProps = {
   type: string | number;
@@ -192,12 +192,31 @@ const Content = ({
           value={state.comment}
         />
 
-        <ButtonDemo
+        {/* <ButtonDemo
           text={`${isLoading ? "Participating..." : "Participate"}`}
           className={`w-full mb-5 text-sm`}
           disabled={isLoading || state.type === ""}
           color="success"
-        />
+        /> */}
+
+        <DialogDemo
+          contentClassName="sm:max-w-[700px] py-0"
+          trigger={
+            <ButtonDemo
+              text={`${isLoading ? "Participating..." : "Participate"}`}
+              className={`w-full mb-5 text-sm`}
+              disabled={isLoading || state.type === ""}
+              color="success"
+            />
+          }
+        >
+          {() => (
+          <div className="pb-5">
+
+            <img className="w-full rounded-lg mx-auto" src={maintenanceWorkerImage} alt="" />
+          </div>
+          )}
+        </DialogDemo>
       </form>
     </div>
   );

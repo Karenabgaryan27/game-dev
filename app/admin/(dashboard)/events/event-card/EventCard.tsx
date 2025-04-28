@@ -16,6 +16,7 @@ const {
   resourcesImage,
   escortScreenshotImage,
   behemothcreenshotImage,
+  badgeImage
 } = localData.images;
 
 const eventTypes = {
@@ -113,12 +114,17 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           }`}
         >
           <img
-            className={`absolute w-[70%] h-[90%] object-contain top-[50%] left-[50%] transform-[translate(-50%,-50%)] block`}
+            className={`absolute w-[70%] h-[90%] object-contain top-[50%] left-[50%] transform-[translate(-70%,-50%)] block`}
             src={state.background || placeholderImage}
             alt=""
           />
+          <img
+            className={`absolute w-[50px] h-[auto] object-contain top-[5%] right-[3%] block drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]`}
+            src={badgeImage}
+            alt=""
+          />
 
-          <div className=" label absolute bg-black text-white shadow-[1px_1px_3px_rgba(255,255,255,0.3)] rounded-r-lg py-[1px] pl-1 pr-3 top-0 left-0 mt-2 text-xs z-1">
+          <div className=" label absolute  text-white shadow-[1px_1px_3px_rgba(0,0,0,0.3)] rounded-r-lg py-[1px] pl-1 pr-3 top-0 left-0 mt-2 text-xs z-1">
             <h5>Type: {item.type}</h5>
           </div>
         </div>

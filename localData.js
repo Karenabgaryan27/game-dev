@@ -25,6 +25,8 @@ const images = {
   workelkImage: "/assets/images/rest/workelk.png",
   redDragonImage: "/assets/images/rest/red-dragon.png",
   knightsImage: "/assets/images/rest/knights.png",
+  badgeImage: "/assets/images/rest/badge.webp",
+  maintenanceWorkerImage: "/assets/images/rest/maintenance-worker.jpg",
 
   
 };

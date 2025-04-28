@@ -55,7 +55,7 @@ const Events = () => {
 
   return (
     <div
-      className={`mb-[200px] grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-7  ${
+      className={`mb-[200px] grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-7 gap-y-10  ${
         fetchedData.events.isLoading ? "opacity-50 pointer-events-none" : ""
       } duration-300`}
     >
