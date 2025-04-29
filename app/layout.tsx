@@ -29,37 +29,23 @@ export const metadata: Metadata = {
   title: "Call of Dragons",
   description: "Call of Dragons: Epic Fantasy Strategy Game with Real-Time Battles",
   icons: {
-    icon: [{ rel: "icon", url: "/assets/images/favicon.jpg" }],
+    icon: [{ rel: "icon", url: "/assets/images/favicon.jpg" }], //recomened sizes 1200x630, 1080 × 566, 600 × 315 | aspect ratio 1.91:1
     apple: "/assets/images/favicon.jpg",
   },
   openGraph: {
-    title: "Website",
+    title: "Call of Dragons",
     description: "Call of Dragons: Epic Fantasy Strategy Game with Real-Time Battles",
     url: `${siteUrl}`,
-    siteName: "Website-page",
-    images: [
-      {
-        url: `${siteUrl}/assets/images/og-image.jpg`,
-        width: 620,
-        height: 620,
-        alt: "Your Website Logo",
-      },
-    ],
+    siteName: "Call of Dragons",
+    images: [`${siteUrl}/assets/images/og-image.jpg`], //recomened sizes 1200x630, 1080 × 566, 600 × 315 | aspect ratio 1.91:1
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Website",
+    title: "Call of Dragons",
     description: "Call of Dragons: Epic Fantasy Strategy Game with Real-Time Battles",
-    images: [
-      {
-        url: `${siteUrl}/assets/images/og-image.jpg`,
-        width: 620,
-        height: 620,
-        alt: "Your Website Logo",
-      },
-    ],
+    images: [`${siteUrl}/assets/images/og-image.jpg`], //recomened sizes 1200x630, 1080 × 566, 600 × 315 | aspect ratio 1.91:1
   },
 };
 
