@@ -40,8 +40,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: `${siteUrl}/assets/images/og-image.jpg`,
-        width: 612,
-        height: 334,
+        width: 620,
+        height: 620,
         alt: "Your Website Logo",
       },
     ],
@@ -55,8 +55,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: `${siteUrl}/assets/images/og-image.jpg`,
-        width: 612,
-        height: 334,
+        width: 620,
+        height: 620,
         alt: "Your Website Logo",
       },
     ],
