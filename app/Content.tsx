@@ -213,9 +213,9 @@ const ContactSection = () => {
               <a href="mailto:example@gmail.com" className="text-blue hover:text-blue-hover  underline">
                 example@gmail.com
               </a> */}
-              <div dangerouslySetInnerHTML={{ __html: description }}></div>
+              <div dangerouslySetInnerHTML={{ __html: description }} className="mb-10"></div>
 
-              <img src={images[0].url} alt="" className="max-w-[200px] hidden md:block mx-auto mt-[60px]" />
+              <img src={images[0].url} alt="" className="max-w-[300px] hidden md:block mx-auto " />
             </h6>
           </div>
           <form
