@@ -8,9 +8,9 @@ import { motion } from "framer-motion";
 import useAlert from "@/hooks/alert/useAlert";
 import useJoiValidation from "@/hooks/joi-validation/useJoiValidation";
 import useMessage from "@/hooks/useMessage";
-import Link from "next/link";
 
-const { placeholderImage, logo } = localData.images;
+
+const { placeholderImage, logo,chakchaImage } = localData.images;
 
 const ShowcaseSection = () => {
   const [inView, setIsInView] = useState(false);
@@ -214,7 +214,7 @@ const ContactSection = () => {
                 example@gmail.com
               </a> */}
               <div dangerouslySetInnerHTML={{ __html: description }}></div>
-              
+
               <img src={images[0].url} alt="" className="max-w-[200px] hidden md:block mx-auto mt-[60px]" />
             </h6>
           </div>
@@ -276,25 +276,38 @@ const ContactSection = () => {
   );
 };
 
-// export const ContactSection = () => {
-//   const { fetchedPages } = useApiContext();
+const IdeasSection = () => {
+  const [inView, setIsInView] = useState(false);
+  const [inView2, setIsInView2] = useState(false);
+  return (
+    <section className="ideas">
+      <motion.div className="container" onViewportEnter={() => setIsInView(true)} viewport={{ amount: 0.7 }}>
+        <div
+          className={`banner bg-[rgb(207,241,255)] rounded-[30px] p-[40px] pb-0 shadow-md max-w-[850px] mx-auto overflow-hidden  flex flex-col items-center ${
+            inView ? "lazy-animate" : ""
+          }`}
+          data-lazy="fade-up"
+          style={{ transitionDuration: "1.2s !important", transitionTimingFunction: "ease !important" }}
+        >
+          <h5 className="text-2xl md:text-4xl font-semibold max-w-[380px] dark:text-black text-center md:leading-[1.3]">
+            Allies Welcome, Bring Snacks and Spells
+          </h5>
 
-//   const { title, description } = fetchedPages.homePage.sections.contact;
-//   return (
-//     <section className="contact" id='contact'>
-//       <div className="container">
-//         <h1 className="home-page text-3xl title mb-5">{title}</h1>
-//         <h3 className="description mb-10">{description}</h3>
 
-//         <div className="max-w-[500px]">
-//           <input type="text" placeholder="Name" className="block border mb-5 px-3 py-2 w-full" />
-//           <input type="text" placeholder="Email" className="block border mb-5 px-3 py-2 w-full" />
-//           <button>Send</button>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
+          <motion.div onViewportEnter={() => setIsInView2(true)} viewport={{ amount: 0.7 }}>
+            <img
+              src={chakchaImage}
+              alt=""
+              className={`block w-[400px] max-w-[90%] ${inView2 ? "lazy-animate" : ""}  mx-auto `}
+              // style={{ transitionDuration: "1.2s !important", transitionTimingFunction: "ease !important" }}
+              data-lazy="fade-up"
+            />
+          </motion.div>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
 
 export default function Content() {
   const { fetchedPages } = useApiContext();
@@ -326,27 +339,7 @@ export default function Content() {
           <ShowcaseSection />
           <FeaturesSection />
           <ContactSection />
-          {/* <footer className="bg-black text-white">
-            <div className="container">
-              <nav className=" p-5 flex gap-10">
-                <div className="logo">
-                  <img src={logo} alt="" />
-                </div>
-                <ul className="">
-                  <a href="#home" className="block mb-2">
-                    Home
-                  </a>
-               
-                  <a href="#features" className="block mb-2">
-                    features
-                  </a>
-                  <a href="#contact" className="block mb-2">
-                    Contact
-                  </a>
-                </ul>
-              </nav>
-            </div>
-          </footer> */}
+          <IdeasSection />
           <Footer />
         </main>
       )}
