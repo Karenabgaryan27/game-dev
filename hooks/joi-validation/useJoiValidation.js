@@ -43,5 +43,15 @@ export default function useValidation() {
     return resetPasswordSchema.validate(obj);
   };
 
-  return { validateSignIn, validateSignUp, validateResetPassword };
+  const validateContact = (obj) => {
+    const contactSchema = new Joi.object({
+        name:  Joi.string().min(3).required(),
+        email:  Joi.string().min(3).email({ tlds: { allow: false } }).required(),
+        message:  Joi.string().min(15).allow('').optional(),
+        // message:  Joi.string().min(15),
+    }).options({ abortEarly: false })
+    return contactSchema.validate(obj);
+};
+
+  return { validateSignIn, validateSignUp, validateResetPassword, validateContact };
 }

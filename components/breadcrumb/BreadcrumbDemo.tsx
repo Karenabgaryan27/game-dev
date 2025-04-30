@@ -53,7 +53,7 @@ export function BreadcrumbDemo({items = defaultItems}: {items?: itemProps[]}) {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className="capitalize">
         <BreadcrumbItem>
           <BreadcrumbLink href={items[0].href}>{items[0].label}</BreadcrumbLink>
         </BreadcrumbItem>
@@ -84,7 +84,7 @@ export function BreadcrumbDemo({items = defaultItems}: {items?: itemProps[]}) {
                       <DrawerTitle>Navigate to</DrawerTitle>
                       <DrawerDescription>Select a page to navigate to.</DrawerDescription>
                     </DrawerHeader>
-                    <div className="grid gap-1 px-4">
+                    <div className="grid gap-1 px-4 ">
                       {items.slice(1, -2).map((item, index) => (
                         <Link key={index} href={item.href ? item.href : "#"} className="py-1 text-sm">
                           {item.label}

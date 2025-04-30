@@ -8,7 +8,7 @@ import useExpiryCountdown from "@/hooks/useExpiryCountdown";
 import { useAuthContext } from "@/contexts/AuthContext";
 
 const {
-  placeholderImage,
+  placeholderImage2,
   behemothImage,
   caravanImage,
   passImage,
@@ -16,7 +16,7 @@ const {
   resourcesImage,
   escortScreenshotImage,
   behemothcreenshotImage,
-  badgeImage
+  badgeImage,
 } = localData.images;
 
 const eventTypes = {
@@ -77,45 +77,35 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
   }, [item]);
 
   return (
-    <div className={`card event-card `}>
-      <div
-        className={`card-header flex mb-1  items-center  gap-1 px-2 ${
-          item.ttl != null && isExpired ? "opacity-20" : ""
-        }`}
-      >
-        <span className="flex items-center gap-1">
-          <div className="badge bg-success rounded-full w-5 h-5 flex items-center justify-center text-custom-sm  font-normal text-white">
-            <span className="ml-[-2px]  ">+{state.points}</span>
-          </div>
-          <span className="text-[10px] font-medium text-success">Points</span>
-        </span>
+    <div className={`card event-card  relative`}>
+      <div className={`card-inner ${item.ttl != null && isExpired ? "opacity-20" : ""}`}>
+        <div className={`card-header flex mb-1  items-center  gap-1 px-2 `}>
+          <span className="flex items-center gap-1">
+            <div className="badge bg-success rounded-full w-5 h-5 flex items-center justify-center text-custom-sm  font-normal text-white">
+              <span className="ml-[-2px]  ">+{state.points}</span>
+            </div>
+            <span className="text-[10px] font-medium text-success">Points</span>
+          </span>
 
-        {item.ttl != null ? (
-          <div className={`text-xs ${isNearExpiry || isExpired ? "text-red-500" : ""} w-[60px] `}>
-            {timeLeft}
-          </div>
-        ) : (
-          <div className="text-xs text-gray-400">No time limit</div>
-        )}
+          {item.ttl != null ? (
+            <div className={`text-xs ${isNearExpiry || isExpired ? "text-red-500" : ""} w-[60px] `}>
+              {timeLeft}
+            </div>
+          ) : (
+            <div className="text-xs text-gray-400">No time limit</div>
+          )}
 
-        <h2 className=" font-medium whitespace-nowrap text-xs ml-auto">
-          Created by <span className="capitalize underline">{item.createdBy}</span>{" "}
-        </h2>
-      </div>
+          <h2 className=" font-medium whitespace-nowrap text-xs ml-auto">
+            Created by <span className="capitalize underline">{item.createdBy}</span>{" "}
+          </h2>
+        </div>
 
-      <div
-        className={`wrapper ${
-          item.ttl != null && isExpired ? "bg-blue-300 " : "bg-blue-400 "
-        }  shadow-lg border rounded-lg p-3 relative h-0 pt-[56.25%] overflow-hidden`}
-      >
         <div
-          className={`wrapper-inner   ${
-            item.ttl != null && isExpired ? "opacity-20 pointer-events-none" : ""
-          }`}
+          className={`card-body bg-blue-400 shadow-lg border rounded-lg p-3 relative h-0 pt-[56.25%] overflow-hidden`}
         >
           <img
             className={`absolute w-[70%] h-[90%] object-contain top-[50%] left-[50%] transform-[translate(-70%,-50%)] block`}
-            src={state.background || placeholderImage}
+            src={state.background || placeholderImage2}
             alt=""
           />
           <img
@@ -129,22 +119,25 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           </div>
         </div>
 
-        <div className="card-footer absolute  w-full left-0 bottom-0 z-1 p-3 flex justify-end ">
-          <div className="flex flex-col w-[fit-content] gap-1 ">
-            {currentUser?.uid === item.userId && <EventCardDeleteDialog item={item} state={state} />}
-            {currentUser?.uid === item.userId && item.type === "Custom" && (
-              <EventCardUpdateDialog
-                item={item}
-                className={` ${item.ttl != null && isExpired ? "hidden" : ""}`}
-              />
-            )}
-
-            <ParticipantCardCreateDialog
-              className={` ${item.ttl != null && isExpired ? "hidden" : ""}`}
+        <div className="card-footer p-2">
+          <div className="text-gray-400 text-xs">No particiapnts</div>
+        </div>
+      </div>
+      <div className="options absolute  w-full left-0 bottom-[30px] z-10 p-3 flex justify-end ">
+        <div className="flex flex-col w-[fit-content] gap-1 ">
+          {currentUser?.uid === item.userId && <EventCardDeleteDialog item={item} state={state} />}
+          {currentUser?.uid === item.userId && item.type === "Custom" && (
+            <EventCardUpdateDialog
               item={item}
-              parentState={state}
+              className={` ${item.ttl != null && isExpired ? "hidden" : ""}`}
             />
-          </div>
+          )}
+
+          <ParticipantCardCreateDialog
+            className={` ${item.ttl != null && isExpired ? "hidden" : ""}`}
+            item={item}
+            parentState={state}
+          />
         </div>
       </div>
     </div>

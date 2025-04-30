@@ -16,22 +16,44 @@ import {
 } from "firebase/firestore";
 import useAlert from "@/hooks/alert/useAlert";
 import { useAuthContext } from "./AuthContext";
+import localData from "@/localData";
 
-type StateType = {
-  // movies: {id: string, name: string, releaseDate: number, receivedAnOscar: boolean, country:string}[]
-  events: { isLoading: boolean; list: { [key: string]: any }[] };
-  users: {}[];
+const { exampleImage, placeholderImage, placeholderImage2 } = localData.images;
+
+type FetchedEventsProps = {
+  isLoading: boolean;
+  list: { [key: string]: any }[];
+};
+
+type FetchedUsersProps = {
+  isLoading: boolean;
+  list: { [key: string]: any }[];
+};
+
+type FetchedCurrentUserProps = {
+  isLoading: boolean;
+  details: { [key: string]: any };
+};
+
+type FetchedPagesProps = {
+  homePage: {
+    id: string;
+    isLoading: boolean;
+    sections: { [key: string]: any };
+  };
 };
 
 type ApiContextType = {
-  fetchedData: StateType;
-  fetchedUser: {[key:string]: any}
-  setFetchedData: (newState: StateType) => void;
+  fetchedUsers: FetchedUsersProps;
+  fetchedCurrentUser: FetchedCurrentUserProps;
+  fetchedEvents: FetchedEventsProps;
+  fetchedPages: FetchedPagesProps;
   getEvents: ({ setIsLoading }: { [key: string]: any }) => void;
   addEvent: ({ setIsLoading }: { [key: string]: any }) => void;
   updateEvent: ({ id, setIsLoading, ...fields }: { [key: string]: any }) => void;
   deleteEvent: ({ id, setIsLoading }: { [key: string]: any }) => void;
   getUser: ({ setIsLoading }: { [key: string]: any }) => void;
+  updateContent: ({ id, slug, setIsLoading, ...fields }: { [key: string]: any }) => void;
 };
 
 export const ApiContext = createContext<ApiContextType | null>(null);
@@ -41,31 +63,73 @@ export default function ApiProvider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [fetchedData, setFetchedData] = useState<StateType>({
-    events: {
-      isLoading: false,
-      list: [],
-    },
-    users: [],
+  const [fetchedEvents, setFetchedEvents] = useState<FetchedEventsProps>({
+    isLoading: false,
+    list: [],
   });
 
-  const [fetchedUser,setFetchedUser] = useState<{[key:string]:any}>({})
+  const [fetchedUsers, setFetchedUsers] = useState<FetchedUsersProps>({
+    isLoading: false,
+    list: [],
+  });
+  const [fetchedCurrentUser, setFetchedCurrentUser] = useState<FetchedCurrentUserProps>({
+    isLoading: false,
+    details: {},
+  });
 
-  const {currentUser} = useAuthContext()
+  const [fetchedPages, setFetchedPages] = useState<FetchedPagesProps>({
+    homePage: {
+      id: "",
+      isLoading: true,
+      sections: {
+        header: {
+          title: "Header",
+          description: "Lorem Ipsum is simply dummy text of the  typesetting.",
+          images: [{ id: "1", title: "", url: placeholderImage }],
+        },
+
+        features: {
+          title: "features",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+          images: [
+            { id: "1", title: "", url: placeholderImage2 },
+            { id: "2", title: "", url: placeholderImage2 },
+            { id: "3", title: "", url: placeholderImage2 },
+          ],
+
+          items: [
+            { title: "", descripiton: "", image: { id: "1", title: "", url: placeholderImage2 } },
+            { title: "", descripiton: "", image: { id: "1", title: "", url: placeholderImage2 } },
+            { title: "", descripiton: "", image: { id: "1", title: "", url: placeholderImage2 } },
+          ],
+        },
+
+        contact: {
+          title: "Contact section",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+          images: [{ id: "1", title: "", url: placeholderImage }],
+        },
+      },
+    },
+  });
+
+  const { currentUser } = useAuthContext();
   const { successAlert, errorAlert } = useAlert();
 
   const eventsCollectionRef = collection(db, "events");
   const usersCollectionRef = collection(db, "users");
+  const websiteContentRef = collection(db, "website-content");
 
+  // EVENTS
   const getEvents = async ({ setIsLoading = (_: boolean) => {} }) => {
     setIsLoading(true);
-    setFetchedData((prev) => ({ ...prev, events: { ...prev.events, isLoading: true } }));
+    setFetchedEvents((prev) => ({ ...prev, isLoading: true }));
 
     try {
       const orderedEventsQuery = query(eventsCollectionRef, orderBy("createdAt", "asc"));
       const res = await getDocs(orderedEventsQuery);
       const data = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setFetchedData((prev) => ({ ...prev, events: { isLoading: false, list: data } }));
+      setFetchedEvents((prev) => ({ ...prev, isLoading: false, list: data }));
 
       // if (data[0].ttl instanceof Timestamp) {
       //   console.log(data[0].ttl.toDate(), ' fetchedData');
@@ -75,7 +139,7 @@ export default function ApiProvider({
       console.error(err, "=getEvents= request error");
     }
     setIsLoading(false);
-    setFetchedData((prev) => ({ ...prev, events: { ...prev.events, isLoading: false } }));
+    setFetchedEvents((prev) => ({ ...prev, isLoading: false }));
   };
 
   const addEvent = async ({
@@ -150,44 +214,95 @@ export default function ApiProvider({
     callback();
   };
 
+  // USERS
   const getUser = async ({ id = "", setIsLoading = (_: boolean) => {} }) => {
     setIsLoading(true);
+    setFetchedCurrentUser((prev) => ({ ...prev, isLoading: true }));
 
     try {
       const userDocRef = doc(usersCollectionRef, id);
       const res = await getDoc(userDocRef);
 
-      if (res.exists()) {
-        const data = { id: res.id, ...res.data() };
-        setFetchedUser(data)
-      } else {
-        console.log("No such document!");
-      }
+      const data = { id: res.id, ...res.data() };
+      setFetchedCurrentUser((prev) => ({ ...prev, details: data, isLoading: false }));
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=getUser= request error");
     }
     setIsLoading(false);
+    setFetchedCurrentUser((prev) => ({ ...prev, isLoading: false }));
   };
 
-    useEffect(() => {
-      if(!currentUser?.uid) return
-      getUser({id: currentUser?.uid})
-      
-    }, [currentUser]);
+  // PARTICIPATIONRECORDS
+
+  // WEBSITECONTENT
+  const getContents = async ({ setIsLoading = (_: boolean) => {} }) => {
+    setIsLoading(true);
+    setFetchedPages((prev) => ({ ...prev, homePage: { ...prev.homePage, isLoading: true } }));
+    try {
+      const res = await getDocs(websiteContentRef);
+      const data = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      console.log(data, " kkk");
+      setFetchedPages((prev) => ({
+        ...prev,
+        homePage: {
+          id: data[0].id,
+          isLoading: false,
+          sections: { ...prev.homePage.sections, ...data[0] },
+        },
+      }));
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=getContents= request error");
+    }
+    setIsLoading(false);
+    setFetchedPages((prev) => ({ ...prev, homePage: { ...prev.homePage, isLoading: false } }));
+  };
+
+  const updateContent = async ({ id = "", slug = "", setIsLoading = (_: boolean) => {}, ...fields }) => {
+    setIsLoading(true);
+
+    const filteredData = {
+      [slug]: { ...Object.fromEntries(Object.entries(fields).filter(([_, v]) => v)) },
+      updatedAt: new Date(),
+    };
+
+    console.log(filteredData, " filteredData");
+
+    try {
+      const contentDoc = doc(db, "website-content", id);
+      await updateDoc(contentDoc, filteredData);
+      getContents({});
+      successAlert("Content has been updated successfully.");
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=updateContent= request error");
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    if (!currentUser?.uid) return;
+    getUser({ id: currentUser?.uid });
+  }, [currentUser]);
+
+  useEffect(() => {
+    getContents({});
+  }, []);
 
   return (
     <ApiContext.Provider
       value={{
-        fetchedData,
-        ...fetchedData,
-        fetchedUser,
-        setFetchedData,
+        fetchedEvents,
+        fetchedUsers,
+        fetchedCurrentUser,
+        fetchedPages,
         getEvents,
         addEvent,
         deleteEvent,
         updateEvent,
         getUser,
+        updateContent,
       }}
     >
       {children}

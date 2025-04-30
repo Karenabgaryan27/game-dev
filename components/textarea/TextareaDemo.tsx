@@ -19,7 +19,7 @@ export function TextareaDemo({
   textareaClassName = "",
   label = "",
   callback = () => {},
-  successMessage = "looks good",
+  // successMessage = "looks good",
   errorMessage = "",
   ...props
 }: InputDemoProps) {
@@ -42,7 +42,7 @@ export function TextareaDemo({
         onChange={onChange}
         className={`${textareaClassName}`}
       />
-      <div className="valid-feedback text-green-600 text-sm">{successMessage}</div>
+      {/* <div className="valid-feedback text-green-600 text-sm">{successMessage}</div> */}
       <div className="invalid-feedback text-red-600 text-sm">{errorMessage}</div>
     </div>
   );

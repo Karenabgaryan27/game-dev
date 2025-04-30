@@ -57,7 +57,7 @@ export function DialogDemo({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{trigger || <Button variant="outline">Open Dialog</Button>}</DialogTrigger>
-      <DialogContent className={` sm:max-w-[425px] overflow-y-auto max-h-screen ${contentClassName}`}>
+      <DialogContent className={` sm:max-w-[425px] overflow-y-auto max-h-[calc(100vh-3rem)] ${contentClassName}`}>
         <div className={` bg-${color} absolute top-0 left-0 w-full h-[50px] z-[-1]`}></div>
         <DialogHeader className="mt-[50px] relative">
           <DialogTitle>{title}</DialogTitle>

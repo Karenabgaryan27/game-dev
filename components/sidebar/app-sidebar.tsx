@@ -36,6 +36,11 @@ const data = {
       url: "/admin/events",
       icon: fileImage,
     },
+    {
+      title: "Website",
+      url: "/admin/website",
+      icon: fileImage,
+    },
   ],
   settings: [
     {

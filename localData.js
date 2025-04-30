@@ -1,7 +1,8 @@
 const images = {
   logo: "/assets/images/logo.png",
   exampleImage: "/assets/images/example.png",
-  placeholderImage: "/assets/images/placeholder.png",
+  placeholderImage: "/assets/images/placeholder.jpg",
+  placeholderImage2: "/assets/images/placeholder-2.png",
   googleLogo: "/assets/images/google-logo.png",
   poorMeImage: "/assets/images/poor-me.png",
   chakchaImage: "/assets/images/chakcha.webp",

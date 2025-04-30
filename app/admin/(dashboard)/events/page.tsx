@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { useApiContext } from "@/contexts/ApiContext";
-import { BreadcrumbDemo } from "@/components/index";
+import { BreadcrumbDemo, Separator } from "@/components/index";
 import EventCard from "./event-card/EventCard";
 import EventCardCreateDialog from "./event-card-create-dialog/EventCardCreateDialog";
 import localData from "@/localData";
 
-const { chakchaImage } = localData.images;
+const { chakchaImage, elkridersImage } = localData.images;
 
 const breadcrumbItems = [
   {
@@ -20,8 +20,6 @@ const breadcrumbItems = [
 ];
 
 const Pages = () => {
-  
-
   return (
     <main className="pages-page p-5">
       <h2 className="text-2xl mb-3">Events</h2>
@@ -30,20 +28,28 @@ const Pages = () => {
       <br />
 
       <Events />
+
+      <Separator title="Legend Begins Here" />
+
+      <img
+        className="w-full h-auto max-w-[500px] mx-auto my-10  object-contain opacity-10 grayscale"
+        src={elkridersImage}
+        alt=""
+      />
     </main>
   );
 };
 
 const Events = () => {
-  const { fetchedData, getEvents ,fetchedUser} = useApiContext();
-  const [filteredData, setFilteredData] = useState<{[key:string]: any}[]>([]);
+  const { fetchedCurrentUser, getEvents, fetchedEvents } = useApiContext();
+  const [filteredData, setFilteredData] = useState<{ [key: string]: any }[]>([]);
 
   useEffect(() => {
     getEvents({});
   }, []);
 
   useEffect(() => {
-    const tempData = [...fetchedData.events.list];
+    const tempData = [...fetchedEvents.list];
     // tempData = tempData.filter((item) => {
     //   if (item.ttl && item.ttl.toDate() / 1000 > Date.now() / 1000) {
     //     return { ...item };
@@ -51,12 +57,12 @@ const Events = () => {
     //   if (!item.ttl) return { ...item };
     // });
     setFilteredData(tempData);
-  }, [fetchedData]);
+  }, [fetchedEvents]);
 
   return (
     <div
       className={`mb-[200px] grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-7 gap-y-10  ${
-        fetchedData.events.isLoading ? "opacity-50 pointer-events-none" : ""
+        fetchedEvents.isLoading ? "opacity-50 pointer-events-none" : ""
       } duration-300`}
     >
       {!filteredData.length ? (
@@ -74,7 +80,7 @@ const Events = () => {
           return <EventCard key={index} {...{ item, ...item }} />;
         })
       )}
-      {fetchedUser?.role == "admin" && (
+      {fetchedCurrentUser?.details?.role == "admin" && (
         <div className="">
           <div className="text-sm font-medium mb-1 opacity-0">Created by</div>
           <div className="wrapper shadow border rounded-lg p-3 relative h-0 pt-[56.25%]">

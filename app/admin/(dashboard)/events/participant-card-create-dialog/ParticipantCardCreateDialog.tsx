@@ -146,7 +146,7 @@ const Content = ({
           {parentState.screenshot && (
             <div>
               <div className="">
-                <p className="text-gray-400 text-xs mb-1">Screenshot</p>
+                <p className="text-gray-400 text-xs mb-1">Screenshot sample</p>
                 <DialogDemo
                   contentClassName="sm:max-w-[800px] py-0"
                   trigger={
