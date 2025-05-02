@@ -10,3 +10,4 @@ export { DialogDemo } from "./dialog/DialogDemo.tsx";
 export { SelectScrollable } from "./select/select-scrollable/SelectScrollable.tsx";
 export { TableDemo } from "./table/TableDemo.tsx";
 export { default as ServiceCard } from "./cards/service-card/ServiceCard.tsx";
+export { DataTableDemo } from "./data-table/DataTableDemo.tsx";

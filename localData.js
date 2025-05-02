@@ -1,7 +1,7 @@
 const images = {
   logo: "/assets/images/logo.png",
   exampleImage: "/assets/images/example.png",
-  placeholderImage: "/assets/images/placeholder.jpg",
+  placeholderImage: "/assets/images/placeholder.png",
   placeholderImage2: "/assets/images/placeholder-2.png",
   googleLogo: "/assets/images/google-logo.png",
   poorMeImage: "/assets/images/poor-me.png",
@@ -28,6 +28,7 @@ const images = {
   knightsImage: "/assets/images/rest/knights.png",
   badgeImage: "/assets/images/rest/badge.webp",
   maintenanceWorkerImage: "/assets/images/rest/maintenance-worker.jpg",
+  heroesLookingDownImage: "/assets/images/rest/heroes-looking-down.jpg",
 
   
 };

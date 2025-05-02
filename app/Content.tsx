@@ -9,8 +9,7 @@ import useAlert from "@/hooks/alert/useAlert";
 import useJoiValidation from "@/hooks/joi-validation/useJoiValidation";
 import useMessage from "@/hooks/useMessage";
 
-
-const { placeholderImage, logo,chakchaImage } = localData.images;
+const { placeholderImage, logo, chakchaImage } = localData.images;
 
 const ShowcaseSection = () => {
   const [inView, setIsInView] = useState(false);
@@ -29,7 +28,7 @@ const ShowcaseSection = () => {
         className="container flex justify-between items-center flex-col sm:flex-row gap-x-[50px] gap-y-[30px] flex-center"
       >
         <div className={`max-w-[490px] ${inView ? "lazy-animate" : ""}`} data-lazy="fade">
-          <h4 className="sub-title mb-5 text-[18px] font-medium text-gray-600">{title}</h4>
+          <h4 className="sub-title mb-1 text-[18px] font-medium text-gray-600">{title}</h4>
           <h1 className="title text-3xl leading-[1.4]  md:text-5xl font-medium md:leading-[1.4] mb-10">
             {description}
           </h1>
@@ -293,7 +292,6 @@ const IdeasSection = () => {
             Allies Welcome, Bring Snacks and Spells
           </h5>
 
-
           <motion.div onViewportEnter={() => setIsInView2(true)} viewport={{ amount: 0.7 }}>
             <img
               src={chakchaImage}
@@ -310,7 +308,7 @@ const IdeasSection = () => {
 };
 
 export default function Content() {
-  const { fetchedPages } = useApiContext();
+  const { fetchedPages, fetchedCurrentUser } = useApiContext();
 
   const {
     homePage: { isLoading },
@@ -330,8 +328,12 @@ export default function Content() {
                 <a href="#home">Home</a>
                 <a href="#features">Features</a>
                 <a href="#contact">Contact</a>
-                <a href="/admin/register" target="_blank">
-                  <ButtonDemo text="Become a member" className="rounded-full border shadow-none" size="lg" />
+                <a href={` ${fetchedCurrentUser.details.id ? "/admin/dashboard" : "/admin/register"}`} target="_blank">
+                  <ButtonDemo
+                    text={` ${fetchedCurrentUser.details.id ? "Dashboard" : "Become a member"}`}
+                    className="rounded-full border shadow-none"
+                    size="lg"
+                  />
                 </a>
               </ul>
             </nav>
