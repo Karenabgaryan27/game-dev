@@ -11,3 +11,5 @@ export { SelectScrollable } from "./select/select-scrollable/SelectScrollable.ts
 export { TableDemo } from "./table/TableDemo.tsx";
 export { default as ServiceCard } from "./cards/service-card/ServiceCard.tsx";
 export { DataTableDemo } from "./data-table/DataTableDemo.tsx";
+export { default as JsHoverCard} from './cards/js-hover-card/JsHoverCard.jsx'
+export { default as HeroCard} from './cards/hero-card/HeroCard.jsx'

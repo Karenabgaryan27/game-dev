@@ -2,4 +2,11 @@
 @import "../hooks/joi-validation/joi-validation.css";
 
 
+/* PAGES */
+@import "../app/admin/(dashboard)/profile/profile.css";
 
+
+/* COMPONENTS */
+@import "../components/sidebar/app-sidebar.css";
+@import "../components/cards/js-hover-card/js-hover-card.css";
+@import "../components/cards/hero-card/hero-card.css";

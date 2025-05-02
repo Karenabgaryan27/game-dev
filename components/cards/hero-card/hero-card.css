@@ -1,0 +1,84 @@
+.hero-card {
+    transform-style: preserve-3d;
+}
+
+.hero-card:hover {
+    z-index: 1;
+}
+
+.hero-card:hover .card-title {
+    transform: translateX(-50%) translateZ(25px);
+}
+
+.hero-card:hover .card-description {
+    transform: translateX(-50%) translateZ(50px);
+}
+
+.hero-card:hover .card-image {
+    transform: translateX(-50%) translateZ(100px);
+}
+
+.hero-card-purple .card-inner {
+    /* background: linear-gradient(180deg, #D23CFB 0%, #8000FF 100%); */
+    background: linear-gradient(180deg, #9F1FAA 0%, #3E0059 100%);
+}
+
+.hero-card-golden .card-inner {
+    /* background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%); */
+    background: linear-gradient(180deg, #FFD700 0%, #B8860B 100%);
+}
+
+.hero-card-red .card-inner {
+    background: linear-gradient(180deg, #D13B2F 0%, #891C13 100%);
+    
+
+}
+
+.card-inner {
+    border-radius: 15px;
+    height: 0;
+    position: relative;
+    padding-top: 100%;
+    width: 100%;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4);
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease;
+}
+
+.card-title {
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+}
+
+.card-description {
+    color: white;
+    font-size: 1.2rem;
+    transition: transform 0.4s ease;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 3px 8px;
+    margin-top: 10px;
+    border-radius: 8px;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.card-image {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    width: 100%;
+    height: 80%;
+    object-fit: contain;
+    pointer-events: none;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.1));
+    transition: transform 0.5s ease;
+}

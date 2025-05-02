@@ -69,23 +69,23 @@ type InvoicesProps = {
 
 export function TableDemo({ invoices = [] }: InvoicesProps) {
   return (
-    <div className="rounded-md border overflow-hidden">
+    <div className="rounded-md  overflow-hidden">
       <Table className="">
         {/* <TableCaption className="mb-5">A list of your recent invoices.</TableCaption> */}
         <TableHeader className="">
-          <TableRow className="bg-neutral-800  hover:bg-neutral-800">
-            <TableHead className="px-5 py-[10px] w-[100px] text-white">#</TableHead>
-            <TableHead className="px-5 py-[10px] text-white">Name</TableHead>
-            <TableHead className="px-5 py-[10px] text-right text-white">Edit</TableHead>
+          <TableRow className=" hover:bg-current-color">
+            <TableHead className="px-5 py-[10px] w-[100px] ">#</TableHead>
+            <TableHead className="px-5 py-[10px] ">Name</TableHead>
+            <TableHead className="px-5 py-[10px] text-right ">Edit</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {invoices.map((invoice, index) => (
             <TableRow
               key={invoice.invoice}
-              className={`${index % 2 !== 0 ? "bg-secondary" : ""} ${
+              className={` ${
                 invoice.isDisabled ? "opacity-20 pointer-events-none" : ""
-              } hover:bg-current-color`}
+              } `}
             >
               <TableCell className="font-medium px-5 py-[10px]">{invoice.invoice}</TableCell>
               <TableCell className=" px-5 py-[10px]">{invoice.name}</TableCell>
@@ -98,7 +98,7 @@ export function TableDemo({ invoices = [] }: InvoicesProps) {
           ))}
         </TableBody>
         <TableFooter>
-          <TableRow className="bg-white hover:bg-white">
+          <TableRow className="hover:bg-current-color">
             <TableCell colSpan={4} className="text-center px-3 py-[10px]">
               A list of your sections.
             </TableCell>

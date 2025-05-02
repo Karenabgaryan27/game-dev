@@ -1,0 +1,62 @@
+.js-hover-card {
+    transform-style: preserve-3d;
+}
+
+.js-hover-card:hover {
+    z-index: 1;
+}
+
+.js-hover-card:hover .card-title {
+    transform: translateZ(25px);
+}
+
+.js-hover-card:hover .card-description {
+    transform: translateZ(50px);
+}
+
+.js-hover-card:hover .card-image {
+    transform: translateZ(100px);
+}
+
+.js-hover-card-purp .card-inner {
+    background-color: #9e8fc7;
+}
+
+.js-hover-card-blue .card-inner {
+    background-color: #4f8cdd;
+}
+
+.js-hover-card-black .card-inner {
+    background-color: #3b2c41;
+}
+
+.card-inner {
+    border-radius: 15px;
+    padding: 20px 40px;
+    width: 100%;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4);
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease;
+}
+
+.card-title {
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+}
+
+.card-description {
+    color: white;
+    font-size: 1.2rem;
+    transition: transform 0.4s ease;
+}
+
+.card-image {
+    display: block;
+    width: 100%;
+    pointer-events: none;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.1));
+    transition: transform 0.5s ease;
+}

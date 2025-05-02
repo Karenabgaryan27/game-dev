@@ -15,7 +15,7 @@ import localData from "@/localData";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 
-const { faceImage, houseImage, fileImage, userImage, penImage, gridImage } = localData.svgs;
+const { faceImage, houseImage, userImage,userGearImage, penImage, gridImage, globImage, calendarImage } = localData.svgs;
 
 const data = {
   apps: [
@@ -32,21 +32,27 @@ const data = {
       isDisabled: false,
     },
     {
+      title: "My Profile",
+      url: "/admin/profile",
+      icon: userImage,
+      isDisabled: false,
+    },
+    {
       title: "Events",
       url: "/admin/events",
-      icon: fileImage,
+      icon: calendarImage,
     },
     {
       title: "Website",
       url: "/admin/website",
-      icon: fileImage,
+      icon: globImage,
     },
   ],
   settings: [
     {
       title: "Account",
       url: "/admin/account",
-      icon: userImage,
+      icon: userGearImage,
     },
     {
       title: "Update Profile",
@@ -60,7 +66,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props} className="sidebar">
       <SidebarHeader className="py-[18px] ">
         <SidebarMenuButton className="hover:bg-transparent">
           {faceImage}

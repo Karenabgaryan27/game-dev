@@ -1,0 +1,13 @@
+/* JS HOVER CARDS */
+.hero-cards {
+  background-color: #fff;
+  h2 {
+    color: #000;
+  }
+}
+.hero-card-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  justify-content: center;
+  grid-gap: 50px;
+}

@@ -245,3 +245,22 @@ footer {
   opacity: 1;
   transform: translateZ(0);
 }
+
+
+
+
+.bg-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  height: 100%;
+  width: 100%;
+  background-image: url('/assets/images/placeholder-2.png');
+  background-size: contain;
+  background-position: center;
+  filter: grayscale(100%);
+  background-repeat: no-repeat;
+  /* z-index: -1; */
+  opacity: 0.1;
+}
