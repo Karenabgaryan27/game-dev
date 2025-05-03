@@ -1,5 +1,6 @@
 .hero-card {
     transform-style: preserve-3d;
+    user-select: none;
 }
 
 .hero-card:hover {
@@ -34,11 +35,11 @@
 
 }
 
-.card-inner {
+.hero-card .card-inner {
     border-radius: 15px;
     height: 0;
     position: relative;
-    padding-top: 100%;
+    padding-top: 120%;
     width: 100%;
     box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4);
     position: relative;
@@ -46,14 +47,14 @@
     transition: transform 0.1s ease;
 }
 
-.card-title {
+.hero-card .card-title {
     color: white;
     font-size: 2rem;
     font-weight: 600;
     transition: transform 0.3s ease;
 }
 
-.card-description {
+.hero-card .card-description {
     color: white;
     font-size: 1.2rem;
     transition: transform 0.4s ease;
@@ -67,9 +68,10 @@
     border-radius: 8px;
     line-height: 1;
     font-weight: bold;
+    white-space: nowrap;
 }
 
-.card-image {
+.hero-card .card-image {
     position: absolute;
     bottom: 10px;
     left: 50%;
@@ -82,3 +84,4 @@
     filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.1));
     transition: transform 0.5s ease;
 }
+

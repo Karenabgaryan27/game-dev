@@ -27,14 +27,28 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ButtonDemo, SelectScrollable } from "@/components/index.js";
+import {
+  ButtonDemo,
+  SelectScrollable,
+  CarouselDemo,
+  HeroCard,
+  TabsDemo,
+  CustomParallaxCard,
+} from "@/components/index.js";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTableDemo<TData, TValue>({ data, columns }: DataTableProps<TData, TValue>) {
+type IncludedProps = {
+  details: any;
+};
+
+export function DataTableDemo<TData extends IncludedProps, TValue>({
+  data,
+  columns,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -107,7 +121,7 @@ export function DataTableDemo<TData, TValue>({ data, columns }: DataTableProps<T
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md">
+      <div className="rounded-md ">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -151,9 +165,7 @@ export function DataTableDemo<TData, TValue>({ data, columns }: DataTableProps<T
                     ))}
                   </TableRow>
 
-                  {expandedRows.includes(row.id) && ( // Check if the row is expanded
-                    <ExpandedRow columns={columns} />
-                  )}
+                  {expandedRows.includes(row.id) && <ExpandedRow row={row.original} columns={columns} />}
                 </React.Fragment>
               ))
             ) : (
@@ -243,28 +255,119 @@ export function DataTableDemo<TData, TValue>({ data, columns }: DataTableProps<T
   );
 }
 
-const ExpandedRow = ({ columns = [] }: { columns: { [key: string]: any }[] }) => {
+type ItemsProps = {
+  label: string;
+  value: string;
+  content?: React.ReactNode;
+};
+
+const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => {
+  const items: ItemsProps[] = [
+    {
+      label: "Heroes",
+      value: "heroes",
+      content: (
+        <div className="md:px-10">
+          <CarouselDemo
+            className="data-table-carousel  "
+            items={row.details.heroes}
+            itemClassName="basis-1/2 sm:basis-1/4 lg:basis-1/7"
+          >
+            {({ item, index }) => <HeroCard {...item} index={index} />}
+          </CarouselDemo>
+        </div>
+      ),
+    },
+    {
+      label: "Artifacts",
+      value: "artifacts",
+      content: (
+        <div className="md:px-10">
+          <CarouselDemo
+            className="data-table-carousel  "
+            items={row.details.artifacts}
+            itemClassName="basis-1/2 sm:basis-1/4 lg:basis-1/7"
+          >
+            {({ item, index }) => <HeroCard {...item} index={index} />}
+          </CarouselDemo>
+        </div>
+      ),
+    },
+    {
+      label: "Custom Arsenal",
+      value: "customArsenal",
+      content: (
+        <div className="md:px-10">
+          <CarouselDemo
+            className="data-table-carousel  "
+            items={row.details.customArsenal}
+            itemClassName="basis-1/2 sm:basis-1/4 lg:basis-1/7 p-3"
+          >
+            {({ item, index }) => <CustomParallaxCard {...item} index={index} />}
+          </CarouselDemo>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <tr>
-      <td colSpan={columns.length + 1}>
+      <td colSpan={columns.length + 1 + 1}>
         <div className="p-4   border-gray-200 bg-gray-50 mb-5 shadow">
           <div className="flex items-center space-x-3">
             <EyeIcon className="w-5 h-5 text-gray-600" />
             <span className="text-lg font-semibold text-gray-700">Details</span>
           </div>
           <div className="mt-2 text-sm text-gray-600">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque omnis, repudiandae alias
-              similique obcaecati tenetur laboriosam minima voluptas optio vitae!
-            </p>
             <div className="mt-3 text-sm text-gray-500">
-              {/* You can use a table, list, or just text here */}
-              <ul>
-                <li>Detail 1: Value 1</li>
-                <li>Detail 2: Value 2</li>
-                <li>Detail 3: Value 3</li>
-              </ul>
+              <div className=" w-full lg:flex gap-10 ">
+                <div className="flex-1">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                    <div className="font-bold">ID:</div>
+                    <div>#2432r32</div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                    <div className="font-bold">Name:</div>
+                    <div>John Doe</div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                    <div className="font-bold">Email:</div>
+                    <div>johndoe@gmail.com</div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                    <div className="font-bold">Country:</div>
+                    <div>USA</div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                    <div className="font-bold">Languages</div>
+                    <div>English, French</div>
+                  </div>
+                </div>
+
+                <div className="flex-1">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                    <div className="font-bold">Faction:</div>
+                    <div>League of Order</div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                    <div className="font-bold">Game Time (UTC):</div>
+                    <div>18:00 UTC – 20:30 UTC</div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                    <div className="font-bold">Main Troop Type:</div>
+                    <div>Mage</div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                    <div className="font-bold">Troop Level:</div>
+                    <div>T4</div>
+                  </div>
+                </div>
+              </div>
             </div>
+            <br />
+            <br />
+
+            <TabsDemo items={items} />
           </div>
         </div>
       </td>

@@ -28,6 +28,12 @@ const images = {
   artifact2Image: "/assets/images/artifacts/artifact-2.png",
   arrowImage: "/assets/images/artifacts/arrow.png",
   giantsBoneImage: "/assets/images/artifacts/giants-bone.png",
+  
+  // CUSTOM ARSENAL
+  customArsenalScreenshot1Image: "/assets/images/rest/custom-arsenal-screenshot-1.png",
+  customArsenalScreenshot2Image: "/assets/images/rest/custom-arsenal-screenshot-2.png",
+  customArsenalScreenshot3Image: "/assets/images/rest/custom-arsenal-screenshot-3.png",
+  customArsenalScreenshot4Image: "/assets/images/rest/custom-arsenal-screenshot-4.png",
 
   // REST
   hero1Image: "/assets/images/rest/hero-1.png",
@@ -40,6 +46,8 @@ const images = {
   badgeImage: "/assets/images/rest/badge.webp",
   maintenanceWorkerImage: "/assets/images/rest/maintenance-worker.jpg",
   heroesLookingDownImage: "/assets/images/rest/heroes-looking-down.jpg",
+
+
 };
 
 const localData = {

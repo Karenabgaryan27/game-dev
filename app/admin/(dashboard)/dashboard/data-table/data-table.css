@@ -1,0 +1,29 @@
+.data-table-carousel {
+    & .overflow-hidden {
+        overflow: visible;
+  }
+  & .hero-card {
+    & .card-inner {
+      border-radius: 10px;
+    }
+
+    & .card-description {
+      font-size: 10px;
+      font-weight: medium;
+      
+    }
+  }
+
+  & .custom-parallax-card {
+    & .card-inner {
+      border-radius: 8px;
+    }
+    & .card-title {
+        font-size: 12px ;
+    }
+
+    & .card-description {
+      font-size: 12px ;
+    }
+  }
+}

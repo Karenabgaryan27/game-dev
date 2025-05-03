@@ -1,12 +1,15 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap'); */
+
 @import "../app/globals.css";
 @import "../hooks/joi-validation/joi-validation.css";
 
 
 /* PAGES */
 @import "../app/admin/(dashboard)/profile/profile.css";
+@import "../app/admin/(dashboard)/dashboard/data-table/data-table.css";
 
 
 /* COMPONENTS */
 @import "../components/sidebar/app-sidebar.css";
-@import "../components/cards/js-hover-card/js-hover-card.css";
 @import "../components/cards/hero-card/hero-card.css";
+@import "../components/cards/custom-parallax-card/custom-parallax-card.css";

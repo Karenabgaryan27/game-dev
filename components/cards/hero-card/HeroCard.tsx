@@ -1,7 +1,18 @@
 import React from "react";
 import useParallaxEffect from "../../../hooks/useParallaxEffect";
 
-export default function JSHoverCard({
+// type HeroCardProps = {
+//   title?: string;
+//   description?: string;
+//   image?: string;
+//   className?: string;
+//   reverse?: boolean;
+//   glare?: boolean;
+//   maxGlare?: number;
+//   index?: number;
+// };
+
+export default function HeroCard({
   title,
   description,
   image,
@@ -9,6 +20,9 @@ export default function JSHoverCard({
   reverse = false,
   glare = false,
   maxGlare = 0.8,
+  index = 0,
+}: {
+  [key: string]: any;
 }) {
   const { start, end, move } = useParallaxEffect({
     reverse,
@@ -16,15 +30,11 @@ export default function JSHoverCard({
     maxGlare,
   });
 
+
   return (
-    <div
-      className={`card js-hover-card ${className}`}
-      onMouseMove={move}
-      onMouseLeave={end}
-      onMouseEnter={start}
-    >
+    <div className={`card hero-card ${className}`} onMouseMove={move} onMouseLeave={end} onMouseEnter={start}>
       <div className="card-inner" data-parallax-inner>
-        <h4 className="card-title">{title}</h4>
+        {/* <h4 className="card-title">{title}</h4> */}
         <p className="card-description">{description}</p>
         <img className="card-image" src={image} alt="" />
       </div>
