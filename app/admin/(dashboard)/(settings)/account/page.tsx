@@ -2,8 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { ButtonDemo, InputDemo, BreadcrumbDemo } from "@/components/index";
+import { ButtonDemo, InputDemo, BreadcrumbDemo, DialogDemo } from "@/components/index";
 import localData from "@/localData";
+import useAlert from "@/hooks/alert/useAlert";
+import useJoiValidation from "@/hooks/joi-validation/useJoiValidation";
 
 const { googleLogo } = localData.images;
 
@@ -18,24 +20,10 @@ const breadcrumbItems = [
 ];
 
 const Account = () => {
-  const { handleLinkEmailPasswordAccount, currentUser, handleSignInWithGoogle } = useAuthContext();
+  const { currentUser, handleSignInWithGoogle } = useAuthContext();
   const [isEmailPasswordMethodEnabled, setIsEmailPasswordMethodEnabled] = useState(false);
   const [isGoogleSignInMethodEnabled, setIsGoogleSignInMethodEnabled] = useState(false);
-  const [state, setState] = useState({ password: "" });
   const [isLoading, setIsLoading] = useState(false);
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!currentUser) return;
-    handleLinkEmailPasswordAccount({ email: currentUser.email, password: state.password, setIsLoading });
-  };
 
   useEffect(() => {
     if (!currentUser) return;
@@ -49,6 +37,7 @@ const Account = () => {
     );
     if (_isGoogleSignInMethodEnabled) setIsGoogleSignInMethodEnabled(true);
   }, [currentUser]);
+
   return (
     <main className="p-5">
       <h2 className="text-2xl mb-3">Account</h2>
@@ -59,41 +48,30 @@ const Account = () => {
 
       <div className="email-password-login-method   flex flex-wrap gap-5 ">
         <div className="min-h-[200px] flex-1 min-w-[300px] max-w-[400px]  p-3 bg-gray-50 dark:bg-secondary rounded-lg">
-          <h2 className="text-1xl mb-5 text-sm font-bold">Email/password login method:</h2>
-          {isEmailPasswordMethodEnabled ? (
-            <span className="text-success text-sm">Enabled</span>
-          ) : (
-            <div className="wrapper  w-full max-w-[360px]  shadow-lg !p-5 border border-gray-100 rounded-[15px]">
-              <form onSubmit={onSubmit} className="m-5 ">
-                <h2 className="text-2xl text-center mb-5">Enable Email Login by Setting a Password</h2>
-                <InputDemo
-                  label="Password"
-                  placeholder="Password"
-                  name="password"
-                  type="text"
-                  callback={(e) => onChange(e)}
-                  className="mb-5"
-                />
-
-                <ButtonDemo
-                  text={`${isLoading ? "Loading..." : "Add Password"}`}
-                  className={`w-full mb-5 text-sm`}
-                  disabled={isLoading}
-                />
-              </form>
+          <h2 className="text-1xl mb-2 text-sm font-bold">Email/password sign in method:</h2>
+          {isEmailPasswordMethodEnabled && <div className="text-success text-sm mb-4">Enabled</div>}
+          {!isEmailPasswordMethodEnabled && (
+            <div className="mb-2">
+              <AddPasswordDialog />
             </div>
           )}
+          {isEmailPasswordMethodEnabled && (
+            <div className="mb-2">
+              <UpdatePasswordDialog />
+            </div>
+          )}
+          {isEmailPasswordMethodEnabled && !isGoogleSignInMethodEnabled && <UpdateEmailDialog />}
         </div>
 
         <div className="min-h-[200px] flex-1 min-w-[300px] max-w-[400px] p-3 bg-gray-50 dark:bg-secondary rounded-lg">
-          <h2 className="text-1xl mb-5 text-sm font-bold">Google sign in method:</h2>
+          <h2 className="text-1xl mb-2 text-sm font-bold">Google sign in method:</h2>
           {isGoogleSignInMethodEnabled ? (
-            <span className="text-success text-sm">Enabled</span>
+            <div className="text-success text-sm  mb-4">Enabled</div>
           ) : (
             <ButtonDemo
               startIcon={<img src={googleLogo} className="h-[16px]" />}
               text={`${isLoading ? "Signing In..." : "Continue with Google"} `}
-              className={`w-full text-sm text-gray-700 `}
+              className={` text-sm text-gray-700 `}
               disabled={isLoading}
               variant="outline"
               onClick={() => handleSignInWithGoogle({})}
@@ -102,6 +80,281 @@ const Account = () => {
         </div>
       </div>
     </main>
+  );
+};
+
+type ValidationResult = {
+  error?: {
+    details: {
+      path: string[];
+      message: string;
+    }[];
+  };
+};
+
+// ADD PASSWORD
+const AddPasswordDialog = () => {
+  return (
+    <DialogDemo trigger={<ButtonDemo text="Add Password" variant="outline" className={` cursor-pointer `} />}>
+      {(closeDialog) => <AddPasswordContent closeDialog={closeDialog} />}
+    </DialogDemo>
+  );
+};
+
+const AddPasswordContent = ({ closeDialog = () => {} }) => {
+  const [state, setState] = useState({ password: "", repeatPassword: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const { handleSignUp, handleSignInWithGoogle, handleLinkEmailPasswordAccount, currentUser, handleSignOut } =
+    useAuthContext();
+
+  const { validateAddPassword } = useJoiValidation();
+  const [wasSubmitted, setWasSubmitted] = useState(false);
+  const [result, setResult] = useState<ValidationResult>({});
+  const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { error } = validateAddPassword(state);
+    if (!error) {
+      if (!currentUser) return;
+      handleLinkEmailPasswordAccount({
+        email: currentUser.email,
+        password: state.password,
+        setIsLoading,
+        callback: () => {
+          sessionStorage.setItem("isPasswordAdded", "true");
+          handleSignOut({});
+        },
+      });
+      console.log("Submit");
+    }
+    if (!error) return;
+    setWasSubmitted(true);
+  };
+
+  useEffect(() => setResult(validateAddPassword(state)), [state]);
+
+  useEffect(() => {
+    if (!wasSubmitted) return;
+    const errors: Record<string, string> = {};
+    result?.error?.details.forEach((item) => {
+      if (errors[item.path[0]]) return;
+      errors[item.path[0]] = item.message;
+    });
+    setErrorMessages(errors);
+  }, [result, wasSubmitted]);
+
+  return (
+    <form onSubmit={onSubmit} className={`${wasSubmitted ? "was-submitted" : ""} m-5 max-w-[360px] mx-auto`}>
+      <h2 className="text-2xl text-center mb-5">Add password</h2>
+      <InputDemo
+        label="Password"
+        placeholder="Password"
+        name="password"
+        type="text"
+        callback={(e) => onChange(e)}
+        className="mb-5"
+        errorMessage={errorMessages.password}
+        inputClassName={errorMessages.password ? "is-invalid" : "is-valid"}
+      />
+
+      <InputDemo
+        label="Repeat Password"
+        placeholder="Repeat Password"
+        name="repeatPassword"
+        type="text"
+        callback={(e) => onChange(e)}
+        className="mb-5"
+        errorMessage={errorMessages.repeatPassword}
+        inputClassName={errorMessages.repeatPassword ? "is-invalid" : "is-valid"}
+      />
+
+      <ButtonDemo
+        text={`${isLoading ? "Loading..." : "Add Password"}`}
+        className={`w-full mb-5 text-sm`}
+        // disabled={isLoading || error}
+      />
+    </form>
+  );
+};
+
+// UPDATE PASSWORD
+const UpdatePasswordDialog = () => {
+  return (
+    <DialogDemo
+      trigger={<ButtonDemo text="Update Password" variant="outline" className={` cursor-pointer `} />}
+    >
+      {(closeDialog) => <UpdatePasswordContent closeDialog={closeDialog} />}
+    </DialogDemo>
+  );
+};
+
+const UpdatePasswordContent = ({ closeDialog = () => {} }) => {
+  const [state, setState] = useState({ password: "", repeatPassword: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const { handleUpdatePassword, handleLinkEmailPasswordAccount, currentUser, handleSignOut } =
+    useAuthContext();
+
+  const { validateAddPassword } = useJoiValidation();
+  const [wasSubmitted, setWasSubmitted] = useState(false);
+  const [result, setResult] = useState<ValidationResult>({});
+  const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { error } = validateAddPassword(state);
+    if (!error) {
+      handleUpdatePassword({
+        password: state.password,
+        setIsLoading,
+        callback: () => {
+          sessionStorage.setItem("isPasswordUpdated", "true");
+          handleSignOut({});
+        },
+      });
+      console.log("Submit");
+    }
+    if (!error) return;
+    setWasSubmitted(true);
+  };
+
+  useEffect(() => setResult(validateAddPassword(state)), [state]);
+
+  useEffect(() => {
+    if (!wasSubmitted) return;
+    const errors: Record<string, string> = {};
+    result?.error?.details.forEach((item) => {
+      if (errors[item.path[0]]) return;
+      errors[item.path[0]] = item.message;
+    });
+    setErrorMessages(errors);
+  }, [result, wasSubmitted]);
+
+  return (
+    <form onSubmit={onSubmit} className={`${wasSubmitted ? "was-submitted" : ""} m-5 max-w-[360px] mx-auto`}>
+      <h2 className="text-2xl text-center mb-5">Update password</h2>
+      <InputDemo
+        label="Password"
+        placeholder="Password"
+        name="password"
+        type="text"
+        callback={(e) => onChange(e)}
+        className="mb-5"
+        errorMessage={errorMessages.password}
+        inputClassName={errorMessages.password ? "is-invalid" : "is-valid"}
+      />
+
+      <InputDemo
+        label="Repeat Password"
+        placeholder="Repeat Password"
+        name="repeatPassword"
+        type="text"
+        callback={(e) => onChange(e)}
+        className="mb-5"
+        errorMessage={errorMessages.repeatPassword}
+        inputClassName={errorMessages.repeatPassword ? "is-invalid" : "is-valid"}
+      />
+
+      <ButtonDemo
+        text={`${isLoading ? "Loading..." : "Update Password"}`}
+        className={`w-full mb-5 text-sm`}
+        // disabled={isLoading || error}
+      />
+    </form>
+  );
+};
+
+// UPDATE Email
+const UpdateEmailDialog = () => {
+  return (
+    <DialogDemo trigger={<ButtonDemo text="Update Email" variant="outline" className={` cursor-pointer `} />}>
+      {(closeDialog) => <UpdateEmailContent closeDialog={closeDialog} />}
+    </DialogDemo>
+  );
+};
+
+const UpdateEmailContent = ({ closeDialog = () => {} }) => {
+  const [state, setState] = useState({ email: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const { handleUpdateEmail } = useAuthContext();
+
+  const { validateUpdateEmail } = useJoiValidation();
+  const [wasSubmitted, setWasSubmitted] = useState(false);
+  const [result, setResult] = useState<ValidationResult>({});
+  const [errorMessages, setErrorMessages] = useState<Record<string, string>>({});
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { error } = validateUpdateEmail(state);
+    if (!error) {
+      handleUpdateEmail({
+        email: state.email,
+        setIsLoading,
+        callback: () => {
+          console.log('trigger')
+          closeDialog();
+        },
+      });
+
+      console.log("Submit");
+    }
+    if (!error) return;
+    setWasSubmitted(true);
+  };
+
+  useEffect(() => setResult(validateUpdateEmail(state)), [state]);
+
+  useEffect(() => {
+    if (!wasSubmitted) return;
+    const errors: Record<string, string> = {};
+    result?.error?.details.forEach((item) => {
+      if (errors[item.path[0]]) return;
+      errors[item.path[0]] = item.message;
+    });
+    setErrorMessages(errors);
+  }, [result, wasSubmitted]);
+
+  return (
+    <form onSubmit={onSubmit} className={`${wasSubmitted ? "was-submitted" : ""} m-5 max-w-[360px] mx-auto`}>
+      <h2 className="text-2xl text-center mb-5">Update Email</h2>
+      <InputDemo
+        label="Email"
+        placeholder="email"
+        name="email"
+        type="text"
+        callback={(e) => onChange(e)}
+        className="mb-5"
+        errorMessage={errorMessages.email}
+        inputClassName={errorMessages.email ? "is-invalid" : "is-valid"}
+      />
+
+      <ButtonDemo
+        text={`${isLoading ? "Loading..." : "Update Email"}`}
+        className={`w-full mb-5 text-sm`}
+        // disabled={isLoading || error}
+      />
+    </form>
   );
 };
 

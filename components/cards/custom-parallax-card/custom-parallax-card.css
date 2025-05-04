@@ -22,11 +22,12 @@
   border-radius: 15px;
   height: 0;
   width: 100%;
-  padding-top: 140%;
+  padding-top: 60%;
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4);
   transition: transform 0.1s ease;
   transform-style: preserve-3d;
   background-color: #000;
+  margin-bottom: 10px;
 }
 
 .custom-parallax-card .card-inner .wrapper {
@@ -52,12 +53,12 @@
 }
 
 .custom-parallax-card .card-description {
-  color: rgba(255, 255, 255, 0.8);
-  text-shadow: -5px 5px 10px rgba(0, 0, 0, 0.9);
+  /* text-shadow: -1px 1px 6px rgba(0, 0, 0, 0.9); */
   line-height: 1;
-  font-size: 1.2rem;
+  font-size: 12px;
   transition: transform 0.4s ease;
-  font-family: Bangers;
+  font-weight: bold;
+  /* font-family: Bangers; */
 
 
 }
@@ -88,4 +89,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 1s ease;
+}
+.custom-parallax-card:hover .card-cover-inner img {
+  transform: scale(1.4);
+
 }

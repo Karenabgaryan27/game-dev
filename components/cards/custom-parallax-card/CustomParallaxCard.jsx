@@ -23,6 +23,7 @@ export default function CustomParallaxCard({ title, description, image, classNam
                     {/* <p className="card-description">{description}</p> */}
                 </div>
             </div>
+                {/* <p className="card-description">{description}</p> */}
         </div>
     );
 }

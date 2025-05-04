@@ -55,48 +55,6 @@ const UpdateProfile = () => {
       <br />
       <br />
 
-      <div className="update-profile-page  flex items-center justify-center ">
-        <div className="wrapper  w-full max-w-[360px] mx-auto shadow-lg !p-5 border border-gray-100 rounded-[15px]">
-          <form onSubmit={onSubmit} className="m-5 max-w-[360px] mx-auto">
-            <h2 className="text-2xl text-center mb-5">Update Profile</h2>
-
-            <InputDemo
-              label="Email"
-              placeholder="Email"
-              name="email"
-              type="text"
-              callback={(e) => onChange(e)}
-              className="mb-5"
-              value={state.email}
-            />
-
-            <InputDemo
-              label="Password"
-              placeholder="Leave blank to keep the same"
-              name="password"
-              type="text"
-              callback={(e) => onChange(e)}
-              className="mb-5"
-              value={state.password}
-            />
-            <InputDemo
-              label="Repeat Password"
-              placeholder="Leave blank to keep the same"
-              name="repeatPassword"
-              type="text"
-              callback={(e) => onChange(e)}
-              className="mb-5"
-              value={state.repeatPassword}
-            />
-
-            <ButtonDemo
-              text={`${isLoading ? "Updating..." : "Update"}`}
-              className={`w-full mb-5 text-sm`}
-              disabled={isLoading || error}
-            />
-          </form>
-        </div>
-      </div>
     </main>
   );
 };

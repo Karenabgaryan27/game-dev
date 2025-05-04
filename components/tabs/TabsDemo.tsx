@@ -34,10 +34,10 @@ export function TabsDemo({ className = "", items = [], defaultValue = "" }: Tabs
                 <TabsTrigger
                   key={index}
                   value={item.value}
-                  className={`!rounded-none border-b-gray-100 border-2 !shadow-none !bg-transparent   uppercase text-xs font-medium text-gray-500 ${
+                  className={`!rounded-none dark:!border-none !shadow-none  !bg-transparent   uppercase text-xs font-medium text-gray-500 ${
                     index !== 0 ? "translate-x-[-2px]" : ""
                   }  cursor-pointer  ${
-                    activeValue === item.value ? "border-b-green-700  text-success" : ""
+                    activeValue === item.value ? " !border-b-green-700 !text-success" : ""
                   } leading-none px-4 py-2`}
                 >
                   {item.label}

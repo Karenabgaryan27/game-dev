@@ -42,11 +42,7 @@ const data = {
       url: "/admin/events",
       icon: calendarImage,
     },
-    {
-      title: "Website",
-      url: "/admin/website",
-      icon: globImage,
-    },
+    
   ],
   settings: [
     {
@@ -58,6 +54,11 @@ const data = {
       title: "Update Profile",
       url: "/admin/update-profile",
       icon: penImage,
+    },
+    {
+      title: "Website",
+      url: "/admin/website",
+      icon: globImage,
     },
   ],
 };

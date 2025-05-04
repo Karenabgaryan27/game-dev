@@ -13,6 +13,7 @@ import {
   sendPasswordResetEmail,
   updatePassword,
   updateEmail,
+  verifyBeforeUpdateEmail,
   signOut,
   GoogleAuthProvider,
   EmailAuthProvider,
@@ -81,7 +82,7 @@ export default function AuthProvider({
     try {
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
-  
+
       // If user doesn't exist in Firestore, add them
       if (!userDocSnap.exists()) {
         await setDoc(userDocRef, {
@@ -106,7 +107,7 @@ export default function AuthProvider({
       const res = await signInWithPopup(auth, provider);
 
       await createDBUser(res.user);
-  
+
       successAlert("You’ve signed in successfully!");
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
@@ -135,7 +136,7 @@ export default function AuthProvider({
     setIsLoading(false);
   };
 
-  const handleSignOut = async ({ setIsLoading = (_: boolean) => {} }) => {
+  const handleSignOut = async ({ setIsLoading = (_: boolean) => {}, callback = () => {} }) => {
     setIsLoading(true);
     try {
       await signOut(auth);
@@ -161,13 +162,20 @@ export default function AuthProvider({
     setIsLoading(false);
   };
 
-  const handleUpdateEmail = async ({ email = "", setIsLoading = (_: boolean) => {} }) => {
+  const handleUpdateEmail = async ({
+    email = "",
+    setIsLoading = (_: boolean) => {},
+    callback = () => {},
+  }) => {
     if (!currentUser) return;
     setIsLoading(true);
     try {
-      await updateEmail(currentUser, email);
+      await verifyBeforeUpdateEmail(currentUser, email);
+      // await updateEmail(currentUser, email);
       // handleEmailVerification({ user: res.user });
-      successAlert("Your email has been updated successfully!");
+      // successAlert("Your email has been updated successfully!");
+      callback();
+      successAlert("Confirmation sent. Click the link in your new email to update.");
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=handleUpdateEmail= request error");
@@ -175,12 +183,17 @@ export default function AuthProvider({
     setIsLoading(false);
   };
 
-  const handleUpdatePassword = async ({ password = "", setIsLoading = (_: boolean) => {} }) => {
+  const handleUpdatePassword = async ({
+    password = "",
+    setIsLoading = (_: boolean) => {},
+    callback = () => {},
+  }) => {
     if (!currentUser) return;
     setIsLoading(true);
     try {
       await updatePassword(currentUser, password);
       successAlert("Your password has been updated successfully!");
+      callback();
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=handleUpdatePassword= request error");
@@ -192,6 +205,7 @@ export default function AuthProvider({
     email = "",
     password = "",
     setIsLoading = (_: boolean) => {},
+    callback = () => {},
   }) => {
     if (!currentUser) return;
     setIsLoading(true);
@@ -199,6 +213,7 @@ export default function AuthProvider({
     try {
       await linkWithCredential(currentUser, credential);
       successAlert("Successfully linked email/password account!");
+      callback();
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=handleLinkEmailPasswordAccount= request error");

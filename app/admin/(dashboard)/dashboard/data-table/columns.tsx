@@ -15,13 +15,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import localData from "@/localData";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+const { avatarImage } = localData.svgs;
 
 export type Payment = {
   id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
+  avatar: string | React.ReactNode;
+  name: string;
   email: string;
+  mainTroop: string;
+  troopLvl: string;
+  status: "active" | "inactive";
   details: any;
 };
 
@@ -33,43 +39,65 @@ export const columns: ColumnDef<Payment>[] = [
   //     <Button
   //       variant="ghost"
   //       className="rounded-full w-[35px] h-[35px] cursor-pointer"
-  //       onClick={row.getToggleExpandedHandler()} 
+  //       onClick={row.getToggleExpandedHandler()}
   //     >
   //       <ChevronDown className={`transition-transform duration-200 `} />
   //     </Button>
   //   ),
   // },
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="cursor-pointer"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="cursor-pointer"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //       className="cursor-pointer"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //       className="cursor-pointer"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: "id",
     header: "ID",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("id")}</div>,
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("status")}</div>,
+    accessorKey: "avatar",
+    header: "Avatar",
+    cell: ({ row }) => (
+      <div className="relative">
+        {/* <img src={row.getValue("avatar")} alt="" /> */}
+
+        <Avatar className="h-8 w-8 rounded-full border">
+          <AvatarImage src={row.getValue("avatar")} alt='avatar' />
+          <AvatarFallback className="rounded-full">{avatarImage}</AvatarFallback>
+        </Avatar>
+      </div>
+    ),
   },
+  {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Name
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+  },
+
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -83,20 +111,21 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
+    accessorKey: "mainTroop",
+    header: "Main Troop",
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("mainTroop")}</div>,
   },
+  {
+    accessorKey: "troopLvl",
+    header: "Troop Lvl",
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("troopLvl")}</div>,
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("status")}</div>,
+  },
+
   {
     id: "actions",
     enableHiding: false,
@@ -104,25 +133,24 @@ export const columns: ColumnDef<Payment>[] = [
       const payment = row.original;
 
       return (
-        <div className="flex justify-end"> 
-
-        <DropdownMenu >
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
+                Copy payment ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>View customer</DropdownMenuItem>
+              <DropdownMenuItem>View payment details</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       );
     },

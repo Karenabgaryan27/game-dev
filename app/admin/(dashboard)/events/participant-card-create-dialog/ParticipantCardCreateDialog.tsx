@@ -6,7 +6,7 @@ import { ButtonDemo, InputDemo, TextareaDemo, SelectScrollable, DialogDemo } fro
 import localData from "@/localData";
 import useUtil from "@/hooks/useUtil";
 
-const { placeholderImage, maintenanceWorkerImage } = localData.images;
+const { placeholderImage, maintenanceWorkerImage, elkridersImage } = localData.images;
 
 type EventStateProps = {
   type: string | number;
@@ -40,6 +40,7 @@ const ParticipantCardCreateDialog = ({
   return (
     <DialogDemo
       color="success"
+      iconImage={elkridersImage}
       title="Participation"
       description={"Join now — the event needs heroes, not spectators!"}
       trigger={

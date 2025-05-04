@@ -5,7 +5,8 @@ import { Payment, columns } from "./data-table/columns";
 import localData from "@/localData";
 import { Card, CardContent } from "@/components/ui/card";
 
-const { heroesLookingDownImage, SkogulImage, arrowImage, customArsenalScreenshot3Image } = localData.images;
+const { heroesLookingDownImage, SkogulImage, arrowImage, customArsenalScreenshot6Image } = localData.images;
+const { avatarImage } = localData.svgs;
 
 const breadcrumbItems = [
   {
@@ -18,13 +19,16 @@ const breadcrumbItems = [
 ];
 
 const getData = async (): Promise<Payment[]> => {
-  return [...Array(53)].map((item, index) => {
+  return [...Array(10)].map((item, index) => {
     return {
       //   id: uuidv4(),
       id: (index + 1).toString(),
-      amount: Math.random() * 1000,
-      status: "pending",
+      name: `user-${(Math.random() * 1000).toFixed(0)}`,
+      status: "active",
       email: `ken${(Math.random() * 1000).toFixed(0)}@yahoo.com`,
+      mainTroop: 'Mage',
+      troopLvl: 'T4',
+      avatar: SkogulImage,
       details: {
         name: "John Doe",
         heroes: [
@@ -253,87 +257,87 @@ const getData = async (): Promise<Payment[]> => {
         ],
         customArsenal: [
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },
           {
-            image: customArsenalScreenshot3Image,
+            image: customArsenalScreenshot6Image,
             title: "Archer build",
             description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         },

@@ -16,7 +16,9 @@ const {
   arrowImage,
   giantsBoneImage,
   exampleImage,
-  customArsenalScreenshot3Image
+  customArsenalScreenshot3Image,
+  customArsenalScreenshot5Image,
+  customArsenalScreenshot6Image
 } = localData.images;
 
 const breadcrumbItems = [
@@ -111,19 +113,25 @@ const Pages = () => {
 
   const customArsenal = [
     {
-        image: customArsenalScreenshot3Image,
+        image: customArsenalScreenshot6Image,
         title: "Archer build",
         description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         
     },
     {
-        image: customArsenalScreenshot3Image,
+        image: customArsenalScreenshot6Image,
         title: "Archer build",
         description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         
     },
     {
-        image: customArsenalScreenshot3Image,
+        image: customArsenalScreenshot6Image,
+        title: "Archer build",
+        description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        
+    },
+    {
+        image: customArsenalScreenshot6Image,
         title: "Archer build",
         description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
         
@@ -149,39 +157,39 @@ const Pages = () => {
               style={{ backgroundImage: 'url("/assets/images/rest/Alistair.png")' }}
             ></div>
             <div className=" max-w-[500px] w-full ">
-              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1  mb-3">
+              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                 <div className="font-bold">ID:</div>
                 <div>#2432r32</div>
               </div>
-              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1  mb-3">
+              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                 <div className="font-bold">Name:</div>
                 <div>John Doe</div>
               </div>
-              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1  mb-3">
+              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                 <div className="font-bold">Email:</div>
                 <div>johndoe@gmail.com</div>
               </div>
-              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1  mb-3">
+              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                 <div className="font-bold">Country:</div>
                 <div>USA</div>
               </div>
-              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1  mb-3">
+              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                 <div className="font-bold">Languages</div>
                 <div>English, French</div>
               </div>
-              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1  mb-3">
+              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                 <div className="font-bold">Faction:</div>
                 <div>League of Order</div>
               </div>
-              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1  mb-3">
+              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                 <div className="font-bold">Game Time (UTC):</div>
                 <div>18:00 UTC – 20:30 UTC</div>
               </div>
-              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1  mb-3">
+              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                 <div className="font-bold">Main Troop Type:</div>
                 <div>Mage</div>
               </div>
-              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1  mb-3">
+              <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                 <div className="font-bold">Troop Level:</div>
                 <div>T4</div>
               </div>

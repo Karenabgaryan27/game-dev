@@ -33,6 +33,7 @@ export default function useValidation() {
     }).options({ abortEarly: false });
     return signUpSchema.validate(obj);
   };
+
   const validateResetPassword = (obj) => {
     const resetPasswordSchema = new Joi.object({
       email: Joi.string()
@@ -41,6 +42,26 @@ export default function useValidation() {
         .required(),
     }).options({ abortEarly: false });
     return resetPasswordSchema.validate(obj);
+  };
+  const validateUpdateEmail = (obj) => {
+    const updateEmailSchema = new Joi.object({
+      email: Joi.string()
+        .min(3)
+        .email({ tlds: { allow: false } })
+        .required(),
+    }).options({ abortEarly: false });
+    return updateEmailSchema.validate(obj);
+  };
+
+  const validateAddPassword = (obj) => {
+    const addPasswordSchema = new Joi.object({
+      password: Joi.string().min(5).required(),
+      repeatPassword: Joi.string().valid(Joi.ref("password")).required().messages({
+        "string.empty": "Repeat password cannot be empty",
+        "any.only": "Passwords must match",
+      }),
+    }).options({ abortEarly: false });
+    return addPasswordSchema.validate(obj);
   };
 
   const validateContact = (obj) => {
@@ -53,5 +74,5 @@ export default function useValidation() {
     return contactSchema.validate(obj);
 };
 
-  return { validateSignIn, validateSignUp, validateResetPassword, validateContact };
+  return { validateSignIn, validateSignUp, validateResetPassword, validateContact, validateAddPassword, validateUpdateEmail };
 }

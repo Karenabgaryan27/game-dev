@@ -55,8 +55,9 @@ export function SelectScrollable({
     <Select
       value={value.toString()}
       onValueChange={(value) => {
+       
         setValue(value);
-        const selectedItem = items.find((item) => item.value === value);
+        const selectedItem = items.find((item) => item.value == value);
         if (selectedItem) callback(selectedItem);
       }}
       // open={true}

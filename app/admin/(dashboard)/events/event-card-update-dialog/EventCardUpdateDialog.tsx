@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { useApiContext } from "@/contexts/ApiContext";
 import { ButtonDemo, InputDemo, TextareaDemo, SelectScrollable, DialogDemo } from "@/components/index";
 import useUtil from "@/hooks/useUtil";
+import localData from "@/localData";
+
+const {workelkImage} = localData.images
 
 type EventStateProps = {
   type: string | number;
@@ -35,6 +38,7 @@ const EventCardUpdateDialog = ({
   return (
     <DialogDemo
       color="warning"
+      iconImage={workelkImage}
       title="Update Event"
       description={"This applies only on custom events"}
       trigger={

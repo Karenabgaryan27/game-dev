@@ -7,6 +7,7 @@ import useUtil from "@/hooks/useUtil";
 import localData from "@/localData";
 
 const { plusIcon } = localData.svgs;
+const { knightsImage } = localData.images;
 
 type EventStateProps = {
   type: string | number;
@@ -31,7 +32,7 @@ const defaultState = {
 const EventCardCreateDialog = () => {
   return (
     <DialogDemo
-      color="blue"
+      iconImage = {knightsImage}
       title="Create Event"
       description="Choose an event type or create a custom one"
       trigger={

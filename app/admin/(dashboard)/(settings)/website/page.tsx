@@ -10,7 +10,7 @@ const breadcrumbItems = [
     label: "Home",
   },
   {
-    label: "Pages",
+    label: "Website",
   },
 ];
 

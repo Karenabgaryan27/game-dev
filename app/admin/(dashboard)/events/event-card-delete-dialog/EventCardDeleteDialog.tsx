@@ -3,11 +3,15 @@
 import React, { useState } from "react";
 import { useApiContext } from "@/contexts/ApiContext";
 import { ButtonDemo, DialogDemo } from "@/components/index";
+import localData from "@/localData";
+
+const {redDragonImage} = localData.images
 
 const EventCardDeleteDialog = ({ item = {}, state = {} }:{ [key: string]: any}) => {
   return (
     <DialogDemo
       color="destructive"
+      iconImage={redDragonImage}
       title={"Delete Event"}
       description={"This will permanently remove the event"}
       trigger={

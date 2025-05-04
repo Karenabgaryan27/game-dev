@@ -72,6 +72,7 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
       columnFilters,
       columnVisibility,
       rowSelection,
+      
     },
     initialState: {
       pagination: {
@@ -89,11 +90,11 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-5">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)}
+          placeholder="Filter names..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
         <DropdownMenu>
@@ -126,12 +127,12 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                <TableHead>
+                <TableHead className="">
                   <EyeIcon className="w-4 h-4 mx-3 text-gray-500" />
                 </TableHead>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="px-6">
                       {header.isPlaceholder
                         ? null
                         : flexRender(header.column.columnDef.header, header.getContext())}
@@ -147,9 +148,9 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
                 <React.Fragment key={row.id}>
                   <TableRow
                     data-state={row.getIsSelected() && "selected"}
-                    className={`${expandedRows.includes(row.id) ? "!bg-gray-100 " : ""}`}
+                    className={`${expandedRows.includes(row.id) ? "!bg-gray-100 dark:!bg-transparent" : ""}`}
                   >
-                    <TableCell className="w-0">
+                    <TableCell className=" ">
                       <Button
                         variant="ghost"
                         className="rounded-full w-[35px] h-[35px] cursor-pointer"
@@ -158,8 +159,8 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
                         <ChevronDown className={`transition-transform duration-200 `} />
                       </Button>
                     </TableCell>
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                    {row.getVisibleCells().map((cell, index) => (
+                      <TableCell key={cell.id} className={` px-6  ${index === 5 ? "w-full" : ""}`}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
@@ -271,7 +272,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
           <CarouselDemo
             className="data-table-carousel  "
             items={row.details.heroes}
-            itemClassName="basis-1/2 sm:basis-1/4 lg:basis-1/7"
+            itemClassName="basis-1/5  lg:basis-1/7"
           >
             {({ item, index }) => <HeroCard {...item} index={index} />}
           </CarouselDemo>
@@ -286,7 +287,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
           <CarouselDemo
             className="data-table-carousel  "
             items={row.details.artifacts}
-            itemClassName="basis-1/2 sm:basis-1/4 lg:basis-1/7"
+            itemClassName="basis-1/5  lg:basis-1/7"
           >
             {({ item, index }) => <HeroCard {...item} index={index} />}
           </CarouselDemo>
@@ -301,7 +302,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
           <CarouselDemo
             className="data-table-carousel  "
             items={row.details.customArsenal}
-            itemClassName="basis-1/2 sm:basis-1/4 lg:basis-1/7 p-3"
+            itemClassName="basis-1/3  xl:basis-1/4 p-3"
           >
             {({ item, index }) => <CustomParallaxCard {...item} index={index} />}
           </CarouselDemo>
@@ -311,9 +312,9 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
   ];
 
   return (
-    <tr>
-      <td colSpan={columns.length + 1 + 1}>
-        <div className="p-4   border-gray-200 bg-gray-50 mb-5 shadow">
+    <tr className="">
+      <td colSpan={columns.length + 1} className="overflow-hidden">
+        <div className="p-4      mb-5 shadow">
           <div className="flex items-center space-x-3">
             <EyeIcon className="w-5 h-5 text-gray-600" />
             <span className="text-lg font-semibold text-gray-700">Details</span>
@@ -322,42 +323,42 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
             <div className="mt-3 text-sm text-gray-500">
               <div className=" w-full lg:flex gap-10 ">
                 <div className="flex-1">
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">ID:</div>
                     <div>#2432r32</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Name:</div>
                     <div>John Doe</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Email:</div>
                     <div>johndoe@gmail.com</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Country:</div>
                     <div>USA</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Languages</div>
                     <div>English, French</div>
                   </div>
                 </div>
 
                 <div className="flex-1">
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Faction:</div>
                     <div>League of Order</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Game Time (UTC):</div>
                     <div>18:00 UTC – 20:30 UTC</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Main Troop Type:</div>
                     <div>Mage</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Troop Level:</div>
                     <div>T4</div>
                   </div>
@@ -366,8 +367,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
             </div>
             <br />
             <br />
-
-            <TabsDemo items={items} />
+              <TabsDemo items={items} />
           </div>
         </div>
       </td>

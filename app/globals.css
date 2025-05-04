@@ -152,11 +152,14 @@
   }
 }
 
-html {
-  scroll-behavior: smooth;}
+/* @theme {
+  --breakpoint-xl: 1080px;
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 120rem;
+} */
 
-body {
-  font-family: var(--font-inter), var(--font-geist-sans), Arial, Helvetica, sans-serif;
+html {
+  scroll-behavior: smooth;
 }
 
 .container {
@@ -184,12 +187,9 @@ body {
   }
 }
 
-
 main {
-
   min-height: 100vh;
 }
-
 
 body {
   font-family: var(--font-inter), var(--font-geist-sans), Arial, Helvetica, sans-serif;
@@ -207,12 +207,10 @@ body {
   }
 }
 
-
 main > section,
 footer {
   @apply py-[50px] md:py-[90px];
 }
-
 
 /* LAZY LOAD */
 [data-lazy] {
@@ -246,17 +244,14 @@ footer {
   transform: translateZ(0);
 }
 
-
-
-
 .bg-image {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   height: 100%;
   width: 100%;
-  background-image: url('/assets/images/placeholder-2.png');
+  background-image: url("/assets/images/placeholder-2.png");
   background-size: contain;
   background-position: center;
   filter: grayscale(100%);

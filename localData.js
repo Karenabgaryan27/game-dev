@@ -34,6 +34,8 @@ const images = {
   customArsenalScreenshot2Image: "/assets/images/rest/custom-arsenal-screenshot-2.png",
   customArsenalScreenshot3Image: "/assets/images/rest/custom-arsenal-screenshot-3.png",
   customArsenalScreenshot4Image: "/assets/images/rest/custom-arsenal-screenshot-4.png",
+  customArsenalScreenshot5Image: "/assets/images/rest/formations/formation-1.png",
+  customArsenalScreenshot6Image: "/assets/images/rest/formations/mobile-formation.jpg",
 
   // REST
   hero1Image: "/assets/images/rest/hero-1.png",

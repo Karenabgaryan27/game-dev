@@ -65,6 +65,16 @@ const Login = () => {
       setTimeout(() => successAlert("You’ve signed out successfully!"), 100);
       sessionStorage.removeItem('isSignedOut');
     }
+    const isPasswordAdded = sessionStorage.getItem("isPasswordAdded");
+    if (isPasswordAdded) {
+      setTimeout(() => successAlert("Successfully linked email/password account! Please sign in again."), 100);
+      sessionStorage.removeItem('isPasswordAdded');
+    }
+    const isPasswordUpdated = sessionStorage.getItem("isPasswordUpdated");
+    if (isPasswordUpdated) {
+      setTimeout(() => successAlert("Your password has been updated successfully! Please sign in again."), 100);
+      sessionStorage.removeItem('isPasswordUpdated');
+    }
   }, []);
 
   return (

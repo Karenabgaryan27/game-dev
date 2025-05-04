@@ -26,4 +26,8 @@
       font-size: 12px ;
     }
   }
+
+  & .carousel-angles {
+    left: 60px;
+  }
 }
