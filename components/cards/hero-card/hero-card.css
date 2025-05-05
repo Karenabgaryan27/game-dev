@@ -39,7 +39,7 @@
     border-radius: 15px;
     height: 0;
     position: relative;
-    padding-top: 120%;
+    padding-top: 130%;
     width: 100%;
     box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4);
     position: relative;
@@ -52,6 +52,7 @@
     font-size: 2rem;
     font-weight: 600;
     transition: transform 0.3s ease;
+   
 }
 
 .hero-card .card-description {
@@ -69,6 +70,8 @@
     line-height: 1;
     font-weight: bold;
     white-space: nowrap;
+    z-index: 1;
+    /* font-size: 10px; */
 }
 
 .hero-card .card-image {

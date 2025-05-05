@@ -12,6 +12,7 @@ const buttonStyles = {
      blue: 'bg-bluish hover:bg-bluish-hover',
     warning: "bg-warning hover:bg-warning-hover",
     danger: "bg-danger hover:bg-danger-hover",
+    
   },
   secondary: {
     primary: "",
