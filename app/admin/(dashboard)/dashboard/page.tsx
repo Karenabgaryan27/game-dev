@@ -1,9 +1,12 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { ButtonDemo, BreadcrumbDemo, Separator, CarouselDemo, HeroCard } from "@/components/index";
 import { DataTableDemo } from "./data-table/DataTableDemo";
 import { Payment, columns } from "./data-table/columns";
 import localData from "@/localData";
 import { Card, CardContent } from "@/components/ui/card";
+import { useApiContext } from "@/contexts/ApiContext";
 
 const { heroesLookingDownImage, SkogulImage, arrowImage, customArsenalScreenshot6Image } = localData.images;
 const { avatarImage } = localData.svgs;
@@ -18,17 +21,17 @@ const breadcrumbItems = [
   },
 ];
 
-const getData = async (): Promise<Payment[]> => {
+const getData = (): Payment[] => {
   return [...Array(10)].map((item, index) => {
     return {
-      //   id: uuidv4(),
+      // id: uuidv4(),
       id: (index + 1).toString(),
-      name: `user-${(Math.random() * 1000).toFixed(0)}`,
+      // name: `user-${(Math.random() * 1000).toFixed(0)}`,
       status: "active",
-      email: `ken${(Math.random() * 1000).toFixed(0)}@yahoo.com`,
-      mainTroop: 'Mage',
-      troopLvl: 'T4',
-      avatar: SkogulImage,
+      // email: `ken${(Math.random() * 1000).toFixed(0)}@yahoo.com`,
+      // mainTroop: 'Mage',
+      // troopLvl: 'T4',
+      // avatar: SkogulImage,
       details: {
         name: "John Doe",
         heroes: [
@@ -53,302 +56,323 @@ const getData = async (): Promise<Payment[]> => {
             className: "hero-card-red",
             title: "reverse card",
             description: "5 5 3 1",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-          {
-            image: SkogulImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "5 5 3 1",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-          {
-            image: SkogulImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "5 5 3 1",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-          {
-            image: SkogulImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "5 5 3 1",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-          {
-            image: SkogulImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "5 5 3 1",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-          {
-            image: SkogulImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "5 5 3 1",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-          {
-            image: SkogulImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "5 5 3 1",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-          {
-            image: SkogulImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "5 5 3 1",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-          {
-            image: SkogulImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "5 5 3 1",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-          {
-            image: SkogulImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "5 5 3 1",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-       
-       
-       
-     
-        ],
-        artifacts: [
-          {
-            image: arrowImage,
-            className: "hero-card-purple",
-            title: "basic card",
-            description: "Skill lvl 3",
+
             glare: true,
             maxGlare: 0.8,
           },
           {
-            image: arrowImage,
-            className: "hero-card-golden",
-            title: "glaring card",
-            description: "Skill lvl 3",
+            image: SkogulImage,
+            className: "hero-card-red",
+            title: "reverse card",
+            description: "5 5 3 1",
+
             glare: true,
             maxGlare: 0.8,
           },
           {
-            image: arrowImage,
+            image: SkogulImage,
             className: "hero-card-red",
             title: "reverse card",
-            description: "Skill lvl 3",
-            
-              glare: true,
+            description: "5 5 3 1",
+
+            glare: true,
             maxGlare: 0.8,
           },
           {
-            image: arrowImage,
+            image: SkogulImage,
             className: "hero-card-red",
             title: "reverse card",
-            description: "Skill lvl 3",
-            
-              glare: true,
+            description: "5 5 3 1",
+
+            glare: true,
             maxGlare: 0.8,
           },
           {
-            image: arrowImage,
+            image: SkogulImage,
             className: "hero-card-red",
             title: "reverse card",
-            description: "Skill lvl 3",
-            
-              glare: true,
+            description: "5 5 3 1",
+
+            glare: true,
             maxGlare: 0.8,
           },
           {
-            image: arrowImage,
+            image: SkogulImage,
             className: "hero-card-red",
             title: "reverse card",
-            description: "Skill lvl 3",
-            
-              glare: true,
+            description: "5 5 3 1",
+
+            glare: true,
             maxGlare: 0.8,
           },
           {
-            image: arrowImage,
+            image: SkogulImage,
             className: "hero-card-red",
             title: "reverse card",
-            description: "Skill lvl 3",
-            
-              glare: true,
+            description: "5 5 3 1",
+
+            glare: true,
             maxGlare: 0.8,
           },
           {
-            image: arrowImage,
+            image: SkogulImage,
             className: "hero-card-red",
             title: "reverse card",
-            description: "Skill lvl 3",
-            
-              glare: true,
+            description: "5 5 3 1",
+
+            glare: true,
             maxGlare: 0.8,
           },
           {
-            image: arrowImage,
+            image: SkogulImage,
             className: "hero-card-red",
             title: "reverse card",
-            description: "Skill lvl 3",
-            
-              glare: true,
+            description: "5 5 3 1",
+
+            glare: true,
             maxGlare: 0.8,
           },
           {
-            image: arrowImage,
+            image: SkogulImage,
             className: "hero-card-red",
             title: "reverse card",
-            description: "Skill lvl 3",
-            
-              glare: true,
+            description: "5 5 3 1",
+
+            glare: true,
             maxGlare: 0.8,
           },
-          {
-            image: arrowImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "Skill lvl 3",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-          {
-            image: arrowImage,
-            className: "hero-card-red",
-            title: "reverse card",
-            description: "Skill lvl 3",
-            
-              glare: true,
-            maxGlare: 0.8,
-          },
-       
-       
-       
-     
         ],
-        customArsenal: [
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-          {
-            image: customArsenalScreenshot6Image,
-            title: "Archer build",
-            description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-        },
-        ]
+        // artifacts: [
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-purple",
+        //     title: "basic card",
+        //     description: "Skill lvl 3",
+        //     glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-golden",
+        //     title: "glaring card",
+        //     description: "Skill lvl 3",
+        //     glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-red",
+        //     title: "reverse card",
+        //     description: "Skill lvl 3",
+
+        //       glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-red",
+        //     title: "reverse card",
+        //     description: "Skill lvl 3",
+
+        //       glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-red",
+        //     title: "reverse card",
+        //     description: "Skill lvl 3",
+
+        //       glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-red",
+        //     title: "reverse card",
+        //     description: "Skill lvl 3",
+
+        //       glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-red",
+        //     title: "reverse card",
+        //     description: "Skill lvl 3",
+
+        //       glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-red",
+        //     title: "reverse card",
+        //     description: "Skill lvl 3",
+
+        //       glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-red",
+        //     title: "reverse card",
+        //     description: "Skill lvl 3",
+
+        //       glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-red",
+        //     title: "reverse card",
+        //     description: "Skill lvl 3",
+
+        //       glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-red",
+        //     title: "reverse card",
+        //     description: "Skill lvl 3",
+
+        //       glare: true,
+        //     maxGlare: 0.8,
+        //   },
+        //   {
+        //     image: arrowImage,
+        //     className: "hero-card-red",
+        //     title: "reverse card",
+        //     description: "Skill lvl 3",
+
+        //       glare: true,
+        //     maxGlare: 0.8,
+        //   },
+
+        // ],
+        // customArsenal: [
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        //   {
+        //     image: customArsenalScreenshot6Image,
+        //     title: "Archer build",
+        //     description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+        // },
+        // ]
       },
     };
   });
 };
 
-const page = async () => {
-  const data = await getData();
+const page = () => {
+
+
+  const [filteredData, setFilteredData] = useState<Payment[]>([]);
+  // const data = getData();
+
+  const { getUsers, fetchedUsers } = useApiContext();
+
+  useEffect(() => {
+    getUsers({});
+  }, []);
+
+  useEffect(() => {
+    if(!fetchedUsers.list.length) return
+    
+    const getData = (): Payment[] => {
+    
+      return fetchedUsers.list.map((item) => {
+        return {
+          status: "active",
+         
+          ...item,
+        };
+      })
+    }
+
+    const data = getData()
+
+    setFilteredData(data)
+  }, [fetchedUsers]);
 
   return (
     <main className="dashboard-page p-5">
@@ -367,7 +391,7 @@ const page = async () => {
 
       <Card className="mb-[200px]">
         <CardContent>
-          <DataTableDemo data={data} columns={columns} />
+          <DataTableDemo data={filteredData} columns={columns} />
         </CardContent>
       </Card>
 
@@ -378,7 +402,6 @@ const page = async () => {
         src={SkogulImage}
         alt=""
       />
-    
     </main>
   );
 };

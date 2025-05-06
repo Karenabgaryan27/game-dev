@@ -14,3 +14,4 @@ export { default as HeroCard} from './cards/hero-card/HeroCard.tsx'
 export { default as CustomParallaxCard} from './cards/custom-parallax-card/CustomParallaxCard.jsx'
 export { CarouselDemo } from "./carousel/CarouselDemo.tsx";
 export { TabsDemo } from "./tabs/TabsDemo.tsx";
+export { SwitchDemo } from "./switch/SwitchDemo.tsx";

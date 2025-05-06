@@ -19,17 +19,22 @@
     transform: translateX(-50%) translateZ(100px);
 }
 
-.hero-card-purple .card-inner {
+.hero-card.gray .card-inner {
+    /* background: linear-gradient(180deg, #D23CFB 0%, #8000FF 100%); */
+    background: linear-gradient(180deg, #e0e0e0 0%, #a5a5a5 100%);
+
+}
+.hero-card.purple .card-inner {
     /* background: linear-gradient(180deg, #D23CFB 0%, #8000FF 100%); */
     background: linear-gradient(180deg, #9F1FAA 0%, #3E0059 100%);
 }
 
-.hero-card-golden .card-inner {
+.hero-card.golden .card-inner {
     /* background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%); */
     background: linear-gradient(180deg, #FFD700 0%, #B8860B 100%);
 }
 
-.hero-card-red .card-inner {
+.hero-card.red .card-inner {
     background: linear-gradient(180deg, #D13B2F 0%, #891C13 100%);
     
 
@@ -80,7 +85,7 @@
     left: 50%;
     transform: translateX(-50%);
     display: block;
-    width: 100%;
+    width: 90%;
     height: 80%;
     object-fit: contain;
     pointer-events: none;

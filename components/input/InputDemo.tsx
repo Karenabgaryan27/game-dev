@@ -21,6 +21,7 @@ export function InputDemo({
   callback = () => {},
   // successMessage = "looks good",
   errorMessage = "",
+  value = "",
   ...props
 }: InputDemoProps) {
   const [id, setId] = useState("");
@@ -41,6 +42,7 @@ export function InputDemo({
         {...props}
         onChange={onChange}
         className={`${inputClassName} `}
+        defaultValue={value}
       />
       {/* <div className="valid-feedback text-green-600 text-sm">{successMessage}</div> */}
       <div className="invalid-feedback text-red-600 text-xs">{errorMessage}</div>

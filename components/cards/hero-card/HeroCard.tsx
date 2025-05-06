@@ -1,5 +1,9 @@
 import React from "react";
 import useParallaxEffect from "../../../hooks/useParallaxEffect";
+import localData from "@/localData";
+import { useGlobalContext } from "@/contexts/context";
+
+const { heroPlaceholderImage } = localData.images;
 
 // type HeroCardProps = {
 //   title?: string;
@@ -14,9 +18,12 @@ import useParallaxEffect from "../../../hooks/useParallaxEffect";
 
 export default function HeroCard({
   title,
-  description,
-  image,
+  // description,
+  label,
+  url,
+  imageID,
   className = "",
+  color = "",
   reverse = false,
   glare = false,
   maxGlare = 0.8,
@@ -30,13 +37,26 @@ export default function HeroCard({
     maxGlare,
   });
 
+  const { heroImages } = useGlobalContext();
 
   return (
-    <div className={`card hero-card ${className}`} onMouseMove={move} onMouseLeave={end} onMouseEnter={start}>
+    <div
+      className={`card hero-card ${className} ${color || 'gray'}`}
+      onMouseMove={move}
+      onMouseLeave={end}
+      onMouseEnter={start}
+    >
       <div className="card-inner" data-parallax-inner>
         {/* <h4 className="card-title">{title}</h4> */}
-        <p className="card-description">{description}</p>
-        <img className="card-image" src={image} alt="" />
+        {label && <p className="card-description">{label}</p>}
+        <img
+          className={`card-image  ${color || "!grayscale !opacity-50"}`}
+          src={
+            (imageID && heroImages.find((image:  any) => image.id == imageID)?.url) ||
+            heroPlaceholderImage
+          }
+          alt=""
+        />
       </div>
     </div>
   );

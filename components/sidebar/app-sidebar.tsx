@@ -50,11 +50,7 @@ const data = {
       url: "/admin/account",
       icon: userGearImage,
     },
-    {
-      title: "Update Profile",
-      url: "/admin/update-profile",
-      icon: penImage,
-    },
+
     {
       title: "Website",
       url: "/admin/website",

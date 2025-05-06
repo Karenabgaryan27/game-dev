@@ -29,7 +29,7 @@ export function CarouselDemo({
   loop = false,
   align = "start",
   autoplay = false,
-  items = [{}, {}, {}, {}],
+  items = [],
   children = () => "",
 }: CarouselDemoProps) {
   const carouselRef = useRef(null);
@@ -52,7 +52,7 @@ export function CarouselDemo({
       ref={carouselRef}
       setApi={setApi}
       
-      className={`${className} mb-[100px] `}
+      className={`${className} `}
       opts={{
         align: align,
         loop: loop,

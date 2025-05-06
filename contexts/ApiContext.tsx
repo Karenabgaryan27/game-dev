@@ -18,7 +18,7 @@ import useAlert from "@/hooks/alert/useAlert";
 import { useAuthContext } from "./AuthContext";
 import localData from "@/localData";
 
-const { exampleImage, placeholderImage, placeholderImage2 } = localData.images;
+const { exampleImage, placeholderImage, placeholderImage2, MadelineImage } = localData.images;
 
 type FetchedEventsProps = {
   isLoading: boolean;
@@ -53,7 +53,9 @@ type ApiContextType = {
   updateEvent: ({ id, setIsLoading, ...fields }: { [key: string]: any }) => void;
   deleteEvent: ({ id, setIsLoading }: { [key: string]: any }) => void;
   getUser: ({ setIsLoading }: { [key: string]: any }) => void;
+  getUsers: ({ setIsLoading }: { [key: string]: any }) => void;
   updateContent: ({ id, slug, setIsLoading, ...fields }: { [key: string]: any }) => void;
+  updateUser: ({ id, setIsLoading, updatedFields }: { [key: string]: any }) => void;
 };
 
 export const ApiContext = createContext<ApiContextType | null>(null);
@@ -233,6 +235,47 @@ export default function ApiProvider({
     setFetchedCurrentUser((prev) => ({ ...prev, isLoading: false }));
   };
 
+  const getUsers = async ({ setIsLoading = (_: boolean) => {} }) => {
+    setIsLoading(true);
+    setFetchedUsers((prev) => ({ ...prev, isLoading: true }));
+
+    try {
+      const orderedEventsQuery = query(usersCollectionRef, orderBy("createdAt", "asc"));
+      const res = await getDocs(orderedEventsQuery);
+      const data = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setFetchedUsers((prev) => ({ ...prev, isLoading: false, list: data }));
+
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=getUsers= request error");
+    }
+    setIsLoading(false);
+    setFetchedUsers((prev) => ({ ...prev, isLoading: false }));
+  };
+
+  const updateUser = async ({
+    id = "",
+    updatedFields = {},
+    setIsLoading = (_: boolean) => {},
+    callback = () => {},
+  }) => {
+    setIsLoading(true);
+
+    console.log(updatedFields, " here");
+
+    try {
+      const userDoc = doc(db, "users", id);
+      await updateDoc(userDoc, updatedFields);
+      // getEvents({});
+      successAlert("User information has been updated successfully.");
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=updateUser= request error");
+    }
+    setIsLoading(false);
+    callback();
+  };
+
   // PARTICIPATIONRECORDS
 
   // WEBSITECONTENT
@@ -242,7 +285,6 @@ export default function ApiProvider({
     try {
       const res = await getDocs(websiteContentRef);
       const data = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      console.log(data, " kkk");
       setFetchedPages((prev) => ({
         ...prev,
         homePage: {
@@ -302,7 +344,9 @@ export default function ApiProvider({
         deleteEvent,
         updateEvent,
         getUser,
+        getUsers,
         updateContent,
+        updateUser,
       }}
     >
       {children}

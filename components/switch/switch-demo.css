@@ -1,0 +1,26 @@
+.switch {
+    &[data-color=success] {
+        @apply text-success;
+        button {
+            &[data-state=checked] {
+                @apply bg-success;
+            }
+        }
+    }
+    &[data-color=warning]  {
+        @apply text-warning;
+        button {
+            &[data-state=checked] {
+                @apply bg-warning;
+            }
+        }
+    }
+    &[data-color=dark]  {
+        @apply text-black;
+        button {
+            &[data-state=checked] {
+                @apply bg-black;
+            }
+        }
+    }
+}

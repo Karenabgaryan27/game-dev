@@ -26,7 +26,8 @@
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4);
   transition: transform 0.1s ease;
   transform-style: preserve-3d;
-  background-color: #000;
+  /* background-color: #000; */
+  background: linear-gradient(180deg, #e0e0e0 0%, #a5a5a5 100%);
   margin-bottom: 10px;
 }
 
@@ -95,3 +96,5 @@
   transform: scale(1.4);
 
 }
+
+

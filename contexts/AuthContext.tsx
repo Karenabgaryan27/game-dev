@@ -89,6 +89,7 @@ export default function AuthProvider({
           uid: user.uid,
           email: user.email,
           displayName: user.displayName,
+          photoURL: user.photoURL,
           createdAt: new Date(),
         });
         console.log("New user added to Firestore.");

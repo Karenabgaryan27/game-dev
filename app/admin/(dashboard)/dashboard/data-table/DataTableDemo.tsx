@@ -42,7 +42,7 @@ interface DataTableProps<TData, TValue> {
 }
 
 type IncludedProps = {
-  details: any;
+  details?: any;
 };
 
 export function DataTableDemo<TData extends IncludedProps, TValue>({
@@ -72,7 +72,6 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
       columnFilters,
       columnVisibility,
       rowSelection,
-      
     },
     initialState: {
       pagination: {
@@ -93,8 +92,8 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
       <div className="flex items-center py-4 gap-5">
         <Input
           placeholder="Filter names..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+          value={(table.getColumn("displayName")?.getFilterValue() as string) ?? ""}
+          onChange={(event) => table.getColumn("displayName")?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
         <DropdownMenu>
@@ -263,6 +262,8 @@ type ItemsProps = {
 };
 
 const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => {
+  const [heroes,setHeroes] = React.useState(row.heroes?.filter((item:any)=> item.isFeatured))
+  
   const items: ItemsProps[] = [
     {
       label: "Heroes",
@@ -271,7 +272,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
         <div className="md:px-10">
           <CarouselDemo
             className="data-table-carousel  "
-            items={row.details.heroes}
+            items={heroes?.length ? heroes : [{}]}
             itemClassName="basis-1/5  lg:basis-1/7"
           >
             {({ item, index }) => <HeroCard {...item} index={index} />}
@@ -286,7 +287,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
         <div className="md:px-10">
           <CarouselDemo
             className="data-table-carousel  "
-            items={row.details.artifacts}
+            items={row.artifacts || [{}]}
             itemClassName="basis-1/5  lg:basis-1/7"
           >
             {({ item, index }) => <HeroCard {...item} index={index} />}
@@ -301,7 +302,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
         <div className="md:px-10">
           <CarouselDemo
             className="data-table-carousel  "
-            items={row.details.customArsenal}
+            items={row.customArsenal || [{}]}
             itemClassName="basis-1/3  xl:basis-1/4 p-3"
           >
             {({ item, index }) => <CustomParallaxCard {...item} index={index} />}
@@ -310,6 +311,8 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
       ),
     },
   ];
+
+  console.log(row, 'hhhhhhhhhhhhhh')
 
   return (
     <tr className="">
@@ -324,50 +327,54 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
               <div className=" w-full lg:flex gap-10 ">
                 <div className="flex-1">
                   <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
-                    <div className="font-bold">ID:</div>
-                    <div>#2432r32</div>
+                    <div className="font-bold">In-Game ID:</div>
+                    <div>{row.inGameID || "-"}</div>
                   </div>
                   <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
-                    <div className="font-bold">Name:</div>
-                    <div>John Doe</div>
+                    <div className="font-bold">In-Game Name (IGN):</div>
+                    <div>{row.displayName || "-"}</div>
                   </div>
                   <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Email:</div>
-                    <div>johndoe@gmail.com</div>
+                    <div>{row.email || "-"}</div>
                   </div>
                   <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Country:</div>
-                    <div>USA</div>
+                    <div>{row.country || "-"}</div>
                   </div>
                   <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
-                    <div className="font-bold">Languages</div>
-                    <div>English, French</div>
+                    <div className="font-bold">Language(s)</div>
+                    <div>{row.languages || "-"}</div>
                   </div>
                 </div>
 
                 <div className="flex-1">
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                    <div className="font-bold">Rank:</div>
+                    <div>{row.rank || "-"}</div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Faction:</div>
-                    <div>League of Order</div>
+                    <div>{row.faction || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Game Time (UTC):</div>
-                    <div>18:00 UTC – 20:30 UTC</div>
+                    <div>{row.gameTime || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Main Troop Type:</div>
-                    <div>Mage</div>
+                    <div>{row.mainTroopType || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-sm gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Troop Level:</div>
-                    <div>T4</div>
+                    <div>{row.troopLevel || "-"}</div>
                   </div>
                 </div>
               </div>
             </div>
             <br />
             <br />
-              <TabsDemo items={items} />
+             <TabsDemo items={items} />
           </div>
         </div>
       </td>

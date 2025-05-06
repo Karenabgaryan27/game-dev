@@ -59,15 +59,15 @@ const NavUser = () => {
             </div>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
+        {/* <DropdownMenuSeparator /> */}
+        {/* <DropdownMenuGroup>
           <DropdownMenuItem>
             <Sparkles />
             Upgrade to Pro
           </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
+        </DropdownMenuGroup> */}
+        {/* <DropdownMenuSeparator /> */}
+        {/* <DropdownMenuGroup>
           <DropdownMenuItem>
             <BadgeCheck />
             Account
@@ -80,7 +80,7 @@ const NavUser = () => {
             <Bell />
             Notifications
           </DropdownMenuItem>
-        </DropdownMenuGroup>
+        </DropdownMenuGroup> */}
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           light/dark toggler <ModeToggle />

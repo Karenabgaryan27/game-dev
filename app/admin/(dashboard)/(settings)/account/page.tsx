@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useApiContext } from "@/contexts/ApiContext";
 import { ButtonDemo, InputDemo, BreadcrumbDemo, DialogDemo } from "@/components/index";
 import localData from "@/localData";
 import useAlert from "@/hooks/alert/useAlert";
@@ -20,11 +21,15 @@ const breadcrumbItems = [
 ];
 
 const Account = () => {
-  const { currentUser, handleSignInWithGoogle } = useAuthContext();
   const [isEmailPasswordMethodEnabled, setIsEmailPasswordMethodEnabled] = useState(false);
   const [isGoogleSignInMethodEnabled, setIsGoogleSignInMethodEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  
+  const { currentUser, handleSignInWithGoogle } = useAuthContext();
+  const {fetchedCurrentUser} = useApiContext()
 
+  const {email, role} = fetchedCurrentUser.details
+  
   useEffect(() => {
     if (!currentUser) return;
     const _isEmailPasswordMethodEnabled = currentUser.providerData.find(
@@ -46,8 +51,8 @@ const Account = () => {
       <br />
       <br />
 
-      <div className="email-password-login-method   flex flex-wrap gap-5 ">
-        <div className="min-h-[200px] flex-1 min-w-[300px] max-w-[400px]  p-3 bg-gray-50 dark:bg-secondary rounded-lg">
+      <div className="   grid grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] justify-center gap-[20px] ">
+        <div className="min-h-[200px] flex-1   p-3 bg-gray-50 dark:bg-secondary rounded-lg">
           <h2 className="text-1xl mb-2 text-sm font-bold">Email/password sign in method:</h2>
           {isEmailPasswordMethodEnabled && <div className="text-success text-sm mb-4">Enabled</div>}
           {!isEmailPasswordMethodEnabled && (
@@ -63,7 +68,7 @@ const Account = () => {
           {isEmailPasswordMethodEnabled && !isGoogleSignInMethodEnabled && <UpdateEmailDialog />}
         </div>
 
-        <div className="min-h-[200px] flex-1 min-w-[300px] max-w-[400px] p-3 bg-gray-50 dark:bg-secondary rounded-lg">
+        <div className="min-h-[200px] flex-1  p-3 bg-gray-50 dark:bg-secondary rounded-lg">
           <h2 className="text-1xl mb-2 text-sm font-bold">Google sign in method:</h2>
           {isGoogleSignInMethodEnabled ? (
             <div className="text-success text-sm  mb-4">Enabled</div>
@@ -77,6 +82,21 @@ const Account = () => {
               onClick={() => handleSignInWithGoogle({})}
             />
           )}
+        </div>
+
+        <div className="min-h-[200px] flex-1  p-3 bg-gray-50 dark:bg-secondary rounded-lg">
+        <div className="flex items-center justify-between text-sm gap-5 py-1 px-3">
+          <div className="font-bold">Email:</div>
+          <div className="capitalize">{email}</div>
+        </div>
+        <div className="flex items-center justify-between text-sm gap-5 py-1 px-3">
+          <div className="font-bold">Role:</div>
+          <div className="capitalize">{role || 'user'}</div>
+        </div>
+        <div className="flex items-center justify-between text-sm gap-5 py-1 px-3">
+          <div className="font-bold">Is email verified:</div>
+          <div className="capitalize">{currentUser?.emailVerified ? 'Yes': 'No'}</div>
+        </div>
         </div>
       </div>
     </main>

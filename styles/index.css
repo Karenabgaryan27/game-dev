@@ -6,6 +6,7 @@
 
 /* PAGES */
 @import "../app/admin/(dashboard)/profile/profile.css";
+@import "../app/admin/(dashboard)/profile/hero-cards-dialog/hero-cards-dialog.css";
 @import "../app/admin/(dashboard)/dashboard/data-table/data-table.css";
 
 

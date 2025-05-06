@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactElement,ReactNode, useEffect, useState } from "react";
+import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const buttonStyles = {
@@ -9,44 +9,43 @@ const buttonStyles = {
     // success: "bg-green-600 hover:bg-green-500",
     success: "bg-success hover:bg-success-hover",
     // warning: "bg-yellow-600 hover:bg-yellow-500",
-     blue: 'bg-bluish hover:bg-bluish-hover',
+    blue: "bg-bluish hover:bg-bluish-hover",
     warning: "bg-warning hover:bg-warning-hover",
     danger: "bg-danger hover:bg-danger-hover",
-    
   },
   secondary: {
     primary: "",
     success: "bg-green-50 hover:bg-green-100 text-green-600",
-    blue: 'bg-bluish hover:bg-bluish-hover',
+    blue: "bg-bluish hover:bg-bluish-hover",
     warning: "bg-yellow-50 hover:bg-yellow-100 text-yellow-600",
     danger: "bg-danger hover:bg-danger-hover",
   },
   outline: {
     primary: "",
     success: "text-green-600 hover:text-green-600 border-green-200 hover:border-green-300 hover:bg-green-50",
-    blue: 'bg-bluish hover:bg-bluish-hover',
+    blue: "bg-bluish hover:bg-bluish-hover",
     warning:
       "text-yellow-600 hover:text-yellow-600 border-yellow-200 hover:border-yellow-300 hover:bg-yellow-50",
-      danger: "bg-danger hover:bg-danger-hover",
+    danger: "text-red-600 hover:text-red-600 border-red-200 hover:border-red-300 hover:bg-red-50",
   },
   ghost: {
     primary: "",
     success: "text-green-600 hover:text-green-600 hover:bg-green-50",
-     blue: 'bg-bluish hover:bg-bluish-hover',
+    blue: "bg-bluish hover:bg-bluish-hover",
     warning: "text-yellow-600 hover:text-yellow-600 hover:bg-yellow-50",
     danger: "bg-danger hover:bg-danger-hover",
   },
   destructive: {
     primary: "",
     success: "bg-red-600 hover:bg-red-500",
-     blue: 'bg-bluish hover:bg-bluish-hover',
+    blue: "bg-bluish hover:bg-bluish-hover",
     warning: "bg-orange-600 hover:bg-orange-500",
     danger: "bg-danger hover:bg-danger-hover",
   },
   link: {
     primary: "",
     success: "text-green-600 hover:text-green-500",
-       blue: 'bg-bluish hover:bg-bluish-hover',
+    blue: "bg-bluish hover:bg-bluish-hover",
     warning: "text-yellow-600 hover:text-yellow-500",
     danger: "bg-danger hover:bg-danger-hover",
   },
@@ -60,7 +59,7 @@ type ButtonDemoProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: ReactElement | null;
   startIcon?: ReactElement | null;
   endIcon?: ReactElement | null;
-  color?: "primary" | "success" | "warning" | "danger" | 'blue' ;
+  color?: "primary" | "success" | "warning" | "danger" | "blue";
   disabled?: boolean;
   onClick?: () => void;
 };

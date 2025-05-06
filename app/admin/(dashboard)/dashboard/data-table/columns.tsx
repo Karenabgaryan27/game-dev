@@ -21,14 +21,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const { avatarImage } = localData.svgs;
 
 export type Payment = {
-  id: string;
-  avatar: string | React.ReactNode;
-  name: string;
-  email: string;
-  mainTroop: string;
-  troopLvl: string;
-  status: "active" | "inactive";
-  details: any;
+  inGameID?: string;
+  avatar?: string | React.ReactNode;
+  name?: string;
+  email?: string;
+  mainTroop?: string;
+  troopLvl?: string;
+  status?: "active" | "inactive";
+  details?: any;
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -67,26 +67,26 @@ export const columns: ColumnDef<Payment>[] = [
   //   enableHiding: false,
   // },
   {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }) => <div className="capitalize ">{row.getValue("id")}</div>,
+    accessorKey: "inGameID",
+    header: "In-Game ID",
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("inGameID") || '-'}</div>,
   },
   {
-    accessorKey: "avatar",
+    accessorKey: "photoURL",
     header: "Avatar",
     cell: ({ row }) => (
       <div className="relative">
         {/* <img src={row.getValue("avatar")} alt="" /> */}
 
         <Avatar className="h-8 w-8 rounded-full border">
-          <AvatarImage src={row.getValue("avatar")} alt='avatar' />
+          <AvatarImage src={row.getValue("photoURL")} alt='avatar' />
           <AvatarFallback className="rounded-full">{avatarImage}</AvatarFallback>
         </Avatar>
       </div>
     ),
   },
   {
-    accessorKey: "name",
+    accessorKey: "displayName",
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
@@ -95,7 +95,7 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+    cell: ({ row }) => <div className="capitalize">{row.getValue("displayName")}</div>,
   },
 
   {
@@ -111,14 +111,28 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
-    accessorKey: "mainTroop",
-    header: "Main Troop",
-    cell: ({ row }) => <div className="capitalize ">{row.getValue("mainTroop")}</div>,
+    accessorKey: "mainTroopType",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Main Troop
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("mainTroopType") || '-'}</div>,
   },
   {
-    accessorKey: "troopLvl",
-    header: "Troop Lvl",
-    cell: ({ row }) => <div className="capitalize ">{row.getValue("troopLvl")}</div>,
+    accessorKey: "troopLevel",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Troop Lvl
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("troopLevel") || '-'}</div>,
   },
   {
     accessorKey: "status",
@@ -143,12 +157,12 @@ export const columns: ColumnDef<Payment>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
+              {/* <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
                 Copy payment ID
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
+              {/* <DropdownMenuItem>View customer</DropdownMenuItem> */}
+              {/* <DropdownMenuItem>View payment details</DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
