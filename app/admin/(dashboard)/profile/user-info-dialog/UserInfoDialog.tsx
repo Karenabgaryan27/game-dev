@@ -71,7 +71,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    let updatedFields: { [key: string]: any } = {};
+    const updatedFields: { [key: string]: any } = {};
 
     if (state.inGameName !== details.displayName) {
       updatedFields.displayName = state.inGameName;
@@ -113,7 +113,6 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
   };
 
   useEffect(() => {
-    console.log('kkkkkkkkkkkkkkkkkk', fetchedCurrentUser)
     setState((prev) => ({
       ...prev,
       inGameName: details.displayName,

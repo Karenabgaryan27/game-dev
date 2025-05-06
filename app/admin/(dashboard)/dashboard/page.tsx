@@ -343,7 +343,7 @@ const getData = (): Payment[] => {
   });
 };
 
-const page = () => {
+const Page = () => {
 
 
   const [filteredData, setFilteredData] = useState<Payment[]>([]);
@@ -406,4 +406,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
