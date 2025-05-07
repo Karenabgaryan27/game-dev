@@ -6,6 +6,7 @@ import {
   BreadcrumbDemo,
   Separator,
   HeroCard,
+  ArtifactCard,
   CustomParallaxCard,
   ButtonDemo,
   DialogDemo,
@@ -16,21 +17,10 @@ import { Settings, Pencil, Expand } from "lucide-react";
 
 import UserInfoDialog from "./user-info-dialog/UserInfoDialog";
 import HeroCardsDialog from "./hero-cards-dialog/HeroCardsDialog";
+import ArtifactCardsDialog from "./artifact-cards-dialog/ArtifactCardsDialog";
+import { useGlobalContext } from "@/contexts/context";
 
-const {
-  chakchaImage,
-  elkridersImage,
-  MadelineImage,
-  SyndrionImage,
-  SkogulImage,
-  artifact2Image,
-  arrowImage,
-  giantsBoneImage,
-  exampleImage,
-  customArsenalScreenshot3Image,
-  customArsenalScreenshot5Image,
-  customArsenalScreenshot6Image,
-} = localData.images;
+const { customArsenalScreenshot6Image,heroPlaceholderImage } = localData.images;
 
 const { userGearImage } = localData.svgs;
 
@@ -44,7 +34,7 @@ const breadcrumbItems = [
   },
 ];
 
-const Pages = () => {
+const Page = () => {
   return (
     <main className="pages-page p-5">
       <h2 className="text-2xl mb-3">My Profile</h2>
@@ -55,7 +45,7 @@ const Pages = () => {
         <CardContent>
           <UserInfoBlock />
           <HeroesBlock />
-          {/* <ArtifactsBlock /> */}
+          <ArtifactsBlock />
           {/* <CustomArsenalBlock /> */}
         </CardContent>
       </Card>
@@ -102,7 +92,7 @@ const UserInfoBlock = () => {
             <div className="font-bold">Language(s)</div>
             <div>{details.languages || "-"}</div>
           </div>
-          
+
           <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
             <div className="font-bold">Rank:</div>
             <div>{details.rank || "-"}</div>
@@ -123,6 +113,10 @@ const UserInfoBlock = () => {
             <div className="font-bold">Troop Level:</div>
             <div>{details.troopLevel || "-"}</div>
           </div>
+          <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
+            <div className="font-bold">Power:</div>
+            <div>{details.power || "-"}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -134,97 +128,13 @@ let heroCardIndex = 2;
 
 const HeroesBlock = () => {
   const [expand, setExpand] = useState("md");
-
   const { fetchedCurrentUser } = useApiContext();
   const { details } = fetchedCurrentUser;
-  // const [heroes, setHeroes] = useState([]);
   const [featuredHeroes, setFeaturedHeroes] = useState([]);
 
-  // const heroes = [
-  //   {
-  //     image: MadelineImage,
-  //     className: "hero-card-purple",
-  //     title: "basic card",
-  //     description: "5 5 3 1",
-  //     glare: true,
-  //     maxGlare: 0.8,
-  //   },
-  //   {
-  //     image: SyndrionImage,
-  //     className: "hero-card-golden",
-  //     title: "glaring card",
-  //     description: "5 5 3 1",
-  //     glare: true,
-  //     maxGlare: 0.8,
-  //   },
-  //   {
-  //     image: SkogulImage,
-  //     className: "hero-card-red",
-  //     title: "reverse card",
-  //     description: "5 5 3 1",
-
-  //     glare: true,
-  //     maxGlare: 0.8,
-  //   },
-  //   {
-  //     image: SkogulImage,
-  //     className: "hero-card-red",
-  //     title: "reverse card",
-  //     description: "5 5 3 1",
-
-  //     glare: true,
-  //     maxGlare: 0.8,
-  //   },
-  //   {
-  //     image: SkogulImage,
-  //     className: "hero-card-red",
-  //     title: "reverse card",
-  //     description: "5 5 3 1",
-
-  //     glare: true,
-  //     maxGlare: 0.8,
-  //   },
-  //   {
-  //     image: SkogulImage,
-  //     className: "hero-card-red",
-  //     title: "reverse card",
-  //     description: "5 5 3 1",
-
-  //     glare: true,
-  //     maxGlare: 0.8,
-  //   },
-  //   {
-  //     image: SkogulImage,
-  //     className: "hero-card-red",
-  //     title: "reverse card",
-  //     description: "5 5 3 1",
-
-  //     glare: true,
-  //     maxGlare: 0.8,
-  //   },
-  //   {
-  //     image: SkogulImage,
-  //     className: "hero-card-red",
-  //     title: "reverse card",
-  //     description: "5 5 3 1",
-
-  //     glare: true,
-  //     maxGlare: 0.8,
-  //   },
-  //   {
-  //     image: SkogulImage,
-  //     className: "hero-card-red",
-  //     title: "reverse card",
-  //     description: "5 5 3 1",
-
-  //     glare: true,
-  //     maxGlare: 0.8,
-  //   },
-  // ];
 
   useEffect(() => {
     if (!details.heroes) return;
-    // setHeroes(details.heroes);
 
     const preFeaturedHeroes = details.heroes
       .filter((item: any) => item.isFeatured)
@@ -251,6 +161,7 @@ const HeroesBlock = () => {
     }
     setExpand(preExpand);
   };
+
   return (
     <div className={`heroes-block `}>
       <div className="mb-0">
@@ -267,9 +178,11 @@ const HeroesBlock = () => {
       </div>
       <div className={`card-group ${expand} hero-card-group mb-[200px]  `}>
         {featuredHeroes.length ? (
-          featuredHeroes.map((item: any, index) => <HeroCard key={index} {...item} />)
+          featuredHeroes.map((item: any, index) => (
+            <HeroCard key={index} {...item} />
+          ))
         ) : (
-          <HeroCard />
+          <HeroCard placeholderImage={heroPlaceholderImage} />
         )}
       </div>
     </div>
@@ -277,120 +190,113 @@ const HeroesBlock = () => {
 };
 
 // ARTIFACTS BLOCK
+let artifactCardIndex = 2;
+
 const ArtifactsBlock = () => {
-  const artifacts = [
-    {
-      image: giantsBoneImage,
-      className: "hero-card-purple",
-      title: "basic card",
-      description: "Skill lvl 3",
-      glare: true,
-      maxGlare: 0.8,
-    },
-    {
-      image: arrowImage,
-      className: "hero-card-golden",
-      title: "glaring card",
-      description: "Skill lvl 3",
-      glare: true,
-      maxGlare: 0.8,
-    },
-    {
-      image: arrowImage,
-      className: "hero-card-golden",
-      title: "glaring card",
-      description: "Skill lvl 3",
-      glare: true,
-      maxGlare: 0.8,
-    },
-    {
-      image: arrowImage,
-      className: "hero-card-golden",
-      title: "glaring card",
-      description: "Skill lvl 3",
-      glare: true,
-      maxGlare: 0.8,
-    },
-    {
-      image: arrowImage,
-      className: "hero-card-golden",
-      title: "glaring card",
-      description: "Skill lvl 3",
-      glare: true,
-      maxGlare: 0.8,
-    },
-    {
-      image: artifact2Image,
-      className: "hero-card-red",
-      title: "reverse card",
-      description: "Skill lvl 3",
-      glare: true,
-      maxGlare: 0.8,
-    },
-  ];
+  const [expand, setExpand] = useState("md");
+  const { fetchedCurrentUser } = useApiContext();
+  const { details } = fetchedCurrentUser;
+  const [featuredArtifacts, setFeaturedArtifacts] = useState([]);
+
+  useEffect(() => {
+    if (!details.artifacts) return;
+
+    const preFeaturedArtifacts = details.artifacts
+      .filter((item: any) => item.isFeatured)
+      .map((item: any) => ({ ...item, glare: true, maxGlare: 0.8 }));
+    setFeaturedArtifacts(preFeaturedArtifacts);
+  }, [details.artifacts]);
+
+  const handleResize = () => {
+    artifactCardIndex++;
+
+    if (artifactCardIndex > 3) artifactCardIndex = 1;
+    // if(artifactCardIndex < 1) artifactCardIndex = 3
+    let preExpand = "";
+    switch (artifactCardIndex) {
+      case 1:
+        preExpand = "sm";
+        break;
+      case 2:
+        preExpand = "md";
+        break;
+      case 3:
+        preExpand = "lg";
+        break;
+    }
+    setExpand(preExpand);
+  };
+
   return (
-    <div className="artifacts-block">
+    <div className={`artifacts-block `}>
       <div className="mb-0">
-        <Separator title="Artifacts" className="mb-3" titleClassName="bg-white" />
+        <Separator title="Featured Artifacts" className="mb-3" titleClassName="bg-white" />
       </div>
       <div className="settings mb-[50px] ml-auto flex justify-end gap-2">
-        <ButtonDemo startIcon={<Expand />} className="rounded-full w-[35px] h-[35px]" variant="ghost" />
-        <ButtonDemo startIcon={<Pencil />} className="rounded-full w-[35px] h-[35px]" variant="ghost" />
+        <ButtonDemo
+          startIcon={<Expand />}
+          onClick={() => handleResize()}
+          className="rounded-full w-[35px] h-[35px]"
+          variant="ghost"
+        />
+        <ArtifactCardsDialog />
       </div>
-      <div
-        className={`card-group hero-card-group mb-[200px] grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] justify-center gap-[50px]`}
-      >
-        {artifacts.map((item, index) => (
-          <HeroCard key={index} {...item} />
-        ))}
+      <div className={`card-group ${expand} hero-card-group `}>
+        {featuredArtifacts.length ? (
+          featuredArtifacts.map((item: any, index) => (
+            <ArtifactCard key={index} {...item} />
+          ))
+        ) : (
+          <ArtifactCard placeholderImage={heroPlaceholderImage} />
+        )}
       </div>
     </div>
   );
 };
 
 // CUSTOM ARSENAL BLOCK
-const CustomArsenalBlock = () => {
-  const customArsenal = [
-    {
-      image: customArsenalScreenshot6Image,
-      title: "Archer build",
-      description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-    },
-    {
-      image: customArsenalScreenshot6Image,
-      title: "Archer build",
-      description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-    },
-    {
-      image: customArsenalScreenshot6Image,
-      title: "Archer build",
-      description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-    },
-    {
-      image: customArsenalScreenshot6Image,
-      title: "Archer build",
-      description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
-    },
-  ];
-  return (
-    <div className="custom-arsenal-block">
-      <div className="mb-0">
-        <Separator title="Custom Arsenal" className="mb-3" titleClassName="bg-white" />
-      </div>
-      <div className="settings mb-[50px] ml-auto flex justify-end gap-2">
-        <ButtonDemo startIcon={<Expand />} className="rounded-full w-[35px] h-[35px]" variant="ghost" />
-        <ButtonDemo startIcon={<Pencil />} className="rounded-full w-[35px] h-[35px]" variant="ghost" />
-      </div>
+// const CustomArsenalBlock = () => {
+//   const customArsenal = [
+//     {
+//       image: customArsenalScreenshot6Image,
+//       title: "Archer build",
+//       description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+//     },
+//     {
+//       image: customArsenalScreenshot6Image,
+//       title: "Archer build",
+//       description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+//     },
+//     {
+//       image: customArsenalScreenshot6Image,
+//       title: "Archer build",
+//       description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+//     },
+//     {
+//       image: customArsenalScreenshot6Image,
+//       title: "Archer build",
+//       description: "Ffraegar and Theia, with Night Roc and Iron Tusk",
+//     },
+//   ];
+//   return (
+//     <div className="custom-arsenal-block">
+//       <div className="mb-0">
+//         <Separator title="Custom Arsenal" className="mb-3" titleClassName="bg-white" />
+//       </div>
+//       <div className="settings mb-[50px] ml-auto flex justify-end gap-2">
+//         <ButtonDemo startIcon={<Expand />} className="rounded-full w-[35px] h-[35px]" variant="ghost" />
+//         <ButtonDemo startIcon={<Pencil />} className="rounded-full w-[35px] h-[35px]" variant="ghost" />
+//       </div>
 
-      <div
-        className={`card-group custom-parallax-card-group grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] justify-center gap-[50px]`}
-      >
-        {customArsenal.map((item, index) => (
-          <CustomParallaxCard key={index} {...item} />
-        ))}
-      </div>
-    </div>
-  );
-};
+//       <div
+//         className={`card-group custom-parallax-card-group grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] justify-center gap-[50px]`}
+//       >
+//         {customArsenal.map((item, index) => (
+//           <CustomParallaxCard key={index} {...item} />
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
 
-export default Pages;
+export default Page;

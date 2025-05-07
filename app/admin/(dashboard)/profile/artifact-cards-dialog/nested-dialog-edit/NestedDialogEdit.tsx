@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { DialogDemo, ButtonDemo, HeroCard, InputDemo, SwitchDemo } from "@/components/index";
+import { DialogDemo, ButtonDemo, ArtifactCard, InputDemo, SwitchDemo } from "@/components/index";
 import localData from "@/localData";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useApiContext } from "@/contexts/ApiContext";
 import { useGlobalContext } from "@/contexts/context";
 import { Trash } from "lucide-react";
 
-const { heroPlaceholderImage } = localData.images;
+const { artifactPlaceholderImage } = localData.images;
 
 const NestedDialogEdit = ({ item = {}, className = "" }: { item?: any; className?: string }) => {
-  const { heroImages } = useGlobalContext();
+  const { artifactImages } = useGlobalContext();
 
   return (
     <DialogDemo
@@ -31,8 +31,8 @@ const NestedDialogEdit = ({ item = {}, className = "" }: { item?: any; className
               item.color || "!grayscale !opacity-50"
             }`}
             src={
-              (item.imageID && heroImages.find((image: any) => image.id == item.imageID)?.url) ||
-              heroPlaceholderImage
+              (item.imageID && artifactImages.find((image: any) => image.id == item.imageID)?.url) ||
+              artifactPlaceholderImage
             }
             alt=""
           />
@@ -65,7 +65,7 @@ const Content = ({ closeDialog = () => {}, item = {} }: { closeDialog: () => voi
   const [isDeleting, setIsDeleting] = useState(false);
   const { fetchedCurrentUser, updateUser, getUser } = useApiContext();
   const { currentUser } = useAuthContext();
-  const { heroImages } = useGlobalContext();
+  const { artifactImages } = useGlobalContext();
   const { details } = fetchedCurrentUser;
 
   useEffect(() => {
@@ -86,12 +86,12 @@ const Content = ({ closeDialog = () => {}, item = {} }: { closeDialog: () => voi
 
   const onSubmit = () => {
     let array = [];
-    if (details.heroes) array = details.heroes;
+    if (details.artifacts) array = details.artifacts;
 
-    array = array.map((hero: any) => {
-      if (hero.id == item.id) {
+    array = array.map((artifact: any) => {
+      if (artifact.id == item.id) {
         return {
-          ...hero,
+          ...artifact,
           label: state.label,
           color: state.color,
           isFeatured: state.isFeatured,
@@ -99,10 +99,10 @@ const Content = ({ closeDialog = () => {}, item = {} }: { closeDialog: () => voi
           updatedAt: new Date(),
         };
       }
-      return { ...hero };
+      return { ...artifact };
     });
     const updatedFileds = {
-      heroes: [...array],
+      artifacts: [...array],
     };
     console.log(updatedFileds);
 
@@ -119,14 +119,14 @@ const Content = ({ closeDialog = () => {}, item = {} }: { closeDialog: () => voi
 
   const handleDelete = () => {
     let array = [];
-    if (details.heroes) array = details.heroes;
+    if (details.artifacts) array = details.artifacts;
 
-    array = array.filter((hero: any) => {
-      if (hero.id == item.id) return;
-      return { ...hero };
+    array = array.filter((artifact: any) => {
+      if (artifact.id == item.id) return;
+      return { ...artifact };
     });
     const updatedFileds = {
-      heroes: [...array],
+      artifacts: [...array],
     };
     console.log(updatedFileds);
 
@@ -145,7 +145,7 @@ const Content = ({ closeDialog = () => {}, item = {} }: { closeDialog: () => voi
     <div>
       <br />
       <div className="max-w-[150px] mx-auto mb-10">
-        <HeroCard
+        <ArtifactCard
           {...{
             imageID: state.imageID,
             color: state.color,
@@ -275,7 +275,7 @@ const Content = ({ closeDialog = () => {}, item = {} }: { closeDialog: () => voi
       <br />
 
       {/* <div className="grid grid-cols-[repeat(auto-fill,_minmax(60px,_1fr))] justify-center gap-[10px] mb-[50px]">
-        {heroImages.map((item: any, index: number) => {
+        {artifactImages.map((item: any, index: number) => {
           return (
             <div
               key={index}
@@ -286,7 +286,7 @@ const Content = ({ closeDialog = () => {}, item = {} }: { closeDialog: () => voi
                 state.imageID == item.id ? "border-success" : ""
               }
               ${
-                details.heroes?.find((hero: any) => hero.imageID == item.id)
+                details.artifacts?.find((artifact: any) => artifact.imageID == item.id)
                   ? "!pointer-events-none !opacity-20"
                   : ""
               }

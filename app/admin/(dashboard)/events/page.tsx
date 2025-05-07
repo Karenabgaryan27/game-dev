@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { useApiContext } from "@/contexts/ApiContext";
-import { BreadcrumbDemo, Separator } from "@/components/index";
+import { BreadcrumbDemo, Separator, CustomParallaxCard } from "@/components/index";
 import EventCard from "./event-card/EventCard";
 import EventCardCreateDialog from "./event-card-create-dialog/EventCardCreateDialog";
 import localData from "@/localData";
 
-const { chakchaImage, elkridersImage } = localData.images;
+const { chakchaImage, elkridersImage, mapImage } = localData.images;
 
 const breadcrumbItems = [
   {
@@ -28,6 +28,12 @@ const Pages = () => {
       <br />
 
       <Events />
+
+      <div className="bg-blue-100 py-10 px-3 rounded-lg  mb-[200px]">
+        <div className="max-w-[500px] mx-auto">
+          <CustomParallaxCard axisDepth={45} image={mapImage} />
+        </div>
+      </div>
 
       <Separator title="Legend Begins Here" />
 

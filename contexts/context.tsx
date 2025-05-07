@@ -52,6 +52,43 @@ const heroImages = [
 
 ];
 
+const artifactImages = [
+  { id: "hero-bb21--a8z9p3l1xq", url: images.tearOfArbonImage },
+  { id: "hero-bb21--t1z4rw8nks", url: images.arbreImage },
+  { id: "hero-bb21--v9x2pm4qtu", url: images.visageImage },
+  { id: "hero-bb21--k3e6dl9bqp", url: images.tueurImage },
+  { id: "hero-bb21--j5r0uc7vym", url: images.torqueImage },
+  { id: "hero-bb21--b7a1nh3zqx", url: images.sourcesSilenceImage },
+  { id: "hero-bb21--f6w8lt2ypk", url: images.sourcelamesImage },
+  { id: "hero-bb21--m9e3zk4nwa", url: images.jargentisImage },
+  { id: "hero-bb21--y2n7px0wct", url: images.souffleImage },
+  { id: "hero-bb21--r4q6dv8bzm", url: images.sermentImage },
+  { id: "hero-bb21--z3c5uf9lpx", url: images.orbeImage },
+  { id: "hero-bb21--p8m1yr7qke", url: images.phoenixImage },
+  { id: "hero-bb21--c0n9sk5tva", url: images.marteauImage },
+  { id: "hero-bb21--n6w4tb3uyx", url: images.lanceImage },
+  { id: "hero-bb21--x1d7rz9fmc", url: images.lamesImage },
+  { id: "hero-bb21--u5k3qt0bwe", url: images.flechesImage },
+  { id: "hero-bb21--l8a6pv7mcz", url: images.flammeImage },
+  { id: "hero-bb21--h3b0uy9xkt", url: images.crocsImage },
+  { id: "hero-bb21--w7d2rm1zvq", url: images.crocImage },
+  { id: "hero-bb21--e9x5tl3pwa", url: images.creteImage },
+  { id: "hero-bb21--g6v7nk2yjq", url: images.luciaImage },
+  { id: "hero-bb21--s2p3qy0cxt", url: images.hurleImage },
+  { id: "hero-bb21--a4z8mv9wre", url: images.coeurImage },
+  { id: "hero-bb21--d1n6xb5pyt", url: images.bouclierImage },
+  { id: "hero-bb21--q0k9wt3zmc", url: images.banniereImage },
+  { id: "hero-bb21--o7r4cf2vtx", url: images.armureImage },
+  { id: "hero-bb21--i3y5dm0bza", url: images.arcDeViolaImage },
+  { id: "hero-bb21--t6n8xu4lpk", url: images.arbaleteImage },
+  { id: "hero-bb21--b2e0zr7vqc", url: images.amuletteImage },
+  { id: "hero-bb21--b2e0zt9vgc", url: images.batonImage },
+  { id: "hero-bb21--b2efsfefef", url: images.thunderImage },
+  { id: "hero-bb21--3fwrcttwv3", url: images.femmeImage },
+  { id: "hero-bb21--fe3vrt4wfg", url: images.tailledragonImage },
+];
+
+
 type StateType = {
   [key: string]: any;
 };
@@ -60,6 +97,7 @@ type ContextType = {
   state: StateType;
   setState: (newState: StateType) => void;
   heroImages: any;
+  artifactImages: any;
 };
 
 export const Context = createContext<ContextType | null>(null);
@@ -78,6 +116,7 @@ export default function Provider({
         ...state,
         setState,
         heroImages,
+        artifactImages
       }}
     >
       {children}

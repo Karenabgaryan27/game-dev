@@ -20,6 +20,7 @@ const images = {
   behemothcreenshotImage: "/assets/images/events/screenshots/behemoth-screenshot.png",
   
   // HEROES
+  heroPlaceholderImage: "/assets/images/heroes/hero-placeholder.png",
   MadelineImage: "/assets/images/heroes/Madeline.png",
   SyndrionImage: "/assets/images/heroes/Syndrion.png",
   FfraegarImage: "/assets/images/heroes/Ffraegar-call-of-dragons.png",
@@ -65,10 +66,42 @@ const images = {
   UragImage: "/assets/images/heroes/urag-call-of-dragons.png",
 
   // ARTIFACTS
-  artifact2Image: "/assets/images/artifacts/artifact-2.png",
-  arrowImage: "/assets/images/artifacts/arrow.png",
-  giantsBoneImage: "/assets/images/artifacts/giants-bone.png",
-  
+  artifactPlaceholderImage: "/assets/images/artifacts/artifact-placeholder.png",
+  tearOfArbonImage: "/assets/images/artifacts/tear-of-arbon.webp",
+  amuletteImage: "/assets/images/artifacts/amulette-gloire-call-of-dragons.png",
+  arbaleteImage: "/assets/images/artifacts/artefact-arbalete-doree-call-of-dragons.png",
+  arcDeViolaImage: "/assets/images/artifacts/artefact-arc-de-viola-call-of-dragons.png",
+  armureImage: "/assets/images/artifacts/artefact-armure-ecailles-dragon-call-of-dragons.png",
+  banniereImage: "/assets/images/artifacts/artefact-banniere-lames-sang-call-of-dragons.png",
+  bouclierImage: "/assets/images/artifacts/artefact-bouclier-solidite-call-of-dragons.png",
+  coeurImage: "/assets/images/artifacts/artefact-coeur-kamasi-call-of-dragons.png",
+  hurleImage: "/assets/images/artifacts/artefact-corne-hurle-loup-call-of-dragons.webp",
+  luciaImage: "/assets/images/artifacts/artefact-corne-lucia-call-of-dragons.png",
+  creteImage: "/assets/images/artifacts/artefact-crete-or-call-of-dragons.png",
+  crocImage: "/assets/images/artifacts/artefact-croc-ashkari-call-of-dragons.png",
+  crocsImage: "/assets/images/artifacts/artefact-crocs-acier-call-of-dragons.webp",
+  flammeImage: "/assets/images/artifacts/artefact-flamme-infernale-call-of-dragons.png",
+  flechesImage: "/assets/images/artifacts/artefact-fleches-de-foudre-call-of-dragons.png",
+  lamesImage: "/assets/images/artifacts/artefact-lames-ombre-call-of-dragons.png",
+  lanceImage: "/assets/images/artifacts/artefact-lance-cascabelle-call-of-dragons.png",
+  marteauImage: "/assets/images/artifacts/artefact-marteau-greymar-call-of-dragons.png",
+  phoenixImage: "/assets/images/artifacts/artefact-oeil-phoenix-call-of-dragons.png",
+  orbeImage: "/assets/images/artifacts/artefact-orbe-mirage-call-of-dragons.png",
+  sermentImage: "/assets/images/artifacts/artefact-serment-pic-tonnerre-call-of-dragons.png",
+  souffleImage: "/assets/images/artifacts/artefact-souffle-foret-call-of-dragons.png",
+  jargentisImage: "/assets/images/artifacts/artefact-souffle-jargentis-call-of-dragons.png",
+  sourcelamesImage: "/assets/images/artifacts/artefact-sourcelames-call-of-dragons.png",
+  sourcesSilenceImage: "/assets/images/artifacts/artefact-sources-silence-call-of-dragons.png",
+  torqueImage: "/assets/images/artifacts/artefact-torque-os-esprit-call-of-dragons.png",
+  tueurImage: "/assets/images/artifacts/artefact-tueur-de-roi-call-of-dragons.png",
+  visageImage: "/assets/images/artifacts/artefact-visage-sanctus-call-of-dragons.png",
+  arbreImage: "/assets/images/artifacts/racines-arbre-aine-call-of-dragons.png",
+  batonImage: "/assets/images/artifacts/baton-prophete-call-of-dragons.png",
+  thunderImage: "/assets/images/artifacts/call-of-dragons-thunder-elegy.webp",
+  femmeImage: "/assets/images/artifacts/femme-loup-haelor-call-of-dragons.png",
+  tailledragonImage: "/assets/images/artifacts/tailledragon-call-of-dragons.png",
+
+
   // CUSTOM ARSENAL
   customArsenalScreenshot1Image: "/assets/images/rest/custom-arsenal-screenshot-1.png",
   customArsenalScreenshot2Image: "/assets/images/rest/custom-arsenal-screenshot-2.png",
@@ -88,7 +121,7 @@ const images = {
   badgeImage: "/assets/images/rest/badge.webp",
   maintenanceWorkerImage: "/assets/images/rest/maintenance-worker.jpg",
   heroesLookingDownImage: "/assets/images/rest/heroes-looking-down.jpg",
-  heroPlaceholderImage: "/assets/images/rest/hero-placeholder.png",
+  mapImage: "/assets/images/rest/map.png",
 
 
 };

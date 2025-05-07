@@ -4,9 +4,10 @@ import localData from "@/localData";
 
 const { heroPlaceholderImage } = localData.images;
 
-export default function CustomParallaxCard({ title, description, image, className = "" }) {
+export default function CustomParallaxCard({ title='', description='', image='', className = "", axisDepth=25 }) {
   const { start, end, move } = useParallaxEffect({
     // axisDepth: 25,
+    axisDepth: axisDepth,
     reverse: true,
     glare: true,
     // imageReverse: true

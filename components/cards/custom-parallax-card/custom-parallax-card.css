@@ -28,7 +28,7 @@
   transform-style: preserve-3d;
   /* background-color: #000; */
   background: linear-gradient(180deg, #e0e0e0 0%, #a5a5a5 100%);
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .custom-parallax-card .card-inner .wrapper {

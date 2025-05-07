@@ -125,7 +125,7 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
               onChange={() => setState((prev) => ({ ...prev, color: "purple" }))}
             />
           </div>
-          <div>Epic</div>
+          <div>Purple</div>
         </label>
         <label className="flex items-center text-xs font-medium gap-2 cursor-pointer mb-2">
           <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-yellow-500 `}>
@@ -141,7 +141,7 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
               onChange={() => setState((prev) => ({ ...prev, color: "golden" }))}
             />
           </div>
-          <div>Legendary</div>
+          <div>Golden</div>
         </label>
         <label className="flex items-center text-xs font-medium gap-2 cursor-pointer  mb-2">
           <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-red-700`}>
@@ -157,7 +157,55 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
               onChange={() => setState((prev) => ({ ...prev, color: "red" }))}
             />
           </div>
-          <div>Mythic</div>
+          <div>Red</div>
+        </label>
+        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer  mb-2">
+          <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-blue-700`}>
+            <div
+              className={`bg-gray-200 w-[6px] h-[6px] rounded-full  ${
+                state.color == "blue" ? "block" : "hidden"
+              }`}
+            ></div>
+            <input
+              type="radio"
+              name="color"
+              className="hidden "
+              onChange={() => setState((prev) => ({ ...prev, color: "blue" }))}
+            />
+          </div>
+          <div>Blue</div>
+        </label>
+        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer  mb-2">
+          <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-green-700`}>
+            <div
+              className={`bg-gray-200 w-[6px] h-[6px] rounded-full  ${
+                state.color == "green" ? "block" : "hidden"
+              }`}
+            ></div>
+            <input
+              type="radio"
+              name="color"
+              className="hidden "
+              onChange={() => setState((prev) => ({ ...prev, color: "green" }))}
+            />
+          </div>
+          <div>Green</div>
+        </label>
+        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer  mb-2">
+          <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-black`}>
+            <div
+              className={`bg-gray-200 w-[6px] h-[6px] rounded-full  ${
+                state.color == "dark" ? "block" : "hidden"
+              }`}
+            ></div>
+            <input
+              type="radio"
+              name="color"
+              className="hidden "
+              onChange={() => setState((prev) => ({ ...prev, color: "dark" }))}
+            />
+          </div>
+          <div>Dark</div>
         </label>
       </div>
 

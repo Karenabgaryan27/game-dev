@@ -24,7 +24,8 @@ export type Payment = {
   inGameID?: string;
   avatar?: string | React.ReactNode;
   name?: string;
-  email?: string;
+  // email?: string;
+  power?: string;
   mainTroop?: string;
   troopLvl?: string;
   status?: "active" | "inactive";
@@ -67,13 +68,8 @@ export const columns: ColumnDef<Payment>[] = [
   //   enableHiding: false,
   // },
   {
-    accessorKey: "inGameID",
-    header: "In-Game ID",
-    cell: ({ row }) => <div className="capitalize ">{row.getValue("inGameID") || '-'}</div>,
-  },
-  {
     accessorKey: "photoURL",
-    header: "Avatar",
+    header:()=> <div className="px-3">Avatar </div>,
     cell: ({ row }) => (
       <div className="relative">
         {/* <img src={row.getValue("avatar")} alt="" /> */}
@@ -85,6 +81,7 @@ export const columns: ColumnDef<Payment>[] = [
       </div>
     ),
   },
+  
   {
     accessorKey: "displayName",
     header: ({ column }) => {
@@ -97,18 +94,36 @@ export const columns: ColumnDef<Payment>[] = [
     },
     cell: ({ row }) => <div className="capitalize">{row.getValue("displayName")}</div>,
   },
-
   {
-    accessorKey: "email",
+    accessorKey: "inGameID",
+    header:()=> <div className="px-2">In-Game ID</div>,
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("inGameID") || '-'}</div>,
+  },
+
+
+  // {
+  //   accessorKey: "email",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+  //         Email
+  //         <ArrowUpDown />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+  // },
+  {
+    accessorKey: "power",
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Email
+          Power
           <ArrowUpDown />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("power") || '-'}</div>,
   },
   {
     accessorKey: "mainTroopType",
@@ -136,7 +151,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ()=> <div className="px-3">Status </div>,
     cell: ({ row }) => <div className="capitalize ">{row.getValue("status")}</div>,
   },
 

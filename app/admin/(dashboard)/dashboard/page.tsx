@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ButtonDemo, BreadcrumbDemo, Separator, CarouselDemo, HeroCard } from "@/components/index";
+import { ButtonDemo, BreadcrumbDemo, Separator, CustomParallaxCard} from "@/components/index";
 import { DataTableDemo } from "./data-table/DataTableDemo";
 import { Payment, columns } from "./data-table/columns";
 import localData from "@/localData";
 import { Card, CardContent } from "@/components/ui/card";
 import { useApiContext } from "@/contexts/ApiContext";
 
-const { heroesLookingDownImage, SkogulImage, arrowImage, customArsenalScreenshot6Image } = localData.images;
+const { heroesLookingDownImage, SkogulImage, customArsenalScreenshot6Image, mapImage } = localData.images;
 const { avatarImage } = localData.svgs;
 
 const breadcrumbItems = [
@@ -379,6 +379,8 @@ const Page = () => {
       <h2 className="text-2xl mb-3">Dashboard</h2>
       <BreadcrumbDemo items={breadcrumbItems} />
 
+
+
       <div className="max-w-[500px] mx-auto mt-10 mb-10">
         <div className=" h-0 pt-[56.25%] w-full relative rounded-lg overflow-hidden">
           <img
@@ -394,6 +396,7 @@ const Page = () => {
           <DataTableDemo data={filteredData} columns={columns} />
         </CardContent>
       </Card>
+ 
 
       <Separator title="Enter Arena" />
 

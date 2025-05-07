@@ -32,6 +32,7 @@ import {
   SelectScrollable,
   CarouselDemo,
   HeroCard,
+  ArtifactCard,
   TabsDemo,
   CustomParallaxCard,
 } from "@/components/index.js";
@@ -131,7 +132,7 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
                 </TableHead>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="px-6">
+                    <TableHead key={header.id} className="">
                       {header.isPlaceholder
                         ? null
                         : flexRender(header.column.columnDef.header, header.getContext())}
@@ -159,7 +160,7 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
                       </Button>
                     </TableCell>
                     {row.getVisibleCells().map((cell, index) => (
-                      <TableCell key={cell.id} className={` px-6  ${index === 5 ? "w-full" : ""}`}>
+                      <TableCell key={cell.id} className={`px-5 ${index === 1 ? "w-full" : ""}`}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
@@ -263,6 +264,7 @@ type ItemsProps = {
 
 const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => {
   const [heroes,setHeroes] = React.useState(row.heroes?.filter((item:any)=> item.isFeatured))
+  const [artifacts,setArtifacts] = React.useState(row.artifacts?.filter((item:any)=> item.isFeatured))
   
   const items: ItemsProps[] = [
     {
@@ -287,32 +289,31 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
         <div className="md:px-10">
           <CarouselDemo
             className="data-table-carousel  "
-            items={row.artifacts || [{}]}
+             items={artifacts?.length ? artifacts : [{}]}
             itemClassName="basis-1/5  lg:basis-1/7"
           >
-            {({ item, index }) => <HeroCard {...item} index={index} />}
+            {({ item, index }) => <ArtifactCard {...item} index={index} />}
           </CarouselDemo>
         </div>
       ),
     },
-    {
-      label: "Custom Arsenal",
-      value: "customArsenal",
-      content: (
-        <div className="md:px-10">
-          <CarouselDemo
-            className="data-table-carousel  "
-            items={row.customArsenal || [{}]}
-            itemClassName="basis-1/3  xl:basis-1/4 p-3"
-          >
-            {({ item, index }) => <CustomParallaxCard {...item} index={index} />}
-          </CarouselDemo>
-        </div>
-      ),
-    },
+    // {
+    //   label: "Custom Arsenal",
+    //   value: "customArsenal",
+    //   content: (
+    //     <div className="md:px-10">
+    //       <CarouselDemo
+    //         className="data-table-carousel  "
+    //         items={row.customArsenal || [{}]}
+    //         itemClassName="basis-1/3  xl:basis-1/4 p-3"
+    //       >
+    //         {({ item, index }) => <CustomParallaxCard {...item} index={index} />}
+    //       </CarouselDemo>
+    //     </div>
+    //   ),
+    // },
   ];
 
-  console.log(row, 'hhhhhhhhhhhhhh')
 
   return (
     <tr className="">
@@ -345,6 +346,10 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
                   <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Language(s)</div>
                     <div>{row.languages || "-"}</div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                    <div className="font-bold">Power</div>
+                    <div>{row.power || "-"}</div>
                   </div>
                 </div>
 

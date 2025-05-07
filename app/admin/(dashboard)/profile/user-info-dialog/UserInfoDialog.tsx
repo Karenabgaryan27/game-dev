@@ -26,6 +26,7 @@ type StateProps = {
   gameTime: string;
   mainTroopType: string;
   troopLevel: string;
+  power: string;
 };
 
 const UserInfoDialog = () => {
@@ -54,6 +55,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
     gameTime: "",
     mainTroopType: "",
     troopLevel: "",
+    power: ''
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -99,6 +101,9 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
     }
     if (state.troopLevel !== details.troopLevel) {
       updatedFields.troopLevel = state.troopLevel;
+    }
+    if (state.power !== details.power) {
+      updatedFields.power = state.power;
     }
 
     updateUser({
@@ -212,6 +217,15 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
             callback={(e) => onChange(e)}
             className="mb-5"
             value={state.troopLevel}
+          />
+          <InputDemo
+            label="Power"
+            placeholder="Power"
+            name="power"
+            type="text"
+            callback={(e) => onChange(e)}
+            className="mb-5"
+            value={state.power}
           />
         </div>
 
