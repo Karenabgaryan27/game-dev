@@ -8,11 +8,14 @@ const useUtil = () => {
   const compressImage = (
     file: FileInput,
     targetSizeKB: number = 300,
-    scale: number = 0.8,
-    quality: number = 0.8
+    // scale: number = 0.8,
+    // quality: number = 0.8
+    scale: number = 1.0,
+    quality: number = 1.0
   ): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       if (file.size / 1024 <= targetSizeKB) {
+        console.log('trigger')
         // If file is already under target size, resolve with the original file
         resolve(file);
         return;

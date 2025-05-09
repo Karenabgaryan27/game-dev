@@ -363,7 +363,6 @@ const Page = () => {
       return fetchedUsers.list.map((item) => {
         return {
           status: "active",
-         
           ...item,
         };
       })

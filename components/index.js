@@ -16,3 +16,4 @@ export { default as CustomParallaxCard} from './cards/custom-parallax-card/Custo
 export { CarouselDemo } from "./carousel/CarouselDemo.tsx";
 export { TabsDemo } from "./tabs/TabsDemo.tsx";
 export { SwitchDemo } from "./switch/SwitchDemo.tsx";
+export {default as CropDemo } from "./crop/CropDemo.tsx";

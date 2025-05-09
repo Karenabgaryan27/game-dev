@@ -3,6 +3,7 @@ import React from "react";
 
 import { BadgeCheck, Bell, ChevronDown, CreditCard, LogOut, Sparkles } from "lucide-react";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useApiContext } from "@/contexts/ApiContext";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -18,22 +19,27 @@ import { ModeToggle } from "@/components/index";
 
 import localData from "@/localData";
 
-const { avatarImage } = localData.svgs;
+const { avatarPlaceholderImage } = localData.images;
 
 const NavUser = () => {
   const { handleSignOut, currentUser } = useAuthContext();
+  const { fetchedCurrentUser } = useApiContext();
+  const {details} = fetchedCurrentUser
+
   const user = {
-    name: currentUser?.displayName || "",
-    email: currentUser?.email || "",
-    avatar: currentUser?.photoURL || "",
+    name: details?.displayName || "",
+    email: details?.email || "",
+    photoURL: details?.photoURL || "",
+    base64PhotoURL: details?.base64PhotoURL || ""
   };
 
+console.log(fetchedCurrentUser, 'jjj')
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="flex gap-2 items-center outline-none cursor-pointer dark:hover:bg-secondary hover:bg-gray-50 px-2 py-1 rounded-sm">
         <Avatar className="h-8 w-8 rounded-full border">
-          <AvatarImage src={user.avatar} alt={user.name} />
-          <AvatarFallback className="rounded-full">{avatarImage}</AvatarFallback>
+          <AvatarImage src={user.base64PhotoURL || user.photoURL} alt={user.name} />
+          <AvatarFallback className="rounded-full"><img src={avatarPlaceholderImage} alt="" /></AvatarFallback>
         </Avatar>
         <div className="grid flex-1 text-left text-sm leading-tight">
           <span className="truncate font-semibold">{user.name}</span>
@@ -50,8 +56,8 @@ const NavUser = () => {
         <DropdownMenuLabel className="p-0 font-normal">
           <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <Avatar className="h-8 w-8 rounded-full">
-              <AvatarImage src={user.avatar} alt={user.name} />
-              <AvatarFallback className="rounded-full">{avatarImage}</AvatarFallback>
+              <AvatarImage src={user.base64PhotoURL || user.photoURL} alt={user.name} />
+              <AvatarFallback className="rounded-full"><img src={avatarPlaceholderImage} alt="" /></AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-semibold">{user.name}</span>

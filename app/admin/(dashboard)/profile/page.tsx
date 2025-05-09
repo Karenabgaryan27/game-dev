@@ -10,6 +10,7 @@ import {
   CustomParallaxCard,
   ButtonDemo,
   DialogDemo,
+  CropDemo
 } from "@/components/index";
 import localData from "@/localData";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
@@ -18,9 +19,10 @@ import { Settings, Pencil, Expand } from "lucide-react";
 import UserInfoDialog from "./user-info-dialog/UserInfoDialog";
 import HeroCardsDialog from "./hero-cards-dialog/HeroCardsDialog";
 import ArtifactCardsDialog from "./artifact-cards-dialog/ArtifactCardsDialog";
+import ProfileHeader from "./profile-header/ProfileHeader";
 import { useGlobalContext } from "@/contexts/context";
 
-const { customArsenalScreenshot6Image,heroPlaceholderImage } = localData.images;
+const { avatarPlaceholderImage,heroPlaceholderImage } = localData.images;
 
 const { userGearImage } = localData.svgs;
 
@@ -43,6 +45,7 @@ const Page = () => {
       <br />
       <Card className="mb-[200px] min-h-[500px] relative pb-[100px]">
         <CardContent>
+          <ProfileHeader/>
           <UserInfoBlock />
           <HeroesBlock />
           <ArtifactsBlock />

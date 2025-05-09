@@ -18,7 +18,7 @@ import {
 import localData from "@/localData";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const { avatarImage } = localData.svgs;
+const { avatarPlaceholderImage } = localData.images;
 
 export type Payment = {
   inGameID?: string;
@@ -29,6 +29,8 @@ export type Payment = {
   mainTroop?: string;
   troopLvl?: string;
   status?: "active" | "inactive";
+  base64PhotoURL?: string,
+  photoURL?: string,
   details?: any;
 };
 
@@ -68,20 +70,18 @@ export const columns: ColumnDef<Payment>[] = [
   //   enableHiding: false,
   // },
   {
-    accessorKey: "photoURL",
-    header:()=> <div className="px-3">Avatar </div>,
-    cell: ({ row }) => (
-      <div className="relative">
-        {/* <img src={row.getValue("avatar")} alt="" /> */}
-
-        <Avatar className="h-8 w-8 rounded-full border">
-          <AvatarImage src={row.getValue("photoURL")} alt='avatar' />
-          <AvatarFallback className="rounded-full">{avatarImage}</AvatarFallback>
-        </Avatar>
-      </div>
-    ),
+    accessorKey: "base64PhotoURL",
+    header: () => <div className="px-3">Avatar </div>,
+    cell: ({ row }) => {
+      const original = row.original;
+      return (
+        <div className="relative rounded-full overflow-hidden border-2 border-gray-200 shadow w-8 h-8">
+          <img src={original.base64PhotoURL || original.photoURL ||avatarPlaceholderImage  } alt="avatar" className="block object-cover w-full h-full" />
+        </div>
+      );
+    }
   },
-  
+
   {
     accessorKey: "displayName",
     header: ({ column }) => {
@@ -96,10 +96,9 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "inGameID",
-    header:()=> <div className="px-2">In-Game ID</div>,
-    cell: ({ row }) => <div className="capitalize ">{row.getValue("inGameID") || '-'}</div>,
+    header: () => <div className="px-2">In-Game ID</div>,
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("inGameID") || "-"}</div>,
   },
-
 
   // {
   //   accessorKey: "email",
@@ -123,7 +122,7 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="capitalize ">{row.getValue("power") || '-'}</div>,
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("power") || "-"}</div>,
   },
   {
     accessorKey: "mainTroopType",
@@ -135,7 +134,7 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="capitalize ">{row.getValue("mainTroopType") || '-'}</div>,
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("mainTroopType") || "-"}</div>,
   },
   {
     accessorKey: "troopLevel",
@@ -147,11 +146,11 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="capitalize ">{row.getValue("troopLevel") || '-'}</div>,
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("troopLevel") || "-"}</div>,
   },
   {
     accessorKey: "status",
-    header: ()=> <div className="px-3">Status </div>,
+    header: () => <div className="px-3">Status </div>,
     cell: ({ row }) => <div className="capitalize ">{row.getValue("status")}</div>,
   },
 

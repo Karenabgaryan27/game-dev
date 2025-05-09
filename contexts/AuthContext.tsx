@@ -92,6 +92,7 @@ export default function AuthProvider({
           photoURL: user.photoURL,
           createdAt: new Date(),
         });
+        setState(prev=>({...prev, isDBUserCreated:true}))
         console.log("New user added to Firestore.");
       } else {
         console.log("User already exists in Firestore.");

@@ -2,7 +2,10 @@ const images = {
   logo: "/assets/images/logo.png",
   exampleImage: "/assets/images/example.png",
   placeholderImage: "/assets/images/placeholder.png",
+  avatarPlaceholderImage: "/assets/images/avatar-placeholder.png",
+  placeholderTransparentImage: "/assets/images/placeholder-transparent.png",
   placeholderImage2: "/assets/images/placeholder-2.png",
+  bannerImage: "/assets/images/rest/banner.jpg",
   googleLogo: "/assets/images/google-logo.png",
   poorMeImage: "/assets/images/poor-me.png",
   chakchaImage: "/assets/images/chakcha.webp",
@@ -14,11 +17,11 @@ const images = {
   caravanImage: "/assets/images/events/caravan.png",
   meritsImage: "/assets/images/events/merits.png",
   resourcesImage: "/assets/images/events/resources.png",
-  
+
   // EVENTS SCREENSHOTS
   escortScreenshotImage: "/assets/images/events/screenshots/escort-screenshot.png",
   behemothcreenshotImage: "/assets/images/events/screenshots/behemoth-screenshot.png",
-  
+
   // HEROES
   heroPlaceholderImage: "/assets/images/heroes/hero-placeholder.png",
   MadelineImage: "/assets/images/heroes/Madeline.png",
@@ -101,7 +104,6 @@ const images = {
   femmeImage: "/assets/images/artifacts/femme-loup-haelor-call-of-dragons.png",
   tailledragonImage: "/assets/images/artifacts/tailledragon-call-of-dragons.png",
 
-
   // CUSTOM ARSENAL
   customArsenalScreenshot1Image: "/assets/images/rest/custom-arsenal-screenshot-1.png",
   customArsenalScreenshot2Image: "/assets/images/rest/custom-arsenal-screenshot-2.png",
@@ -122,8 +124,6 @@ const images = {
   maintenanceWorkerImage: "/assets/images/rest/maintenance-worker.jpg",
   heroesLookingDownImage: "/assets/images/rest/heroes-looking-down.jpg",
   mapImage: "/assets/images/rest/map.png",
-
-
 };
 
 const localData = {
@@ -223,6 +223,18 @@ const localData = {
     calendarImage: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
         <path d="M96 32l0 32L48 64C21.5 64 0 85.5 0 112l0 48 448 0 0-48c0-26.5-21.5-48-48-48l-48 0 0-32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 32L160 64l0-32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192L0 192 0 464c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-272z" />
+      </svg>
+    ),
+    cameraImage: (
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-18yzcnr r-yc9v9c"
+        style="color: rgb(255, 255, 255);"
+      >
+        <g>
+          <path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path>
+        </g>
       </svg>
     ),
   },

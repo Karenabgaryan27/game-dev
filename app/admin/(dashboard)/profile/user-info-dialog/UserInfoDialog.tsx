@@ -17,7 +17,6 @@ import { useApiContext } from "@/contexts/ApiContext";
 import { useAuthContext } from "@/contexts/AuthContext";
 
 type StateProps = {
-  inGameName: string;
   inGameID: string;
   country: string;
   languages: string;
@@ -46,7 +45,6 @@ const UserInfoDialog = () => {
 
 const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
   const [state, setState] = useState<StateProps>({
-    inGameName: "",
     inGameID: "",
     country: "",
     languages: "",
@@ -75,9 +73,6 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
 
     const updatedFields: { [key: string]: any } = {};
 
-    if (state.inGameName !== details.displayName) {
-      updatedFields.displayName = state.inGameName;
-    }
     if (state.inGameID !== details.inGameID) {
       updatedFields.inGameID = state.inGameID;
     }
@@ -137,15 +132,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
       <br />
       <form action="" onSubmit={onSubmit} className="">
         <div className="wrapper grid grid-cols-1 sm:grid-cols-2 gap-x-7  mb-3">
-          <InputDemo
-            label="In-Game Name (IGN)"
-            placeholder="In-Game Name (IGN)"
-            name="inGameName"
-            type="text"
-            callback={(e) => onChange(e)}
-            className="mb-5"
-            value={state.inGameName}
-          />
+   
           <InputDemo
             label="In-Game ID"
             placeholder="In-Game ID"

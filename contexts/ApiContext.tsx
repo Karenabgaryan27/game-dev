@@ -115,7 +115,7 @@ export default function ApiProvider({
     },
   });
 
-  const { currentUser } = useAuthContext();
+  const { currentUser, state } = useAuthContext();
   const { successAlert, errorAlert } = useAlert();
 
   const eventsCollectionRef = collection(db, "events");
@@ -326,7 +326,7 @@ export default function ApiProvider({
   useEffect(() => {
     if (!currentUser?.uid) return;
     getUser({ id: currentUser?.uid });
-  }, [currentUser]);
+  }, [currentUser,state.isDBUserCreated]);
 
   useEffect(() => {
     getContents({});
