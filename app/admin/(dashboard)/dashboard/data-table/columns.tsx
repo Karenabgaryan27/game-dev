@@ -182,14 +182,12 @@ export const columns: ColumnDef<Payment>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-    
-        return <Actions row={row}/>
+      return <Actions row={row} />;
     },
   },
 ];
 
-
-const Actions = ({row = {}}: {row:any})=>{
+const Actions = ({ row = {} }: { row: any }) => {
   const payment = row.original;
 
   // const callback = (items: any) => {
@@ -217,7 +215,8 @@ const Actions = ({row = {}}: {row:any})=>{
             <Link href={`/admin/users/${row.original.id}`}>Visit Profile</Link>
           </DropdownMenuItem> */}
 
-          {((details.role === "admin" && row.original.role !== "admin") ||
+          {
+          ((details.role === "admin" && row.original.role !== "admin") ||
             (details.role === "admin" && details.uid === row.original.uid)) && (
             <>
               {/* <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
@@ -227,11 +226,12 @@ const Actions = ({row = {}}: {row:any})=>{
                 <SetupUserDialog user={row.original} />
               </DropdownMenuItem>
             </>
-          )}
+          )
+          }
 
           {/* <DropdownMenuItem>View payment details</DropdownMenuItem> */}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
   );
-}
+};

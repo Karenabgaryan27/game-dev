@@ -345,6 +345,7 @@ export default function ApiProvider({
   useEffect(() => {
     if (!currentUser?.uid) return;
     getUser({ id: currentUser?.uid });
+    getUsers({})
   }, [currentUser,state.isDBUserCreated]);
 
   useEffect(() => {
