@@ -5,6 +5,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { ButtonDemo, DialogDemo, InputDemo, TextareaDemo, CropDemo } from "@/components/index";
 import { Camera, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DeleteUserDialog } from "../delete-user-dialog/DeleteUserDialog";
 import useUtil from "@/hooks/useUtil";
 
 const { bannerImage, avatarPlaceholderImage } = localData.images;
@@ -35,7 +36,10 @@ const ProfileHeader = () => {
         </div>
       </div>
       <div className="flex justify-end mt-3 mb-[15px] sm:mb-[5%]">
-        <EditProfileDialog />
+        <div className="">
+          <EditProfileDialog />
+          <DeleteUserDialog id={details.uid} />
+        </div>
       </div>
 
       <div className="md:pl-10 mb-10">
@@ -52,7 +56,7 @@ const EditProfileDialog = () => {
   return (
     <DialogDemo
       trigger={
-        <ButtonDemo text={`${"Edit Profile"}`} className={`mb-5 text-sm rounded-full`} variant="outline" />
+        <ButtonDemo text={`${"Edit Profile"}`} className={`mb-1 text-sm rounded-full flex w-full`} variant="outline" />
       }
     >
       {(closeDialog) => <EditProfileContent closeDialog={closeDialog} />}

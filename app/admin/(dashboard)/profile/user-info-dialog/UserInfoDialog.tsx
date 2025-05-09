@@ -20,7 +20,6 @@ type StateProps = {
   inGameID: string;
   country: string;
   languages: string;
-  rank: string;
   faction: string;
   gameTime: string;
   mainTroopType: string;
@@ -48,7 +47,6 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
     inGameID: "",
     country: "",
     languages: "",
-    rank: "",
     faction: "",
     gameTime: "",
     mainTroopType: "",
@@ -82,9 +80,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
     if (state.languages !== details.languages) {
       updatedFields.languages = state.languages;
     }
-    if (state.rank !== details.rank) {
-      updatedFields.rank = state.rank;
-    }
+
     if (state.faction !== details.faction) {
       updatedFields.faction = state.faction;
     }
@@ -119,11 +115,11 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
       inGameID: details.inGameID,
       country: details.country,
       languages: details.languages,
-      rank: details.rank,
       faction: details.faction,
       gameTime: details.gameTime,
       mainTroopType: details.mainTroopType,
       troopLevel: details.troopLevel,
+      power: details.power,
     }));
   }, [fetchedCurrentUser]);
 
@@ -160,15 +156,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
             className="mb-5"
             value={state.languages}
           />
-          <InputDemo
-            label="Rank"
-            placeholder="Rank"
-            name="rank"
-            type="text"
-            callback={(e) => onChange(e)}
-            className="mb-5"
-            value={state.rank}
-          />
+
           <InputDemo
             label="Faction"
             placeholder="Faction"

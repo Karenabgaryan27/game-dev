@@ -17,3 +17,5 @@ export { CarouselDemo } from "./carousel/CarouselDemo.tsx";
 export { TabsDemo } from "./tabs/TabsDemo.tsx";
 export { SwitchDemo } from "./switch/SwitchDemo.tsx";
 export {default as CropDemo } from "./crop/CropDemo.tsx";
+export { DropdownMenuDemo } from "./dropdown-menu/dropdown-menu-demo/DropdownMenuDemo.tsx";
+

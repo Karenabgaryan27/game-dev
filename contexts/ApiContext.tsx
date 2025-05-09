@@ -56,6 +56,7 @@ type ApiContextType = {
   getUsers: ({ setIsLoading }: { [key: string]: any }) => void;
   updateContent: ({ id, slug, setIsLoading, ...fields }: { [key: string]: any }) => void;
   updateUser: ({ id, setIsLoading, updatedFields }: { [key: string]: any }) => void;
+  deleteUser: ({ id, setIsLoading }: { [key: string]: any }) => void;
 };
 
 export const ApiContext = createContext<ApiContextType | null>(null);
@@ -276,6 +277,24 @@ export default function ApiProvider({
     callback();
   };
 
+  const deleteUser = async ({ id = "", callback = () => {}, setIsLoading = (_: boolean) => {} }) => {
+
+    setIsLoading(true);
+
+    try {
+      const userDoc = doc(db, "users", id);
+      await deleteDoc(userDoc);
+     
+      getUsers({});
+      successAlert("User has been deleted successfully.");
+      callback();
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=userEvent= request error");
+    }
+    setIsLoading(false);
+  };
+
   // PARTICIPATIONRECORDS
 
   // WEBSITECONTENT
@@ -347,6 +366,7 @@ export default function ApiProvider({
         getUsers,
         updateContent,
         updateUser,
+        deleteUser
       }}
     >
       {children}
