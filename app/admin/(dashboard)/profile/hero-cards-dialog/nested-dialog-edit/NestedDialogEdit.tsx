@@ -63,7 +63,7 @@ const Content = ({ closeDialog = () => {}, item = {} }: { closeDialog: () => voi
 
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const { fetchedCurrentUser, updateUser, getUser } = useApiContext();
+  const { fetchedCurrentUser, updateUser, getCurrentUser } = useApiContext();
   const { currentUser } = useAuthContext();
   const { heroImages } = useGlobalContext();
   const { details } = fetchedCurrentUser;
@@ -112,7 +112,7 @@ const Content = ({ closeDialog = () => {}, item = {} }: { closeDialog: () => voi
       setIsLoading,
       callback: () => {
         closeDialog();
-        getUser({ id: currentUser?.uid });
+        getCurrentUser({ id: currentUser?.uid });
       },
     });
   };
@@ -136,7 +136,7 @@ const Content = ({ closeDialog = () => {}, item = {} }: { closeDialog: () => voi
       setIsLoading: setIsDeleting,
       callback: () => {
         closeDialog();
-        getUser({ id: currentUser?.uid });
+        getCurrentUser({ id: currentUser?.uid });
       },
     });
   };

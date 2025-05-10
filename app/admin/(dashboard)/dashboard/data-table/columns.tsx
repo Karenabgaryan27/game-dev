@@ -211,9 +211,9 @@ const Actions = ({ row = {} }: { row: any }) => {
             Copy payment ID
           </DropdownMenuItem> */}
           <DropdownMenuSeparator />
-          {/* <DropdownMenuItem asChild className="cursor-pointer">
+          <DropdownMenuItem asChild className="cursor-pointer">
             <Link href={`/admin/users/${row.original.id}`}>Visit Profile</Link>
-          </DropdownMenuItem> */}
+          </DropdownMenuItem>
 
           {
           ((details.role === "admin" && row.original.role !== "admin") ||

@@ -55,7 +55,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const { fetchedPages, fetchedCurrentUser, updateUser, getUser } = useApiContext();
+  const { fetchedPages, fetchedCurrentUser, updateUser, getCurrentUser } = useApiContext();
   const { currentUser } = useAuthContext();
   const { details } = fetchedCurrentUser;
 
@@ -103,7 +103,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
       setIsLoading,
       callback: () => {
         closeDialog();
-        getUser({ id: currentUser?.uid });
+        getCurrentUser({ id: currentUser?.uid });
       },
     });
   };

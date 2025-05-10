@@ -34,6 +34,10 @@ type FetchedCurrentUserProps = {
   isLoading: boolean;
   details: { [key: string]: any };
 };
+type FetchedUserProps = {
+  isLoading: boolean;
+  details: { [key: string]: any };
+};
 
 type FetchedPagesProps = {
   homePage: {
@@ -46,12 +50,14 @@ type FetchedPagesProps = {
 type ApiContextType = {
   fetchedUsers: FetchedUsersProps;
   fetchedCurrentUser: FetchedCurrentUserProps;
+  fetchedUser: FetchedUserProps;
   fetchedEvents: FetchedEventsProps;
   fetchedPages: FetchedPagesProps;
   getEvents: ({ setIsLoading }: { [key: string]: any }) => void;
   addEvent: ({ setIsLoading }: { [key: string]: any }) => void;
   updateEvent: ({ id, setIsLoading, ...fields }: { [key: string]: any }) => void;
   deleteEvent: ({ id, setIsLoading }: { [key: string]: any }) => void;
+  getCurrentUser: ({ setIsLoading }: { [key: string]: any }) => void;
   getUser: ({ setIsLoading }: { [key: string]: any }) => void;
   getUsers: ({ setIsLoading }: { [key: string]: any }) => void;
   updateContent: ({ id, slug, setIsLoading, ...fields }: { [key: string]: any }) => void;
@@ -75,7 +81,13 @@ export default function ApiProvider({
     isLoading: false,
     list: [],
   });
+
   const [fetchedCurrentUser, setFetchedCurrentUser] = useState<FetchedCurrentUserProps>({
+    isLoading: false,
+    details: {},
+  });
+
+  const [fetchedUser, setFetchedUser] = useState<FetchedCurrentUserProps>({
     isLoading: false,
     details: {},
   });
@@ -218,7 +230,7 @@ export default function ApiProvider({
   };
 
   // USERS
-  const getUser = async ({ id = "", setIsLoading = (_: boolean) => {} }) => {
+  const getCurrentUser = async ({ id = "", setIsLoading = (_: boolean) => {} }) => {
     setIsLoading(true);
     setFetchedCurrentUser((prev) => ({ ...prev, isLoading: true }));
 
@@ -230,10 +242,28 @@ export default function ApiProvider({
       setFetchedCurrentUser((prev) => ({ ...prev, details: data, isLoading: false }));
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
-      console.error(err, "=getUser= request error");
+      console.error(err, "=getCurrentUser= request error");
     }
     setIsLoading(false);
     setFetchedCurrentUser((prev) => ({ ...prev, isLoading: false }));
+  };
+
+  const getUser = async ({ id = "", setIsLoading = (_: boolean) => {} }) => {
+    setIsLoading(true);
+    setFetchedUser((prev) => ({ ...prev, isLoading: true }));
+
+    try {
+      const userDocRef = doc(usersCollectionRef, id);
+      const res = await getDoc(userDocRef);
+
+      const data = { id: res.id, ...res.data() };
+      setFetchedUser((prev) => ({ ...prev, details: data, isLoading: false }));
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=getUser= request error");
+    }
+    setIsLoading(false);
+    setFetchedUser((prev) => ({ ...prev, isLoading: false }));
   };
 
   const getUsers = async ({ setIsLoading = (_: boolean) => {} }) => {
@@ -344,7 +374,7 @@ export default function ApiProvider({
 
   useEffect(() => {
     if (!currentUser?.uid) return;
-    getUser({ id: currentUser?.uid });
+    getCurrentUser({ id: currentUser?.uid });
     getUsers({})
   }, [currentUser,state.isDBUserCreated]);
 
@@ -358,11 +388,13 @@ export default function ApiProvider({
         fetchedEvents,
         fetchedUsers,
         fetchedCurrentUser,
+        fetchedUser,
         fetchedPages,
         getEvents,
         addEvent,
         deleteEvent,
         updateEvent,
+        getCurrentUser,
         getUser,
         getUsers,
         updateContent,

@@ -4,15 +4,11 @@ import { useApiContext } from "@/contexts/ApiContext";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { ButtonDemo, DialogDemo, InputDemo, TextareaDemo, CropDemo } from "@/components/index";
 import { Camera, X } from "lucide-react";
-import { DeleteUserDialog } from "../delete-user-dialog/DeleteUserDialog";
 import useUtil from "@/hooks/useUtil";
 
 const { bannerImage, avatarPlaceholderImage } = localData.images;
 
-const ProfileHeader = () => {
-  const {
-    fetchedCurrentUser: { details },
-  } = useApiContext();
+const ProfileHeader = ({details = {}}: {details: any}) => {
 
   return (
     <div className="profile-header ">
@@ -34,10 +30,10 @@ const ProfileHeader = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-end mt-3 mb-[15px] sm:mb-[5%] md:mb-[3%]">
+      <div className="flex justify-end mt-3 mb-[15px] sm:mb-[5%] md:mb-[3%] opacity-0 pointer-events-none">
         <div className="">
-          <EditProfileDialog />
-          <DeleteUserDialog id={details.uid} />
+          <ButtonDemo text="hidden" className="flex mb-1 " />
+          <ButtonDemo text="hidden" className="flex" />
         </div>
       </div>
 
@@ -55,7 +51,11 @@ const EditProfileDialog = () => {
   return (
     <DialogDemo
       trigger={
-        <ButtonDemo text={`${"Edit Profile"}`} className={`mb-1 text-sm rounded-full flex w-full`} variant="outline" />
+        <ButtonDemo
+          text={`${"Edit Profile"}`}
+          className={`mb-1 text-sm rounded-full flex w-full`}
+          variant="outline"
+        />
       }
     >
       {(closeDialog) => <EditProfileContent closeDialog={closeDialog} />}
