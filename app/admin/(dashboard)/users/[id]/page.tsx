@@ -51,7 +51,7 @@ const Page = () => {
 
   return (
     <main className="pages-page p-5">
-      <h2 className="text-2xl mb-3">My Profile</h2>
+      <h2 className="text-2xl mb-3 capitalize">{fetchedUser.details.role}</h2>
       <BreadcrumbDemo items={breadcrumbItems} />
       <br />
       <br />
