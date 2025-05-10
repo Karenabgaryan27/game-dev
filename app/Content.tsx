@@ -232,7 +232,7 @@ const ContactSection = () => {
               placeholder="Name"
               name="name"
               type="text"
-              defaultValue=""
+              value={state.name}
               callback={onChange}
               errorMessage={errorMessages.name}
               inputClassName={errorMessages.name ? "is-invalid" : "is-valid"}
@@ -248,7 +248,7 @@ const ContactSection = () => {
               placeholder="Email"
               name="email"
               type="email"
-              defaultValue=""
+              value={state.email}
               callback={onChange}
               errorMessage={errorMessages.email}
               inputClassName={errorMessages.email ? "is-invalid" : "is-valid"}
@@ -261,6 +261,7 @@ const ContactSection = () => {
               type="text"
               defaultValue=""
               callback={onChange}
+              value={state.message}
               errorMessage={errorMessages.message}
               textareaClassName={errorMessages.message ? "is-invalid" : "is-valid"}
             />

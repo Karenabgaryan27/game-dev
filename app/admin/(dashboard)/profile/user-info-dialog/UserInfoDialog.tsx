@@ -80,7 +80,6 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
     if (state.languages !== details.languages) {
       updatedFields.languages = state.languages;
     }
-
     if (state.faction !== details.faction) {
       updatedFields.faction = state.faction;
     }
@@ -96,6 +95,8 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
     if (state.power !== details.power) {
       updatedFields.power = state.power;
     }
+
+    console.log(updatedFields, ' kkkk')
 
     updateUser({
       id: currentUser?.uid,

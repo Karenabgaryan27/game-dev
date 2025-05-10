@@ -42,7 +42,7 @@ export function InputDemo({
         {...props}
         onChange={onChange}
         className={`${inputClassName} `}
-        defaultValue={value}
+        value={value}
       />
       {/* <div className="valid-feedback text-green-600 text-sm">{successMessage}</div> */}
       <div className="invalid-feedback text-red-600 text-xs">{errorMessage}</div>

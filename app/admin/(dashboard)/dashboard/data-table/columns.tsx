@@ -30,7 +30,7 @@ export type Payment = {
   uid?: string;
   role?: string;
   inGameID?: string;
-  avatar?: string | React.ReactNode;
+  // avatar?: string | React.ReactNode;
   name?: string;
   // email?: string;
   power?: string;
@@ -43,19 +43,7 @@ export type Payment = {
 };
 
 export const columns: ColumnDef<Payment>[] = [
-  // {
-  //   id: "expand",
-  //   header: () => <EyeIcon className="w-4 h-4 mx-3 text-gray-500" />,
-  //   cell: ({ row }) => (
-  //     <Button
-  //       variant="ghost"
-  //       className="rounded-full w-[35px] h-[35px] cursor-pointer"
-  //       onClick={row.getToggleExpandedHandler()}
-  //     >
-  //       <ChevronDown className={`transition-transform duration-200 `} />
-  //     </Button>
-  //   ),
-  // },
+
   // {
   //   id: "select",
   //   header: ({ table }) => (
@@ -78,7 +66,7 @@ export const columns: ColumnDef<Payment>[] = [
   //   enableHiding: false,
   // },
   {
-    accessorKey: "base64PhotoURL",
+    accessorKey: "avatar",
     header: () => <div className="px-3">Avatar </div>,
     cell: ({ row }) => {
       const original = row.original;

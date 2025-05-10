@@ -71,6 +71,7 @@ const Register = () => {
             type="text"
             callback={(e) => onChange(e)}
             className="mb-5"
+            value={state.IGN}
             errorMessage={errorMessages.IGN}
             inputClassName={errorMessages.IGN ? "is-invalid" : "is-valid"}
           />
@@ -81,6 +82,7 @@ const Register = () => {
             type="text"
             callback={(e) => onChange(e)}
             className="mb-5"
+              value={state.email}
             errorMessage={errorMessages.email}
             inputClassName={errorMessages.email ? "is-invalid" : "is-valid"}
           />
@@ -92,6 +94,7 @@ const Register = () => {
             type="text"
             callback={(e) => onChange(e)}
             className="mb-5"
+              value={state.password}
             errorMessage={errorMessages.password}
             inputClassName={errorMessages.password ? "is-invalid" : "is-valid"}
           />
@@ -102,6 +105,7 @@ const Register = () => {
             type="text"
             callback={(e) => onChange(e)}
             className="mb-5"
+              value={state.repeatPassword}
             errorMessage={errorMessages.repeatPassword}
             inputClassName={errorMessages.repeatPassword ? "is-invalid" : "is-valid"}
           />

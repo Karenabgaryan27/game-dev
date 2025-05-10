@@ -67,6 +67,7 @@ const Login = () => {
             type="text"
             callback={(e) => onChange(e)}
             className="mb-5"
+            value={state.email}
             errorMessage={errorMessages.email}
             inputClassName={errorMessages.email ? "is-invalid" : "is-valid"}
           />

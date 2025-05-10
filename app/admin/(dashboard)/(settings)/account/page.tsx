@@ -181,6 +181,7 @@ const AddPasswordContent = ({ closeDialog = () => {} }) => {
         type="text"
         callback={(e) => onChange(e)}
         className="mb-5"
+        value={state.password}
         errorMessage={errorMessages.password}
         inputClassName={errorMessages.password ? "is-invalid" : "is-valid"}
       />
@@ -192,6 +193,7 @@ const AddPasswordContent = ({ closeDialog = () => {} }) => {
         type="text"
         callback={(e) => onChange(e)}
         className="mb-5"
+        value={state.repeatPassword}
         errorMessage={errorMessages.repeatPassword}
         inputClassName={errorMessages.repeatPassword ? "is-invalid" : "is-valid"}
       />
@@ -274,6 +276,7 @@ const UpdatePasswordContent = ({ closeDialog = () => {} }) => {
         type="text"
         callback={(e) => onChange(e)}
         className="mb-5"
+        value={state.password}
         errorMessage={errorMessages.password}
         inputClassName={errorMessages.password ? "is-invalid" : "is-valid"}
       />
@@ -285,6 +288,7 @@ const UpdatePasswordContent = ({ closeDialog = () => {} }) => {
         type="text"
         callback={(e) => onChange(e)}
         className="mb-5"
+        value={state.repeatPassword}
         errorMessage={errorMessages.repeatPassword}
         inputClassName={errorMessages.repeatPassword ? "is-invalid" : "is-valid"}
       />
@@ -365,6 +369,7 @@ const UpdateEmailContent = ({ closeDialog = () => {} }) => {
         type="text"
         callback={(e) => onChange(e)}
         className="mb-5"
+        value={state.email}
         errorMessage={errorMessages.email}
         inputClassName={errorMessages.email ? "is-invalid" : "is-valid"}
       />
