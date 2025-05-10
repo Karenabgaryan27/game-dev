@@ -14,13 +14,19 @@ export const DeleteUserDialog = ({ id = "" }) => {
 
 const DeleteUserDialogContent = ({ id = "", closeDialog = () => {} }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { deleteUser } = useApiContext();
+  const { updateUser,getUsers } = useApiContext();
 
   const handleDeleteUser = (id = "") => {
-    deleteUser({
+    const updatedFields: { [key: string]: any } = {};
+
+    updatedFields.isDeleted = true;
+
+    updateUser({
       id: id,
+      updatedFields,
       setIsLoading,
       callback: () => {
+        getUsers({})
         closeDialog();
       },
     });

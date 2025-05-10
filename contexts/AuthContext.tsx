@@ -91,6 +91,7 @@ export default function AuthProvider({
           displayName: user.displayName,
           photoURL: user.photoURL,
           role: 'user',
+          rank: 'R1',
           createdAt: new Date(),
         });
         setState(prev=>({...prev, isDBUserCreated:true}))

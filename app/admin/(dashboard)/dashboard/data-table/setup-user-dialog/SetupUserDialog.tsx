@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ButtonDemo, DialogDemo, InputDemo } from "@/components/index";
+import { ButtonDemo, DialogDemo, InputDemo, SelectScrollable } from "@/components/index";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useApiContext } from "@/contexts/ApiContext";
 
@@ -15,6 +15,7 @@ export const SetupUserDialog = ({ user = {} }) => {
 
 type StateProps = {
   rank: string;
+  role: string;
 };
 
 const SetupUserDialogContent = ({
@@ -24,11 +25,12 @@ const SetupUserDialogContent = ({
   user: any;
   closeDialog: () => void;
 }) => {
-  const { updateUser, getUsers,getCurrentUser } = useApiContext();
-  const {currentUser} = useAuthContext()
+  const { updateUser, getCurrentUser } = useApiContext();
+  const { currentUser } = useAuthContext();
 
   const [state, setState] = useState<StateProps>({
     rank: "",
+    role: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +50,9 @@ const SetupUserDialogContent = ({
     if (state.rank !== user.rank) {
       updatedFields.rank = state.rank;
     }
+    if (state.role !== user.role) {
+      updatedFields.role = state.role;
+    }
 
     updateUser({
       id: user.id,
@@ -55,7 +60,6 @@ const SetupUserDialogContent = ({
       setIsLoading,
       callback: () => {
         closeDialog();
-        getUsers({  });
         getCurrentUser({ id: currentUser?.uid });
       },
     });
@@ -65,6 +69,7 @@ const SetupUserDialogContent = ({
     setState((prev) => ({
       ...prev,
       rank: user.rank,
+      role: user.role,
     }));
   }, [user]);
 
@@ -81,6 +86,26 @@ const SetupUserDialogContent = ({
           className="mb-5"
           value={state.rank}
         />
+        {currentUser?.uid !== user.id && (
+          <SelectScrollable
+            label="Role"
+            triggerClassName="w-full mb-5"
+            contentClassName=""
+            defaultItems={["user", "admin"].map((type) => {
+              return {
+                label: type,
+                value: type,
+                isSelected: user.role == type,
+              };
+            })}
+            callback={(selectedItem) => {
+              setState((prev) => ({
+                ...prev,
+                role: selectedItem.value.toString(),
+              }));
+            }}
+          />
+        )}
 
         <div className="button-group flex gap-2 justify-end">
           <ButtonDemo className="" text="Cancel" variant="outline" type="button" onClick={closeDialog} />

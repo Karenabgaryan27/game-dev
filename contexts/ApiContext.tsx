@@ -292,12 +292,10 @@ export default function ApiProvider({
   }) => {
     setIsLoading(true);
 
-    console.log(updatedFields, " here");
-
     try {
       const userDoc = doc(db, "users", id);
       await updateDoc(userDoc, updatedFields);
-      // getEvents({});
+      getEvents({});
       successAlert("User information has been updated successfully.");
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");

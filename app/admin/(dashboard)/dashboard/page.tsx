@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ButtonDemo, BreadcrumbDemo, Separator, CustomParallaxCard} from "@/components/index";
+import { ButtonDemo, BreadcrumbDemo, Separator, CustomParallaxCard } from "@/components/index";
 import { DataTableDemo } from "./data-table/DataTableDemo";
 import { Payment, columns } from "./data-table/columns";
 import localData from "@/localData";
@@ -344,8 +344,6 @@ const getData = (): Payment[] => {
 };
 
 const Page = () => {
-
-
   const [filteredData, setFilteredData] = useState<Payment[]>([]);
   // const data = getData();
 
@@ -356,29 +354,28 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    if(!fetchedUsers.list.length) return
-    
+    if (!fetchedUsers.list.length) return;
+
     const getData = (): Payment[] => {
-    
-      return fetchedUsers.list.map((item) => {
-        return {
-          status: "active",
-          ...item,
-        };
-      })
-    }
+      return fetchedUsers.list
+        .filter((item) => item.isDeleted !== true)
+        .map((item) => {
+          return {
+            status: "active",
+            ...item,
+          };
+        });
+    };
 
-    const data = getData()
+    const data = getData();
 
-    setFilteredData(data)
+    setFilteredData(data);
   }, [fetchedUsers]);
 
   return (
     <main className="dashboard-page p-5">
       <h2 className="text-2xl mb-3">Dashboard</h2>
       <BreadcrumbDemo items={breadcrumbItems} />
-
-
 
       <div className="max-w-[500px] mx-auto mt-10 mb-10">
         <div className=" h-0 pt-[56.25%] w-full relative rounded-lg overflow-hidden">
@@ -395,7 +392,6 @@ const Page = () => {
           <DataTableDemo data={filteredData} columns={columns} />
         </CardContent>
       </Card>
- 
 
       <Separator title="Enter Arena" />
 

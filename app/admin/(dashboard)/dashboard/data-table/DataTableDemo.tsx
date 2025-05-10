@@ -50,11 +50,17 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
   data,
   columns,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([
+      {
+    id: "rank",
+    desc: true,
+  },
+  ]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [expandedRows, setExpandedRows] = React.useState<string[]>([]);
+  
 
   const table = useReactTable({
     data,
@@ -263,9 +269,9 @@ type ItemsProps = {
 };
 
 const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => {
-  const [heroes,setHeroes] = React.useState(row.heroes?.filter((item:any)=> item.isFeatured))
-  const [artifacts,setArtifacts] = React.useState(row.artifacts?.filter((item:any)=> item.isFeatured))
-  
+  const [heroes, setHeroes] = React.useState(row.heroes?.filter((item: any) => item.isFeatured));
+  const [artifacts, setArtifacts] = React.useState(row.artifacts?.filter((item: any) => item.isFeatured));
+
   const items: ItemsProps[] = [
     {
       label: "Heroes",
@@ -289,7 +295,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
         <div className="md:px-10">
           <CarouselDemo
             className="data-table-carousel  "
-             items={artifacts?.length ? artifacts : [{}]}
+            items={artifacts?.length ? artifacts : [{}]}
             itemClassName="basis-1/5  lg:basis-1/7"
           >
             {({ item, index }) => <ArtifactCard {...item} index={index} />}
@@ -313,7 +319,6 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
     //   ),
     // },
   ];
-
 
   return (
     <tr className="">
@@ -379,7 +384,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
             </div>
             <br />
             <br />
-             <TabsDemo items={items} />
+            <TabsDemo items={items} />
           </div>
         </div>
       </td>

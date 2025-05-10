@@ -215,19 +215,23 @@ const Actions = ({ row = {} }: { row: any }) => {
             <Link href={`/admin/users/${row.original.id}`}>Visit Profile</Link>
           </DropdownMenuItem>
 
-          {
-          ((details.role === "admin" && row.original.role !== "admin") ||
-            (details.role === "admin" && details.uid === row.original.uid)) && (
-            <>
-              {/* <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
-                  <DeleteUserDialog id={row.original.id} />
-                </DropdownMenuItem> */}
+          {canAccessUserSettings(
+            { role: details.role, uid: details.uid },
+            { role: row.original.role, uid: row.original.uid }
+          ) && (
+            <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
+              <SetupUserDialog user={row.original} />
+            </DropdownMenuItem>
+          )}
+          {details.uid !== row.original.uid &&
+            canAccessUserSettings(
+              { role: details.role, uid: details.uid },
+              { role: row.original.role, uid: row.original.uid }
+            ) && (
               <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
-                <SetupUserDialog user={row.original} />
+                <DeleteUserDialog id={row.original.id} />
               </DropdownMenuItem>
-            </>
-          )
-          }
+            )}
 
           {/* <DropdownMenuItem>View payment details</DropdownMenuItem> */}
         </DropdownMenuContent>
@@ -235,3 +239,31 @@ const Actions = ({ row = {} }: { row: any }) => {
     </div>
   );
 };
+
+type Role = "user" | "admin" | "superAdmin";
+function canAccessUserSettings(
+  currentUser: { role: Role; uid: string },
+  targetUser: { role: Role; uid: string }
+) {
+  const isSameUser = currentUser.uid === targetUser.uid;
+  const currentRole = currentUser.role;
+  const targetRole = targetUser.role;
+
+  if (currentUser.role === "user") {
+    return false;
+  }
+
+  if (currentRole === "admin") {
+    return isSameUser || targetRole === "user";
+  }
+
+  if (currentRole === "superAdmin") {
+    return isSameUser || ["user", "admin"].includes(targetRole);
+  }
+
+  if (currentRole === "user") {
+    return isSameUser;
+  }
+
+  return false;
+}
