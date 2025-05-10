@@ -295,7 +295,7 @@ export default function ApiProvider({
     try {
       const userDoc = doc(db, "users", id);
       await updateDoc(userDoc, updatedFields);
-      getEvents({});
+      getUsers({});
       successAlert("User information has been updated successfully.");
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
