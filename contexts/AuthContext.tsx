@@ -280,7 +280,7 @@ export default function AuthProvider({
     console.log(currentUser);
   }, [currentUser]);
 
-  useAutoLogout(1 * 60 * 60 * 1000);
+  useAutoLogout(24 * 60 * 60 * 1000);
 
   if (!currentUser && pathname.startsWith("/admin") && !adminRoutes.includes(pathname))
     return <LoadingScreen />;

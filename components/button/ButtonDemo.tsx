@@ -14,7 +14,7 @@ const buttonStyles = {
     danger: "bg-danger hover:bg-danger-hover",
   },
   secondary: {
-    primary: "",
+    primary: "bg-gray-200 hover:bg-gray-300",
     success: "bg-green-50 hover:bg-green-100 text-green-600",
     blue: "bg-bluish hover:bg-bluish-hover",
     warning: "bg-yellow-50 hover:bg-yellow-100 text-yellow-600",
@@ -59,7 +59,7 @@ type ButtonDemoProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: ReactElement | null;
   startIcon?: ReactElement | null;
   endIcon?: ReactElement | null;
-  color?: "primary" | "success" | "warning" | "danger" | "blue";
+  color?: "primary" |  "success" | "warning" | "danger" | "blue";
   disabled?: boolean;
   onClick?: () => void;
 };

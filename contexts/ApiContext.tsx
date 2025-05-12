@@ -4,6 +4,7 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 import { db, auth } from "@/config/firebase";
 import {
   collection,
+  setDoc,
   getDocs,
   getDoc,
   addDoc,
@@ -50,19 +51,34 @@ type FetchedPagesProps = {
 type ApiContextType = {
   fetchedUsers: FetchedUsersProps;
   fetchedCurrentUser: FetchedCurrentUserProps;
+  setFetchedCurrentUser: (_: any) => void;
   fetchedUser: FetchedUserProps;
   fetchedEvents: FetchedEventsProps;
   fetchedPages: FetchedPagesProps;
+
   getEvents: ({ setIsLoading }: { [key: string]: any }) => void;
   addEvent: ({ setIsLoading }: { [key: string]: any }) => void;
   updateEvent: ({ id, setIsLoading, ...fields }: { [key: string]: any }) => void;
   deleteEvent: ({ id, setIsLoading }: { [key: string]: any }) => void;
+
   getCurrentUser: ({ setIsLoading }: { [key: string]: any }) => void;
+
   getUser: ({ setIsLoading }: { [key: string]: any }) => void;
   getUsers: ({ setIsLoading }: { [key: string]: any }) => void;
-  updateContent: ({ id, slug, setIsLoading, ...fields }: { [key: string]: any }) => void;
   updateUser: ({ id, setIsLoading, updatedFields }: { [key: string]: any }) => void;
   deleteUser: ({ id, setIsLoading }: { [key: string]: any }) => void;
+  updateUserCollection: ({
+    userId,
+    collectionName,
+    collectionId,
+    setIsLoading,
+    updatedFields,
+  }: {
+    [key: string]: any;
+  }) => void;
+  getUserCollection: ({ userId, collectionName, collectionId, setIsLoading }: { [key: string]: any }) => void;
+
+  updateContent: ({ id, slug, setIsLoading, ...fields }: { [key: string]: any }) => void;
 };
 
 export const ApiContext = createContext<ApiContextType | null>(null);
@@ -202,8 +218,8 @@ export default function ApiProvider({
     };
 
     try {
-      const movieDoc = doc(db, "events", id);
-      await updateDoc(movieDoc, filteredData);
+      const eventDoc = doc(db, "events", id);
+      await updateDoc(eventDoc, filteredData);
       getEvents({});
       successAlert("Event has been updated successfully.");
     } catch (err: any) {
@@ -217,8 +233,8 @@ export default function ApiProvider({
   const deleteEvent = async ({ id = "", callback = () => {}, setIsLoading = (_: boolean) => {} }) => {
     setIsLoading(true);
     try {
-      const movieDoc = doc(db, "events", id);
-      await deleteDoc(movieDoc);
+      const eventDoc = doc(db, "events", id);
+      await deleteDoc(eventDoc);
       getEvents({});
       successAlert("Event has been deleted successfully.");
     } catch (err: any) {
@@ -237,9 +253,15 @@ export default function ApiProvider({
     try {
       const userDocRef = doc(usersCollectionRef, id);
       const res = await getDoc(userDocRef);
-
       const data = { id: res.id, ...res.data() };
-      setFetchedCurrentUser((prev) => ({ ...prev, details: data, isLoading: false }));
+
+      const res2 = await getDoc(doc(db, "users", id, "media", "banner"));
+      const data2 = { id: res2.id, ...res2.data() };
+      setFetchedCurrentUser((prev) => ({
+        ...prev,
+        details: { ...data, collectionMedia: { ...data2 } },
+        isLoading: false,
+      }));
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=getCurrentUser= request error");
@@ -275,7 +297,6 @@ export default function ApiProvider({
       const res = await getDocs(orderedEventsQuery);
       const data = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setFetchedUsers((prev) => ({ ...prev, isLoading: false, list: data }));
-
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=getUsers= request error");
@@ -291,7 +312,6 @@ export default function ApiProvider({
     callback = () => {},
   }) => {
     setIsLoading(true);
-
     try {
       const userDoc = doc(db, "users", id);
       await updateDoc(userDoc, updatedFields);
@@ -305,14 +325,61 @@ export default function ApiProvider({
     callback();
   };
 
-  const deleteUser = async ({ id = "", callback = () => {}, setIsLoading = (_: boolean) => {} }) => {
+  const updateUserCollection = async ({
+    userId = "",
+    collectionName = "",
+    collectionId = "",
+    updatedFields = {},
+    setIsLoading = (_: boolean) => {},
+    callback = () => {},
+  }) => {
+    setIsLoading(true);
 
+    try {
+      await setDoc(doc(db, "users", userId, collectionName, collectionId), updatedFields, { merge: true });
+      // await addDoc(collection(db, "users", userId, "gallery"), {
+      //   updatedFields,
+      // });
+      // await updateDoc(doc(db, "users", userId, collectionName, collectionId), {
+      //   updatedFields,
+      // });
+      // getCurrentUser({id: userId});
+      // getUsers({});
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=updateUserCollection= request error");
+    }
+    setIsLoading(false);
+    callback();
+  };
+
+  const getUserCollection = async ({
+    userId = "",
+    collectionName = "",
+    collectionId = "",
+    setIsLoading = (_: boolean) => { },
+    callback = ()=>{}
+  }) => {
+    setIsLoading(true);
+    console.log(userId, collectionName, collectionId);
+    try {
+       await getDoc(doc(db, "users", userId, collectionName, collectionId));
+      
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=updateUserCollection= request error");
+    }
+    setIsLoading(false);
+    callback()
+  };
+
+  const deleteUser = async ({ id = "", callback = () => {}, setIsLoading = (_: boolean) => {} }) => {
     setIsLoading(true);
 
     try {
       const userDoc = doc(db, "users", id);
       await deleteDoc(userDoc);
-     
+
       getUsers({});
       successAlert("User has been deleted successfully.");
       callback();
@@ -373,8 +440,8 @@ export default function ApiProvider({
   useEffect(() => {
     if (!currentUser?.uid) return;
     getCurrentUser({ id: currentUser?.uid });
-    getUsers({})
-  }, [currentUser,state.isDBUserCreated]);
+    getUsers({});
+  }, [currentUser, state.isDBUserCreated]);
 
   useEffect(() => {
     getContents({});
@@ -386,18 +453,25 @@ export default function ApiProvider({
         fetchedEvents,
         fetchedUsers,
         fetchedCurrentUser,
+        setFetchedCurrentUser,
         fetchedUser,
         fetchedPages,
+
         getEvents,
         addEvent,
         deleteEvent,
         updateEvent,
+
         getCurrentUser,
+
         getUser,
         getUsers,
-        updateContent,
         updateUser,
-        deleteUser
+        deleteUser,
+        updateUserCollection,
+        getUserCollection,
+
+        updateContent,
       }}
     >
       {children}

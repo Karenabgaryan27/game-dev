@@ -1,9 +1,7 @@
 import React from "react";
 
 const useUtil = () => {
-
   type FileInput = File | Blob;
-
 
   const compressImage = (
     file: FileInput,
@@ -15,7 +13,7 @@ const useUtil = () => {
   ): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       if (file.size / 1024 <= targetSizeKB) {
-        console.log('trigger')
+        console.log("trigger");
         // If file is already under target size, resolve with the original file
         resolve(file);
         return;
@@ -89,10 +87,44 @@ const useUtil = () => {
     });
   };
 
+  const resizeBase64Image = (base64Str: string, maxSizeKB: number): Promise<string> => {
+    return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
 
+      if (!ctx) return reject(new Error('Canvas context error'));
+      ctx.drawImage(img, 0, 0);
 
-  
-  return { compressImage, convertToBase64 };
+      let low = 0.1;
+      let high = 1.0;
+      let bestMatch = canvas.toDataURL('image/jpeg', low); // fallback
+
+      while (low <= high) {
+        const mid = (low + high) / 2;
+        const output = canvas.toDataURL('image/jpeg', mid);
+        const sizeKB = Math.round((output.length * 3) / 4 / 1024);
+
+        if (sizeKB <= maxSizeKB) {
+          bestMatch = output;
+          low = mid + 0.01; // try higher quality
+        } else {
+          high = mid - 0.01; // try lower quality
+        }
+      }
+
+      resolve(bestMatch);
+    };
+
+    img.onerror = () => reject(new Error('Image load error'));
+    img.src = base64Str;
+  });
+  };
+
+  return { compressImage, convertToBase64, resizeBase64Image };
 };
 
 export default useUtil;

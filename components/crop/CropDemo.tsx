@@ -28,14 +28,14 @@ import { ButtonDemo } from "@/components/index";
 //   );
 // }
 
-function canvasPreview(image: HTMLImageElement, canvas: HTMLCanvasElement, crop: PixelCrop) {
+function canvasPreview(image: HTMLImageElement, canvas: HTMLCanvasElement, crop: PixelCrop, _scale: number) {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
 
-  const scale = 1; 
+  const scale = _scale;
 
   // Upscale the canvas to the desired size
   canvas.width = crop.width * scale;
@@ -55,7 +55,12 @@ function canvasPreview(image: HTMLImageElement, canvas: HTMLCanvasElement, crop:
   );
 }
 
-export default function ImageCropper({ src = "", aspect = 16 / 9, setCroppedImageSrc = (_: any) => {} }) {
+export default function ImageCropper({
+  src = "",
+  aspect = 16 / 9,
+  scale = 1,
+  setCroppedImageSrc = (_: any) => {},
+}) {
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   const imgRef = useRef<HTMLImageElement>(null);
@@ -83,7 +88,7 @@ export default function ImageCropper({ src = "", aspect = 16 / 9, setCroppedImag
 
   useEffect(() => {
     if (completedCrop && imgRef.current && canvasRef.current) {
-      canvasPreview(imgRef.current, canvasRef.current, completedCrop);
+      canvasPreview(imgRef.current, canvasRef.current, completedCrop, scale);
 
       const mimeMatch = src.match(/^data:(.*?);base64,/);
       const mimeType = mimeMatch?.[1] || "image/png";
@@ -98,16 +103,16 @@ export default function ImageCropper({ src = "", aspect = 16 / 9, setCroppedImag
       {src && (
         <>
           {/* <div className=""> */}
-            <ReactCrop
-              className={`mx-auto`}
-              crop={crop}
-              onChange={(_, percentCrop) => setCrop(percentCrop)}
-              aspect={aspect}
-              ruleOfThirds={true}
-              onComplete={(c) => setCompletedCrop(c)}
-            >
-              <img ref={imgRef} src={src} onLoad={onImageLoad} className="" />
-            </ReactCrop>
+          <ReactCrop
+            className={`mx-auto`}
+            crop={crop}
+            onChange={(_, percentCrop) => setCrop(percentCrop)}
+            aspect={aspect}
+            ruleOfThirds={true}
+            onComplete={(c) => setCompletedCrop(c)}
+          >
+            <img ref={imgRef} src={src} onLoad={onImageLoad} className="" />
+          </ReactCrop>
           {/* </div> */}
           <div className="hidden">
             <p className="text-sm">Cropped preview:</p>
