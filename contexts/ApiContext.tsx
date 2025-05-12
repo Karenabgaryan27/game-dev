@@ -277,9 +277,16 @@ export default function ApiProvider({
     try {
       const userDocRef = doc(usersCollectionRef, id);
       const res = await getDoc(userDocRef);
-
       const data = { id: res.id, ...res.data() };
-      setFetchedUser((prev) => ({ ...prev, details: data, isLoading: false }));
+
+      const res2 = await getDoc(doc(db, "users", id, "media", "banner"));
+      const data2 = { id: res2.id, ...res2.data() };
+
+      setFetchedUser((prev) => ({
+        ...prev,
+        details: { ...data, collectionMedia: { ...data2 } },
+        isLoading: false,
+      }));
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=getUser= request error");
@@ -357,20 +364,19 @@ export default function ApiProvider({
     userId = "",
     collectionName = "",
     collectionId = "",
-    setIsLoading = (_: boolean) => { },
-    callback = ()=>{}
+    setIsLoading = (_: boolean) => {},
+    callback = () => {},
   }) => {
     setIsLoading(true);
     console.log(userId, collectionName, collectionId);
     try {
-       await getDoc(doc(db, "users", userId, collectionName, collectionId));
-      
+      await getDoc(doc(db, "users", userId, collectionName, collectionId));
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=updateUserCollection= request error");
     }
     setIsLoading(false);
-    callback()
+    callback();
   };
 
   const deleteUser = async ({ id = "", callback = () => {}, setIsLoading = (_: boolean) => {} }) => {
