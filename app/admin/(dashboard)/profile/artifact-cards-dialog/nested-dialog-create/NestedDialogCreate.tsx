@@ -41,7 +41,7 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
     imageID: 0,
     label: "",
     color: "",
-    isFeatured: false,
+    isFeatured: true,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -110,8 +110,8 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
         value={state.label}
       />
 
-      <div className="mb-3 bg-gray-50 dark:bg-neutral-800 p-3 rounded-md">
-        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer mb-2">
+          <div className="mb-3 bg-gray-50 dark:bg-neutral-800 p-3 rounded-md grid grid-cols-2 gap-x-2">
+        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer hover:bg-gray-100 px-2 py-1 rounded-lg">
           <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-purple-700 `}>
             <div
               className={`bg-gray-200 w-[6px] h-[6px] rounded-full  ${
@@ -127,7 +127,7 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
           </div>
           <div>Purple</div>
         </label>
-        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer mb-2">
+        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer hover:bg-gray-100 px-2 py-1 rounded-lg">
           <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-yellow-500 `}>
             <div
               className={`bg-gray-200 w-[6px] h-[6px] rounded-full  ${
@@ -143,7 +143,7 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
           </div>
           <div>Golden</div>
         </label>
-        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer  mb-2">
+        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer hover:bg-gray-100 px-2 py-1 rounded-lg">
           <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-red-700`}>
             <div
               className={`bg-gray-200 w-[6px] h-[6px] rounded-full  ${
@@ -159,7 +159,7 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
           </div>
           <div>Red</div>
         </label>
-        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer  mb-2">
+        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer hover:bg-gray-100 px-2 py-1 rounded-lg">
           <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-blue-700`}>
             <div
               className={`bg-gray-200 w-[6px] h-[6px] rounded-full  ${
@@ -175,7 +175,7 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
           </div>
           <div>Blue</div>
         </label>
-        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer  mb-2">
+        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer hover:bg-gray-100 px-2 py-1 rounded-lg">
           <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-green-700`}>
             <div
               className={`bg-gray-200 w-[6px] h-[6px] rounded-full  ${
@@ -191,7 +191,7 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
           </div>
           <div>Green</div>
         </label>
-        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer  mb-2">
+        <label className="flex items-center text-xs font-medium gap-2 cursor-pointer hover:bg-gray-100 px-2 py-1 rounded-lg">
           <div className={`w-[13px] h-[13px] flex items-center justify-center  rounded-full bg-black`}>
             <div
               className={`bg-gray-200 w-[6px] h-[6px] rounded-full  ${
