@@ -6,7 +6,7 @@ import { ButtonDemo, InputDemo, TextareaDemo, SelectScrollable, DialogDemo } fro
 import localData from "@/localData";
 import useUtil from "@/hooks/useUtil";
 
-const { placeholderImage, maintenanceWorkerImage, elkridersImage } = localData.images;
+const { eventPlaceholderImage, maintenanceWorkerImage, elkridersImage } = localData.images;
 
 type EventStateProps = {
   type: string | number;
@@ -29,13 +29,13 @@ const defaultState = {
 };
 
 const ParticipantCardCreateDialog = ({
+  className = "",
   item = {},
   parentState = {},
-  className = "",
 }: {
+  className?: string;
   item: { [key: string]: any };
   parentState: { [key: string]: any };
-  className?: string;
 }) => {
   return (
     <DialogDemo
@@ -130,7 +130,7 @@ const Content = ({
         <div className={`wrapper-inner`}>
           <img
             className={`absolute w-[70%] h-[90%] object-contain top-[50%] left-[50%] transform-[translate(-50%,-50%)] block`}
-            src={parentState.background || placeholderImage}
+            src={parentState.background || eventPlaceholderImage}
             alt=""
           />
 
@@ -212,7 +212,7 @@ const Content = ({
           }
         >
           {() => (
-          <div className="pb-5">
+          <div className="py-15">
 
             <img className="w-full rounded-lg mx-auto" src={maintenanceWorkerImage} alt="" />
           </div>

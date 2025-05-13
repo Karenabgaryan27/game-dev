@@ -39,7 +39,11 @@ export function SelectScrollable({
   defaultItems = [],
   callback = () => {},
 }: SelectScrollableProps) {
-  const [items] = useState<ItemsProps[]>([...defaultItems]);
+  const [items, setItems] = useState<ItemsProps[]>([...defaultItems]);
+
+  useEffect(() => {
+    setItems(defaultItems)
+  },[defaultItems])
 
   const selectedDefaultItem = defaultItems.find((item) => item.isSelected);
   const [value, setValue] = useState<string | number>(

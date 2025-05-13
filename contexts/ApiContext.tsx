@@ -19,7 +19,7 @@ import useAlert from "@/hooks/alert/useAlert";
 import { useAuthContext } from "./AuthContext";
 import localData from "@/localData";
 
-const { exampleImage, placeholderImage, placeholderImage2, MadelineImage } = localData.images;
+const { exampleImage, placeholderImage, eventPlaceholderImage, MadelineImage } = localData.images;
 
 type FetchedEventsProps = {
   isLoading: boolean;
@@ -121,15 +121,15 @@ export default function ApiProvider({
           title: "features",
           description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
           images: [
-            { id: "1", title: "", url: placeholderImage2 },
-            { id: "2", title: "", url: placeholderImage2 },
-            { id: "3", title: "", url: placeholderImage2 },
+            { id: "1", title: "", url: eventPlaceholderImage },
+            { id: "2", title: "", url: eventPlaceholderImage },
+            { id: "3", title: "", url: eventPlaceholderImage },
           ],
 
           items: [
-            { title: "", descripiton: "", image: { id: "1", title: "", url: placeholderImage2 } },
-            { title: "", descripiton: "", image: { id: "1", title: "", url: placeholderImage2 } },
-            { title: "", descripiton: "", image: { id: "1", title: "", url: placeholderImage2 } },
+            { title: "", descripiton: "", image: { id: "1", title: "", url: eventPlaceholderImage } },
+            { title: "", descripiton: "", image: { id: "1", title: "", url: eventPlaceholderImage } },
+            { title: "", descripiton: "", image: { id: "1", title: "", url: eventPlaceholderImage } },
           ],
         },
 
@@ -171,24 +171,12 @@ export default function ApiProvider({
     setFetchedEvents((prev) => ({ ...prev, isLoading: false }));
   };
 
-  const addEvent = async ({
-    setIsLoading = (_: boolean) => {},
-    expires = 0,
-    callback = () => {},
-    ...fields
-  }) => {
+  const addEvent = async ({ setIsLoading = (_: boolean) => {}, fields = {}, callback = () => {} }) => {
     setIsLoading(true);
 
-    const filteredData = {
-      ...Object.fromEntries(Object.entries(fields).filter(([_, v]) => v)),
-      ...(expires > 1 ? { ttl: Timestamp.fromDate(new Date(expires)) } : {}),
-      createdAt: new Date(),
-      createdBy: auth?.currentUser?.displayName,
-      userId: auth?.currentUser?.uid,
-    };
-
+    console.log(fields);
     try {
-      const res = await addDoc(eventsCollectionRef, filteredData);
+      const res = await addDoc(eventsCollectionRef, fields);
       getEvents({});
       console.log(res);
       successAlert("Event has been created successfully.");
@@ -202,22 +190,15 @@ export default function ApiProvider({
 
   const updateEvent = async ({
     id = "",
-    expires = 0,
+    updatedFields = {},
     callback = () => {},
     setIsLoading = (_: boolean) => {},
-    ...fields
   }) => {
     setIsLoading(true);
 
-    const filteredData = {
-      ...Object.fromEntries(Object.entries(fields).filter(([_, v]) => v)),
-      ...(expires > 1 ? { ttl: Timestamp.fromDate(new Date(expires)) } : {}),
-      updatedAt: new Date(),
-    };
-
     try {
       const eventDoc = doc(db, "events", id);
-      await updateDoc(eventDoc, filteredData);
+      await updateDoc(eventDoc, updatedFields);
       getEvents({});
       successAlert("Event has been updated successfully.");
     } catch (err: any) {

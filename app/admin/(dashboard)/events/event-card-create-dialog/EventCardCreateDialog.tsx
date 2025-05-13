@@ -5,6 +5,8 @@ import { useApiContext } from "@/contexts/ApiContext";
 import { ButtonDemo, InputDemo, TextareaDemo, SelectScrollable, DialogDemo } from "@/components/index";
 import useUtil from "@/hooks/useUtil";
 import localData from "@/localData";
+import { Timestamp } from "firebase/firestore";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const { plusIcon } = localData.svgs;
 const { knightsImage } = localData.images;
@@ -32,7 +34,7 @@ const defaultState = {
 const EventCardCreateDialog = () => {
   return (
     <DialogDemo
-      iconImage = {knightsImage}
+      iconImage={knightsImage}
       title="Create Event"
       description="Choose an event type or create a custom one"
       trigger={
@@ -54,33 +56,60 @@ const Content = ({ closeDialog = () => {} }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { addEvent } = useApiContext();
+  const { currentUser } = useAuthContext();
   const { compressImage, convertToBase64 } = useUtil();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const hours = Number(state.expiry) * 60;
-    const expires = new Date(Date.now() + hours * 60 * 1000);
+    let fields: { [key: string]: any } = {};
 
     if (state.type === "Custom") {
-      addEvent({
+      let expires = null;
+      if (state.expiry !== "none") {
+        const hours = Number(state.expiry) * 60;
+        expires = new Date(Date.now() + hours * 60 * 1000);
+      }
+
+      fields = {
         type: state.type,
         name: state.name,
         description: state.description,
         points: state.points,
-        expires,
         background: state.background,
         screenshot: state.screenshot,
+        ...(expires ? { ttl: Timestamp.fromDate(new Date(expires)) } : {ttl: null}),
+
+        createdAt: new Date(),
+        createdBy: currentUser?.displayName,
+        userId: currentUser?.uid,
+      };
+
+      addEvent({
+        fields,
         setIsLoading,
         callback: () => {
           closeDialog();
           setTimeout(() => setState(defaultState), 500);
         },
       });
+      
     } else {
-      addEvent({
+      let fields: { [key: string]: any } = {};
+
+      const hours = Number(state.expiry) * 60;
+      const expires = new Date(Date.now() + hours * 60 * 1000);
+
+      fields = {
         type: state.type,
-        expires,
+        ...(expires ? { ttl: Timestamp.fromDate(new Date(expires)) } : {}),
+
+        createdAt: new Date(),
+        createdBy: currentUser?.displayName,
+        userId: currentUser?.uid,
+      };
+      addEvent({
+        fields,
         setIsLoading,
         callback: () => {
           closeDialog();
@@ -236,7 +265,7 @@ const Content = ({ closeDialog = () => {} }) => {
           text={`${isLoading ? "Adding..." : "Add Event"}`}
           className={`w-full mb-5 text-sm`}
           disabled={isLoading || state.type === ""}
-          color='blue'
+          color="blue"
         />
       </form>
     </div>

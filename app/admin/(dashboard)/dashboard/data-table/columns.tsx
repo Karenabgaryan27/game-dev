@@ -43,7 +43,6 @@ export type Payment = {
 };
 
 export const columns: ColumnDef<Payment>[] = [
-
   // {
   //   id: "select",
   //   header: ({ table }) => (
@@ -199,9 +198,11 @@ const Actions = ({ row = {} }: { row: any }) => {
             Copy payment ID
           </DropdownMenuItem> */}
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild className="cursor-pointer">
-            <Link href={`/admin/users/${row.original.id}`}>Visit Profile</Link>
-          </DropdownMenuItem>
+          {details.uid !== row.original.uid && (
+            <DropdownMenuItem asChild className="cursor-pointer">
+              <Link href={`/admin/users/${row.original.id}`}>Visit Profile</Link>
+            </DropdownMenuItem>
+          )}
 
           {canAccessUserSettings(
             { role: details.role, uid: details.uid },

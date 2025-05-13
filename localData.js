@@ -4,7 +4,7 @@ const images = {
   placeholderImage: "/assets/images/placeholder.png",
   avatarPlaceholderImage: "/assets/images/avatar-placeholder.png",
   placeholderTransparentImage: "/assets/images/placeholder-transparent.png",
-  placeholderImage2: "/assets/images/placeholder-2.png",
+  eventPlaceholderImage: "/assets/images/placeholder-2.png",
   bannerPlaceholderImage: "/assets/images/rest/banner-placeholder.jpg",
   googleLogo: "/assets/images/google-logo.png",
   poorMeImage: "/assets/images/poor-me.png",

@@ -6,9 +6,11 @@ import ParticipantCardCreateDialog from "../participant-card-create-dialog/Parti
 import localData from "@/localData";
 import useExpiryCountdown from "@/hooks/useExpiryCountdown";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useApiContext } from "@/contexts/ApiContext";
+import Link from "next/link";
 
 const {
-  placeholderImage2,
+  eventPlaceholderImage,
   behemothImage,
   caravanImage,
   passImage,
@@ -66,6 +68,9 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
 
   const { timeLeft, isNearExpiry, isExpired } = useExpiryCountdown(item.ttl?.seconds || 0);
   const { currentUser } = useAuthContext();
+  const {
+    fetchedCurrentUser: { details },
+  } = useApiContext();
 
   useEffect(() => {
     if (item.type === "Custom") {
@@ -96,7 +101,13 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           )}
 
           <h2 className=" font-medium whitespace-nowrap text-xs ml-auto">
-            Created by <span className="capitalize underline">{item.createdBy}</span>{" "}
+            Created by{" "}
+            <Link
+              className={`capitalize hover:decoration-black underline  decoration-gray-400 ${details.id === item.userId ? "pointer-events-none opacity-30" : ""} `}
+              href={`/admin/users/${item.userId}`}
+            >
+              {item.createdBy}
+            </Link>{" "}
           </h2>
         </div>
 
@@ -105,7 +116,7 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
         >
           <img
             className={`absolute w-[70%] h-[90%] object-contain top-[50%] left-[50%] transform-[translate(-70%,-50%)] block`}
-            src={state.background || placeholderImage2}
+            src={state.background || eventPlaceholderImage}
             alt=""
           />
           <img
@@ -125,11 +136,14 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
       </div>
       <div className="options absolute  w-full left-0 bottom-[30px] z-10 p-3 flex justify-end ">
         <div className="flex flex-col w-[fit-content] gap-1 ">
-          {currentUser?.uid === item.userId && <EventCardDeleteDialog item={item} state={state} />}
+          {(currentUser?.uid === item.userId || details?.role === "superAdmin") && (
+            <EventCardDeleteDialog item={item} state={state} />
+          )}
           {currentUser?.uid === item.userId && item.type === "Custom" && (
             <EventCardUpdateDialog
-              item={item}
               className={` ${item.ttl != null && isExpired ? "hidden" : ""}`}
+              item={item}
+              parentState={state}
             />
           )}
 

@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useApiContext } from "@/contexts/ApiContext";
 import { ButtonDemo, InputDemo, TextareaDemo, SelectScrollable, DialogDemo } from "@/components/index";
 import useUtil from "@/hooks/useUtil";
 import localData from "@/localData";
+import useExpiryCountdown from "@/hooks/useExpiryCountdown";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { Timestamp } from "firebase/firestore";
 
-const {workelkImage} = localData.images
+const { workelkImage } = localData.images;
 
 type EventStateProps = {
   type: string | number;
@@ -29,11 +32,13 @@ const defaultState = {
 };
 
 const EventCardUpdateDialog = ({
-  item = {},
   className = "",
+  item = {},
+  parentState = {},
 }: {
-  item: Record<string, unknown>;
   className?: string;
+  item: { [key: string]: any };
+  parentState: { [key: string]: any };
 }) => {
   return (
     <DialogDemo
@@ -49,41 +54,67 @@ const EventCardUpdateDialog = ({
         />
       }
     >
-      {(closeDialog) => <Content closeDialog={closeDialog} item={item} />}
+      {(closeDialog) => <Content closeDialog={closeDialog} item={item} parentState={parentState} />}
     </DialogDemo>
   );
 };
 
 const Content = ({
   item = {},
+  parentState = {},
   closeDialog = () => {},
 }: {
-  item: Record<string, any>;
+  item: { [key: string]: any };
+  parentState: { [key: string]: any };
   closeDialog: () => void;
 }) => {
   const [state, setState] = useState<EventStateProps>(defaultState);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { timeLeft, isNearExpiry, isExpired } = useExpiryCountdown(item.ttl?.seconds || 0);
+  // console.log(timeLeft)
   const { updateEvent } = useApiContext();
+  const { currentUser } = useAuthContext();
   const { compressImage, convertToBase64 } = useUtil();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    let expires = null;
+    const updatedFields: { [key: string]: any } = {};
 
-    if (state.expiry) {
-      const hours = Number(state.expiry) * 60;
-      expires = new Date(Date.now() + hours * 60 * 1000);
+    if (state.expiry !== "none") {
     }
+
+    if (state.name !== item.name) {
+      updatedFields.name = state.name;
+    }
+    if (state.description !== item.description) {
+      updatedFields.description = state.description;
+    }
+    if (state.points !== item.points) {
+      updatedFields.points = state.points;
+    }
+    if (state.expiry !== "current") {
+      let expires = null;
+      if (state.expiry !== "none") {
+        const hours = Number(state.expiry) * 60;
+        expires = new Date(Date.now() + hours * 60 * 1000);
+      }
+      updatedFields.ttl = expires ?  Timestamp.fromDate(new Date(expires))  :  null ;
+    }
+
+    if (state.background) {
+      updatedFields.background = state.background;
+    }
+    if (state.screenshot) {
+      updatedFields.screenshot = state.screenshot;
+    }
+
+    updatedFields.udpatedAt = new Date()
+    console.log(updatedFields, 'kkk')
     updateEvent({
       id: item.id,
-      name: state.name,
-      description: state.description,
-      points: state.points,
-      background: state.background,
-      screenshot: state.screenshot,
-      expires,
+      updatedFields,
       setIsLoading,
       callback: () => {
         closeDialog();
@@ -107,12 +138,22 @@ const Content = ({
     try {
       const compressedBlob = await compressImage(file, type === "screenshot" ? 100 : 500);
       const imageBase64 = await convertToBase64(compressedBlob);
-      console.log(imageBase64);
       setState((prev) => ({ ...prev, [type]: imageBase64 }));
     } catch (err) {
       console.error("Error during upload process:", err);
     }
   };
+
+  useEffect(() => {
+    setState((prev) => ({
+      ...prev,
+      name: item.name,
+      description: item.description,
+      points: item.points,
+      expiry: 'current'
+    }));
+    // console.log(parentState, item)
+  }, []);
 
   return (
     <div className="wrapper">
@@ -137,6 +178,11 @@ const Content = ({
                   triggerClassName="w-full mb-5"
                   contentClassName=""
                   defaultItems={[
+                    {
+                      label: timeLeft,
+                      value: "current",
+                      isSelected: true,
+                    },
                     {
                       label: "No time limit",
                       value: "none",
@@ -175,7 +221,7 @@ const Content = ({
                       return {
                         label: `${value} point${value !== "1" ? "s" : ""}`,
                         value,
-                        isSelected: value === state.points.toString(),
+                        isSelected: value === item.points.toString(),
                       };
                     }),
                   ]}
