@@ -30,8 +30,8 @@ const NavUser = () => {
   const user = {
     name: details?.displayName || "",
     email: details?.email || "",
-    photoURL: details?.photoURL || "",
-    base64PhotoURL: details?.base64PhotoURL || "",
+    photoURL: details?.photoURL || null,
+    base64PhotoURL: details?.base64PhotoURL || null,
   };
 
   return (

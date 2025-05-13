@@ -259,7 +259,7 @@ const ContactSection = () => {
               placeholder="Message"
               name="message"
               type="text"
-              defaultValue=""
+              // defaultValue=""
               callback={onChange}
               value={state.message}
               errorMessage={errorMessages.message}

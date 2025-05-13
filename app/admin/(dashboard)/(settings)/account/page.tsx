@@ -24,12 +24,12 @@ const Account = () => {
   const [isEmailPasswordMethodEnabled, setIsEmailPasswordMethodEnabled] = useState(false);
   const [isGoogleSignInMethodEnabled, setIsGoogleSignInMethodEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
-  const { currentUser, handleSignInWithGoogle } = useAuthContext();
-  const {fetchedCurrentUser} = useApiContext()
 
-  const {email, role} = fetchedCurrentUser.details
-  
+  const { currentUser, handleSignInWithGoogle } = useAuthContext();
+  const { fetchedCurrentUser, fetchedUsers } = useApiContext();
+
+  const { email, role } = fetchedCurrentUser.details;
+
   useEffect(() => {
     if (!currentUser) return;
     const _isEmailPasswordMethodEnabled = currentUser.providerData.find(
@@ -43,6 +43,13 @@ const Account = () => {
     if (_isGoogleSignInMethodEnabled) setIsGoogleSignInMethodEnabled(true);
   }, [currentUser]);
 
+  const [admins, setAdmins] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!fetchedUsers.list.length) return;
+    setAdmins(fetchedUsers.list.filter((user) => user.role === "admin"));
+  }, [fetchedUsers]);
+
   return (
     <main className="p-5">
       <h2 className="text-2xl mb-3">Account</h2>
@@ -51,7 +58,7 @@ const Account = () => {
       <br />
       <br />
 
-      <div className="   grid grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] justify-center gap-[20px] ">
+      <div className="   grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] justify-center gap-[20px] ">
         <div className="min-h-[200px] flex-1   p-3 bg-gray-50 dark:bg-secondary rounded-lg">
           <h2 className="text-1xl mb-2 text-sm font-bold">Email/password sign in method:</h2>
           {isEmailPasswordMethodEnabled && <div className="text-success text-sm mb-4">Enabled</div>}
@@ -85,18 +92,41 @@ const Account = () => {
         </div>
 
         <div className="min-h-[200px] flex-1  p-3 bg-gray-50 dark:bg-secondary rounded-lg">
-        <div className="flex items-center justify-between text-sm gap-5 py-1 px-3">
-          <div className="font-bold">Email:</div>
-          <div className="capitalize">{email}</div>
+          <div className="flex items-center justify-between text-sm gap-5 py-1">
+            <div className="font-bold">Email:</div>
+            <div className="capitalize">{email}</div>
+          </div>
+          <div className="flex items-center justify-between text-sm gap-5 py-1">
+            <div className="font-bold">Role:</div>
+            <div className="capitalize">{role || "user"}</div>
+          </div>
+          <div className="flex items-center justify-between text-sm gap-5 py-1">
+            <div className="font-bold">Is email verified:</div>
+            <div className="capitalize">{currentUser?.emailVerified ? "Yes" : "No"}</div>
+          </div>
         </div>
-        <div className="flex items-center justify-between text-sm gap-5 py-1 px-3">
-          <div className="font-bold">Role:</div>
-          <div className="capitalize">{role || 'user'}</div>
-        </div>
-        <div className="flex items-center justify-between text-sm gap-5 py-1 px-3">
-          <div className="font-bold">Is email verified:</div>
-          <div className="capitalize">{currentUser?.emailVerified ? 'Yes': 'No'}</div>
-        </div>
+
+        <div className="min-h-[200px] flex-1  p-3 bg-gray-50 dark:bg-secondary rounded-lg">
+          <div className="font-bold text-sm ">SuperAdmin:</div>
+          <div className="mb-6 text-sm">
+            {fetchedUsers.list.find((superAdmin) => superAdmin.role === "superAdmin")?.displayName || (
+              <span className="text-sm text-gray-400">No SuperAdmin</span>
+            )}
+          </div>
+
+          <div className="font-bold text-sm ">Admin(s):</div>
+          <div className="">
+            {admins.length ? (
+              admins.map((admin, index) => (
+                <span key={index} className="text-sm">
+                  {admin.displayName}
+                  {index < admins.length - 1 && ", "}
+                </span>
+              ))
+            ) : (
+              <span className="text-sm text-gray-400">No admin(s)</span>
+            )}
+          </div>
         </div>
       </div>
     </main>
@@ -336,7 +366,7 @@ const UpdateEmailContent = ({ closeDialog = () => {} }) => {
         email: state.email,
         setIsLoading,
         callback: () => {
-          console.log('trigger')
+          console.log("trigger");
           closeDialog();
         },
       });

@@ -82,7 +82,7 @@ type StateProps = {
 };
 
 const EditProfileContent = ({ closeDialog = () => {} }) => {
-  const { fetchedCurrentUser, updateUser, updateUserCollection, getCurrentUser, getUserCollection } =
+  const { fetchedCurrentUser, updateUser, updateUserCollection, getUser, getUserCollection } =
     useApiContext();
   const { convertToBase64, resizeBase64Image } = useUtil();
   const { details } = fetchedCurrentUser;
@@ -162,7 +162,7 @@ const EditProfileContent = ({ closeDialog = () => {} }) => {
       setIsLoading,
       callback: () => {
         closeDialog();
-        getCurrentUser({ id: currentUser?.uid });
+        getUser({ id: currentUser?.uid });
       },
     });
 
@@ -184,7 +184,7 @@ const EditProfileContent = ({ closeDialog = () => {} }) => {
       setIsLoading,
       callback: () => {
         // closeDialog();
-        getCurrentUser({ id: currentUser?.uid });
+        getUser({ id: currentUser?.uid });
       },
     });
   };

@@ -45,7 +45,7 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const { fetchedCurrentUser, updateUser, getCurrentUser } = useApiContext();
+  const { fetchedCurrentUser, updateUser, getUser } = useApiContext();
   const { currentUser } = useAuthContext();
   const { heroImages } = useGlobalContext();
   const { details } = fetchedCurrentUser;
@@ -80,7 +80,7 @@ const Content = ({ closeDialog = () => {} }: { closeDialog: () => void }) => {
       setIsLoading,
       callback: () => {
         closeDialog();
-        getCurrentUser({ id: currentUser?.uid });
+        getUser({ id: currentUser?.uid });
       },
     });
   };

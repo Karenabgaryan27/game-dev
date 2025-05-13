@@ -25,7 +25,7 @@ const SetupUserDialogContent = ({
   user: any;
   closeDialog: () => void;
 }) => {
-  const { updateUser, getCurrentUser } = useApiContext();
+  const { updateUser, getUser } = useApiContext();
   const { currentUser } = useAuthContext();
 
   const [state, setState] = useState<StateProps>({
@@ -60,7 +60,7 @@ const SetupUserDialogContent = ({
       setIsLoading,
       callback: () => {
         closeDialog();
-        getCurrentUser({ id: currentUser?.uid });
+        getUser({ id: currentUser?.uid });
       },
     });
   };

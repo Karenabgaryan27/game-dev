@@ -61,8 +61,6 @@ type ApiContextType = {
   updateEvent: ({ id, setIsLoading, ...fields }: { [key: string]: any }) => void;
   deleteEvent: ({ id, setIsLoading }: { [key: string]: any }) => void;
 
-  getCurrentUser: ({ setIsLoading }: { [key: string]: any }) => void;
-
   getUser: ({ setIsLoading }: { [key: string]: any }) => void;
   getUsers: ({ setIsLoading }: { [key: string]: any }) => void;
   updateUser: ({ id, setIsLoading, updatedFields }: { [key: string]: any }) => void;
@@ -246,47 +244,32 @@ export default function ApiProvider({
   };
 
   // USERS
-  const getCurrentUser = async ({ id = "", setIsLoading = (_: boolean) => {} }) => {
-    setIsLoading(true);
-    setFetchedCurrentUser((prev) => ({ ...prev, isLoading: true }));
-
-    try {
-      const userDocRef = doc(usersCollectionRef, id);
-      const res = await getDoc(userDocRef);
-      const data = { id: res.id, ...res.data() };
-
-      const res2 = await getDoc(doc(db, "users", id, "media", "banner"));
-      const data2 = { id: res2.id, ...res2.data() };
-      setFetchedCurrentUser((prev) => ({
-        ...prev,
-        details: { ...data, collectionMedia: { ...data2 } },
-        isLoading: false,
-      }));
-    } catch (err: any) {
-      errorAlert(err.message || "Internal server error. Please try again later.");
-      console.error(err, "=getCurrentUser= request error");
-    }
-    setIsLoading(false);
-    setFetchedCurrentUser((prev) => ({ ...prev, isLoading: false }));
-  };
 
   const getUser = async ({ id = "", setIsLoading = (_: boolean) => {} }) => {
     setIsLoading(true);
     setFetchedUser((prev) => ({ ...prev, isLoading: true }));
 
     try {
-      const userDocRef = doc(usersCollectionRef, id);
-      const res = await getDoc(userDocRef);
+      const [res, res2] = await Promise.all([
+        getDoc(doc(usersCollectionRef, id)),
+        getDoc(doc(db, "users", id, "media", "banner")),
+      ]);
       const data = { id: res.id, ...res.data() };
+      const mediaData = { id: res2.id, ...res2.data() };
 
-      const res2 = await getDoc(doc(db, "users", id, "media", "banner"));
-      const data2 = { id: res2.id, ...res2.data() };
-
-      setFetchedUser((prev) => ({
-        ...prev,
-        details: { ...data, collectionMedia: { ...data2 } },
-        isLoading: false,
-      }));
+      if (currentUser?.uid === id) {
+        setFetchedCurrentUser((prev) => ({
+          ...prev,
+          details: { ...data, collectionMedia: { ...mediaData } },
+          isLoading: false,
+        }));
+      } else {
+        setFetchedUser((prev) => ({
+          ...prev,
+          details: { ...data, collectionMedia: { ...mediaData } },
+          isLoading: false,
+        }));
+      }
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=getUser= request error");
@@ -350,7 +333,7 @@ export default function ApiProvider({
       // await updateDoc(doc(db, "users", userId, collectionName, collectionId), {
       //   updatedFields,
       // });
-      // getCurrentUser({id: userId});
+      // getUser({id: userId});
       // getUsers({});
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
@@ -445,7 +428,7 @@ export default function ApiProvider({
 
   useEffect(() => {
     if (!currentUser?.uid) return;
-    getCurrentUser({ id: currentUser?.uid });
+    getUser({ id: currentUser?.uid });
     getUsers({});
   }, [currentUser, state.isDBUserCreated]);
 
@@ -467,8 +450,6 @@ export default function ApiProvider({
         addEvent,
         deleteEvent,
         updateEvent,
-
-        getCurrentUser,
 
         getUser,
         getUsers,
