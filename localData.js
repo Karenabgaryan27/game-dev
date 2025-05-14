@@ -124,6 +124,9 @@ const images = {
   maintenanceWorkerImage: "/assets/images/rest/maintenance-worker.jpg",
   heroesLookingDownImage: "/assets/images/rest/heroes-looking-down.jpg",
   mapImage: "/assets/images/rest/map.png",
+  reallyImage: "/assets/images/rest/really.png",
+  acceptedImage: "/assets/images/rest/accepted.png",
+  rejectedImage: "/assets/images/rest/rejected.png",
 };
 
 const localData = {

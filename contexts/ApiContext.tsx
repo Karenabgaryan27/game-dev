@@ -60,6 +60,9 @@ type ApiContextType = {
   addEvent: ({ setIsLoading }: { [key: string]: any }) => void;
   updateEvent: ({ id, setIsLoading, ...fields }: { [key: string]: any }) => void;
   deleteEvent: ({ id, setIsLoading }: { [key: string]: any }) => void;
+  addEventParticipationRecord: ({ setIsLoading }: { [key: string]: any }) => void;
+  updateEventParticipationRecord: ({ setIsLoading }: { [key: string]: any }) => void;
+  getEventParticipationRecords: ({ setIsLoading }: { [key: string]: any }) => void;
 
   getUser: ({ setIsLoading }: { [key: string]: any }) => void;
   getUsers: ({ setIsLoading }: { [key: string]: any }) => void;
@@ -222,6 +225,62 @@ export default function ApiProvider({
     }
     setIsLoading(false);
     callback();
+  };
+
+  const addEventParticipationRecord = async ({
+    eventId = "",
+    fields = {},
+    setIsLoading = (_: boolean) => {},
+    callback = () => {},
+  }) => {
+    setIsLoading(true);
+    try {
+      await addDoc(collection(db, "events", eventId, "participationRecords"), fields);
+      // getEvents({});
+      successAlert("Record has been created successfully.");
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=addEventParticipationRecord= request error");
+    }
+    setIsLoading(false);
+    callback();
+  };
+  const updateEventParticipationRecord = async ({
+    eventId = "",
+    recordId = "",
+    fields = {},
+    setIsLoading = (_: boolean) => {},
+    callback = () => {},
+  }) => {
+    setIsLoading(true);
+    try {
+      await updateDoc(doc(db, "events", eventId, "participationRecords",recordId), fields);
+      // getEvents({});
+      successAlert("Record has been updated successfully.");
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=updateEventParticipationRecord= request error");
+    }
+    setIsLoading(false);
+    callback();
+  };
+
+  const getEventParticipationRecords = async ({
+    eventId = "",
+    setIsLoading = (_: boolean) => {},
+    successCallback = (_: any) => {},
+  }) => {
+    setIsLoading(true);
+
+    try {
+      const res = await getDocs(collection(db, "events", eventId, "participationRecords"));
+      const data = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      successCallback({ data });
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=getEventParticipationRecords= request error");
+    }
+    setIsLoading(false);
   };
 
   // USERS
@@ -431,6 +490,9 @@ export default function ApiProvider({
         addEvent,
         deleteEvent,
         updateEvent,
+        addEventParticipationRecord,
+        updateEventParticipationRecord,
+        getEventParticipationRecords,
 
         getUser,
         getUsers,

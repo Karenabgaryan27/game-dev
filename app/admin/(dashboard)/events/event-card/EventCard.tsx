@@ -8,6 +8,8 @@ import useExpiryCountdown from "@/hooks/useExpiryCountdown";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useApiContext } from "@/contexts/ApiContext";
 import Link from "next/link";
+import { ButtonDemo, DialogDemo, TextareaDemo } from "@/components/index";
+import ParticipantsDialog from "./participants-dialog/ParticipantsDialog";
 
 const {
   eventPlaceholderImage,
@@ -19,6 +21,7 @@ const {
   escortScreenshotImage,
   behemothcreenshotImage,
   badgeImage,
+  avatarPlaceholderImage,
 } = localData.images;
 
 const eventTypes = {
@@ -64,12 +67,15 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
     descritpion: "",
     points: 0,
     background: "",
+    recordsUpdatedCode: ''
   });
+  const [participationRecords, setParticipationRecords] = useState([]);
 
   const { timeLeft, isNearExpiry, isExpired } = useExpiryCountdown(item.ttl?.seconds || 0);
   const { currentUser } = useAuthContext();
   const {
     fetchedCurrentUser: { details },
+    getEventParticipationRecords,
   } = useApiContext();
 
   useEffect(() => {
@@ -80,6 +86,15 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
       setState(getType);
     }
   }, [item]);
+
+  useEffect(() => {
+    getEventParticipationRecords({
+      eventId: item.id,
+      successCallback: (data: any) => {
+        setParticipationRecords(data.data);
+      },
+    });
+  }, [item, state.recordsUpdatedCode]);
 
   return (
     <div className={`card event-card  relative`}>
@@ -103,7 +118,9 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           <h2 className=" font-medium whitespace-nowrap text-xs ml-auto">
             Created by{" "}
             <Link
-              className={`capitalize hover:decoration-black underline  decoration-gray-400 ${details.id === item.userId ? "pointer-events-none opacity-30" : ""} `}
+              className={`capitalize hover:decoration-black underline  decoration-gray-400 ${
+                details.id === item.userId ? "pointer-events-none opacity-30" : ""
+              } `}
               href={`/admin/users/${item.userId}`}
             >
               {item.createdBy}
@@ -130,11 +147,41 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           </div>
         </div>
 
-        <div className="card-footer p-2">
-          <div className="text-gray-400 text-xs">No particiapnts</div>
+        <div className="card-footer px-2  min-h-[40px] flex items-center gap-1 ">
+          {participationRecords.length ? (
+            participationRecords
+              .filter((item, index) => index < 4)
+              .map((item: any, index: number) => {
+                return (
+                  <div
+                    key={index}
+                    className="w-[35px] h-[35px] rounded-full overflow-hidden border  shadow-lg"
+                  >
+                    <img
+                      className="w-full h-full object-cover"
+                      src={item.participant.avatar || avatarPlaceholderImage}
+                      alt=""
+                    />
+                  </div>
+                );
+              })
+          ) : (
+            <div className="text-gray-400 text-xs self-start mt-1">No particiapnts</div>
+          )}
+          {participationRecords.length > 4 ? (
+            <div className="text-sm">+{participationRecords.length - 4}</div>
+          ) : (
+            ""
+          )}
+          {participationRecords.length ? (
+            <ParticipantsDialog participationRecords={participationRecords} eventId={item.id} parentSetState={setState} />
+          ) : (
+            ""
+          )}
         </div>
       </div>
-      <div className="options absolute  w-full left-0 bottom-[30px] z-10 p-3 flex justify-end ">
+
+      <div className="options absolute  w-full left-0 bottom-[38px] z-10 p-3 flex justify-end ">
         <div className="flex flex-col w-[fit-content] gap-1 ">
           {(currentUser?.uid === item.userId || details?.role === "superAdmin") && (
             <EventCardDeleteDialog item={item} state={state} />
@@ -151,6 +198,7 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
             className={` ${item.ttl != null && isExpired ? "hidden" : ""}`}
             item={item}
             parentState={state}
+            parentSetState={setState}
           />
         </div>
       </div>
@@ -159,3 +207,8 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
 };
 
 export default EventCard;
+
+// PARTICIPANTS DIALOG
+
+
+// PARTICIPANTDIALOG

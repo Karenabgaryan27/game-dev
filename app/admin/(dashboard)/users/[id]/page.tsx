@@ -22,18 +22,18 @@ import { useGlobalContext } from "@/contexts/context";
 
 const { avatarPlaceholderImage, heroPlaceholderImage } = localData.images;
 
-const { userGearImage } = localData.svgs;
+const { reallyImage } = localData.images;
 
 const Page = () => {
   const params = useParams();
   const userId = params.id;
 
-  const { getUser , fetchedUser} = useApiContext();
-  const {details} = fetchedUser
+  const { getUser, fetchedUser, fetchedCurrentUser } = useApiContext();
+  const { details } = fetchedUser;
 
   useEffect(() => {
     if (!userId) return;
-    getUser({ id: userId});
+    getUser({ id: userId });
   }, [userId]);
 
   const breadcrumbItems = [
@@ -48,6 +48,14 @@ const Page = () => {
       label: `(${details.displayName})`,
     },
   ];
+  console.log(fetchedCurrentUser);
+  if (userId === fetchedCurrentUser.details.id) {
+    return (
+      <main>
+        <img className="max-w-[300px]" src={reallyImage} alt="" />
+      </main>
+    );
+  }
 
   return (
     <main className="pages-page p-5">
@@ -58,9 +66,9 @@ const Page = () => {
       <Card className="mb-[200px] min-h-[500px] relative pb-[100px]">
         <CardContent>
           <ProfileHeader details={fetchedUser.details} />
-          <UserInfoBlock details={fetchedUser.details}  />
-          <HeroesBlock  details={fetchedUser.details}/>
-          <ArtifactsBlock  details={fetchedUser.details}/>
+          <UserInfoBlock details={fetchedUser.details} />
+          <HeroesBlock details={fetchedUser.details} />
+          <ArtifactsBlock details={fetchedUser.details} />
           {/* <CustomArsenalBlock /> */}
         </CardContent>
       </Card>
@@ -69,8 +77,7 @@ const Page = () => {
 };
 
 // USER INFO BLOCK
-const UserInfoBlock = ({details={}}: {details: any}) => {
-
+const UserInfoBlock = ({ details = {} }: { details: any }) => {
   return (
     <div className="mb-[150px] relative  py-5">
       <div>
@@ -137,7 +144,7 @@ const UserInfoBlock = ({details={}}: {details: any}) => {
 // HEROES BLOCK
 let heroCardIndex = 2;
 
-const HeroesBlock = ({details={}}: {details: any}) => {
+const HeroesBlock = ({ details = {} }: { details: any }) => {
   const [expand, setExpand] = useState("md");
   const [featuredHeroes, setFeaturedHeroes] = useState([]);
 
@@ -197,7 +204,7 @@ const HeroesBlock = ({details={}}: {details: any}) => {
 // ARTIFACTS BLOCK
 let artifactCardIndex = 2;
 
-const ArtifactsBlock = ({details={}}: {details: any}) => {
+const ArtifactsBlock = ({ details = {} }: { details: any }) => {
   const [expand, setExpand] = useState("md");
   const [featuredArtifacts, setFeaturedArtifacts] = useState([]);
 

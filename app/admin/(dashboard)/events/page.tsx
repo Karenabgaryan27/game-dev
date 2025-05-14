@@ -51,8 +51,10 @@ const Events = () => {
   const [filteredData, setFilteredData] = useState<{ [key: string]: any }[]>([]);
   const { details } = fetchedCurrentUser;
 
+
   useEffect(() => {
     getEvents({});
+      
   }, []);
 
   useEffect(() => {
