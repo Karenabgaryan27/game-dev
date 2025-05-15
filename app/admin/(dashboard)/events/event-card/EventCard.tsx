@@ -10,6 +10,7 @@ import { useApiContext } from "@/contexts/ApiContext";
 import Link from "next/link";
 import { ButtonDemo, DialogDemo, TextareaDemo } from "@/components/index";
 import ParticipantsDialog from "./participants-dialog/ParticipantsDialog";
+import ParticipantDialog from "./participant-dialog/ParticipantDialog";
 
 const {
   eventPlaceholderImage,
@@ -67,8 +68,9 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
     descritpion: "",
     points: 0,
     background: "",
-    recordsUpdatedCode: ''
+    recordsUpdatedCode: "",
   });
+
   const [participationRecords, setParticipationRecords] = useState([]);
 
   const { timeLeft, isNearExpiry, isExpired } = useExpiryCountdown(item.ttl?.seconds || 0);
@@ -116,11 +118,11 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           )}
 
           <h2 className=" font-medium whitespace-nowrap text-xs ml-auto">
-            Created by{" "}
+            <div className="font-medium text-[10px] text-gray-500">Created by </div>
             <Link
               className={`capitalize hover:decoration-black underline  decoration-gray-400 ${
                 details.id === item.userId ? "pointer-events-none opacity-30" : ""
-              } `}
+              } truncate w-[90px] block font-regular`}
               href={`/admin/users/${item.userId}`}
             >
               {item.createdBy}
@@ -151,18 +153,27 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
           {participationRecords.length ? (
             participationRecords
               .filter((item, index) => index < 4)
-              .map((item: any, index: number) => {
+              .map((record: any, index: number) => {
                 return (
-                  <div
+                  <ParticipantDialog
                     key={index}
-                    className="w-[35px] h-[35px] rounded-full overflow-hidden border  shadow-lg"
-                  >
-                    <img
-                      className="w-full h-full object-cover"
-                      src={item.participant.avatar || avatarPlaceholderImage}
-                      alt=""
-                    />
-                  </div>
+                    record={record}
+                    eventId={item.id}
+                    parentSetState={setState}
+                    trigger={
+                      <div
+                        key={index}
+                        className="w-[35px] h-[35px] rounded-full overflow-hidden border  shadow-lg relative group cursor-pointer"
+                      >
+                        <div className="overlay absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)] hidden group-hover:block"></div>
+                        <img
+                          className="w-full h-full object-cover"
+                          src={record.participant.avatar || avatarPlaceholderImage}
+                          alt=""
+                        />
+                      </div>
+                    }
+                  />
                 );
               })
           ) : (
@@ -174,7 +185,11 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
             ""
           )}
           {participationRecords.length ? (
-            <ParticipantsDialog participationRecords={participationRecords} eventId={item.id} parentSetState={setState} />
+            <ParticipantsDialog
+              participationRecords={participationRecords}
+              eventId={item.id}
+              parentSetState={setState}
+            />
           ) : (
             ""
           )}
@@ -207,8 +222,3 @@ const EventCard = ({ item = {} }: { item: { [key: string]: any } }) => {
 };
 
 export default EventCard;
-
-// PARTICIPANTS DIALOG
-
-
-// PARTICIPANTDIALOG

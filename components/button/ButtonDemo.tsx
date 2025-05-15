@@ -22,11 +22,11 @@ const buttonStyles = {
   },
   outline: {
     primary: "",
-    success: "text-green-600 hover:text-green-600 border-green-200 hover:border-green-300 hover:bg-green-50",
-    blue: "bg-bluish hover:bg-bluish-hover",
+    success: "bg-transparent text-green-600 hover:text-green-600 border-green-200 hover:border-green-300 hover:bg-[rgba(0,255,0,0.03)]",
+    blue: "bg-transparent bg-bluish hover:bg-bluish-hover",
     warning:
-      "text-yellow-600 hover:text-yellow-600 border-yellow-200 hover:border-yellow-300 hover:bg-yellow-50",
-    danger: "text-red-600 hover:text-red-600 border-red-200 hover:border-red-300 hover:bg-red-50",
+      "bg-transparent text-yellow-600 hover:text-yellow-600 border-yellow-200 hover:border-yellow-300 hover:bg-yellow-50",
+    danger: "bg-transparent text-red-600 hover:text-red-600 border-red-200 hover:border-red-300 hover:bg-[rgba(255,0,0,0.03)]",
   },
   ghost: {
     primary: "",
@@ -93,7 +93,7 @@ export function ButtonDemo({
       variant={variant}
       size={size}
       disabled={disabled}
-      className={`${className} ${buttonStyle} cursor-pointer shadow-sm shadow-[rgba(255,255,255,.5)]`}
+      className={`${className} ${buttonStyle} cursor-pointer shadow-sm shadow-[rgba(255,255,255,.5)] ${size=='sm' ? ' rounded-sm text-xs':''}`}
       onClick={onClick}
       {...props}
     >

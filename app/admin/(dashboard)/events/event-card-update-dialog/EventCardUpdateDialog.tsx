@@ -48,6 +48,7 @@ const EventCardUpdateDialog = ({
       description={"This applies only on custom events"}
       trigger={
         <ButtonDemo
+          // size='sm'
           color="warning"
           text="Update"
           className={`ml-auto flex cursor-pointer w-full ${className}`}

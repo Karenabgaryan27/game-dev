@@ -5,16 +5,19 @@ import { useApiContext } from "@/contexts/ApiContext";
 import Link from "next/link";
 import { ButtonDemo, DialogDemo, TextareaDemo } from "@/components/index";
 import localData from "@/localData";
+import { DeleteRecordDialog } from "../delete-record-dialog/DeleteRecordDialog";
 
 const { avatarPlaceholderImage, eventPlaceholderImage } = localData.images;
 
 const ParticipantDialog = ({
   record = {},
   eventId = "",
+  trigger = null,
   parentSetState = () => {},
 }: {
   record: any;
   eventId: any;
+  trigger?: any;
   parentSetState: (_: any) => void;
 }) => {
   return (
@@ -23,12 +26,15 @@ const ParticipantDialog = ({
       description="Record of participant in this event."
       contentClassName="sm:max-w-[600px]"
       trigger={
-        <ButtonDemo
-          className="!shadow-none "
-          variant="ghost"
-          text={`${"Details"}`}
-          onClick={async () => {}}
-        />
+        trigger || (
+          <ButtonDemo
+            className="flex w-full mb-1"
+            size="sm"
+            color="blue"
+            text={`${"Details"}`}
+            onClick={async () => {}}
+          />
+        )
       }
     >
       {(closeDialog) => (
@@ -59,9 +65,17 @@ const ParticipantDialogContent = ({
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const { updateEventParticipationRecord } = useApiContext();
+  const {
+    updateEventParticipationRecord,
+    updateEventsHistoryRecord,
+    addEventsHistoryRecord,
+    getEventsHistoryRecord,
+    getEventsHistoryRecords
+  } = useApiContext();
 
-  const onSubmit = ({ status = "" }) => {
+  const onSubmit = async ({ status = "" }) => {
+    setIsLoading(true);
+
     const fields = {
       status: status,
       reviewer: {
@@ -71,16 +85,69 @@ const ParticipantDialogContent = ({
         avatar: details.base64PhotoURL || details.photoURL,
         rank: details.rank,
       },
+      updatedAt: new Date(),
     };
 
-    updateEventParticipationRecord({
-      eventId: eventId,
-      recordId: record.id,
-      fields,
-      setIsLoading,
-      callback: () => {
-        closeDialog();
-        parentSetState((prev: any) => ({ ...prev, recordsUpdatedCode: Math.floor(Math.random() * 100) }));
+    const acceptRejectRecord = () => {
+      updateEventParticipationRecord({
+        eventId: eventId,
+        recordId: record.id,
+        fields,
+
+        callback: () => {
+          closeDialog();
+          parentSetState((prev: any) => ({ ...prev, recordsUpdatedCode: Math.floor(Math.random() * 100) }));
+          setIsLoading(false);
+          getEventsHistoryRecords({})
+        },
+      });
+    };
+    console.log(record);
+
+    getEventsHistoryRecord({
+      participantId: record.userId,
+      successCallback: ({ data }: { data: any }) => {
+        const recordItem = {
+          status: status,
+          event: record.event,
+          reviewer: {
+            comment: state.comment,
+            uid: details.uid,
+            name: details.displayName,
+            rank: details.rank,
+            updatedAt: new Date(),
+          },
+          participant: {
+            comment: record.participant.comment,
+            createdAt: record.createdAt,
+          },
+        };
+
+        if (!data.createdAt) {
+          addEventsHistoryRecord({
+            participantId: record.userId,
+            fields: {
+              avatar: record.participant.avatar,
+              name: record.participant.name,
+              recordsList: [recordItem],
+              userId: record.userId,
+              createdAt: new Date(),
+            },
+            successCallback: () => {
+              acceptRejectRecord();
+            },
+          });
+        } else {
+          updateEventsHistoryRecord({
+            participantId: record.userId,
+            updatedFields: {
+              recordsList: [...data.recordsList, recordItem],
+            },
+            successCallback: () => {
+              acceptRejectRecord();
+            },
+          });
+        }
       },
     });
   };
@@ -98,7 +165,7 @@ const ParticipantDialogContent = ({
   return (
     <div className="participant-dialog mt-3">
       <div className="dialog-body mb-5">
-        <div className=" bg-gray-200 p-5 rounded-lg mb-10">
+        <div className=" bg-blue-100 p-5 rounded-lg mb-10">
           <div className="flex gap-5">
             <div className="w-[70px] h-[70px] rounded-full overflow-hidden border mb-3 shadow-lg">
               <img
@@ -108,7 +175,7 @@ const ParticipantDialogContent = ({
               />
             </div>
             <div>
-              <div className="flex gap-2 items-center mb-1 text-sm">
+              <div className="flex gap-2 mb-1 text-sm">
                 Created by:
                 <Link
                   className={`capitalize hover:decoration-black underline  decoration-gray-400 ${
@@ -120,11 +187,11 @@ const ParticipantDialogContent = ({
                 </Link>{" "}
               </div>
 
-              <div className="text-sm flex items-center gap-2">
+              <div className="text-sm flex gap-2">
                 Rank:
                 <div>{record.participant.rank || <div className="text-gray-500">---</div>}</div>
               </div>
-              <div className="text-sm flex items-center gap-2">
+              <div className="text-sm flex gap-2">
                 Comment:
                 <div>{record.participant.comment || <div className="text-gray-500">---</div>}</div>
               </div>
@@ -161,6 +228,44 @@ const ParticipantDialogContent = ({
             </div>
           </div>
 
+          {record.reviewer && (
+            <div
+              className={`flex gap-5 ${
+                record.status === "accepted" ? "bg-green-100" : "bg-red-100"
+              } p-5 rounded-lg mb-3`}
+            >
+              <div className="w-[70px] h-[70px] rounded-full overflow-hidden border mb-3 shadow-lg">
+                <img
+                  className="w-full h-full object-cover"
+                  src={record?.reviewer?.avatar || avatarPlaceholderImage}
+                  alt=""
+                />
+              </div>
+              <div>
+                <div className="flex gap-2 mb-1 text-sm">
+                  {record.status} by:
+                  <Link
+                    className={`capitalize hover:decoration-black underline  decoration-gray-400 ${
+                      details.id === record?.reviewer?.uid ? "pointer-events-none opacity-30" : ""
+                    } `}
+                    href={`/admin/users/${record?.reviewer?.uid}`}
+                  >
+                    {record?.reviewer?.name}
+                  </Link>{" "}
+                </div>
+
+                <div className="text-sm flex gap-2">
+                  Rank:
+                  <div>{record?.reviewer?.rank || <div className="text-gray-500">---</div>}</div>
+                </div>
+                <div className="text-sm flex gap-2">
+                  Comment:
+                  <div>{record?.reviewer?.comment || <div className="text-gray-500">---</div>}</div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {record.status == "pending" && (details.role === "admin" || details.role === "superAdmin") && (
             <div>
               <TextareaDemo
@@ -192,42 +297,8 @@ const ParticipantDialogContent = ({
             </div>
           )}
 
-          {record.reviewer && (
-            <div
-              className={`flex gap-5 ${
-                record.status === "accepted" ? "bg-green-100" : "bg-red-100"
-              } p-5 rounded-lg mb-3`}
-            >
-              <div className="w-[70px] h-[70px] rounded-full overflow-hidden border mb-3 shadow-lg">
-                <img
-                  className="w-full h-full object-cover"
-                  src={record?.reviewer?.avatar || avatarPlaceholderImage}
-                  alt=""
-                />
-              </div>
-              <div>
-                <div className="flex gap-2 items-center mb-1 text-sm">
-                  {record.status} by:
-                  <Link
-                    className={`capitalize hover:decoration-black underline  decoration-gray-400 ${
-                      details.id === record?.reviewer?.uid ? "pointer-events-none opacity-30" : ""
-                    } `}
-                    href={`/admin/users/${record?.reviewer?.uid}`}
-                  >
-                    {record?.reviewer?.name}
-                  </Link>{" "}
-                </div>
-
-                <div className="text-sm flex items-center gap-2">
-                  Rank:
-                  <div>{record?.reviewer?.rank || <div className="text-gray-500">---</div>}</div>
-                </div>
-                <div className="text-sm flex items-center gap-2">
-                  Comment:
-                  <div>{record?.reviewer?.comment || <div className="text-gray-500">---</div>}</div>
-                </div>
-              </div>
-            </div>
+          {record.status !== "pending" && (details.role === "admin" || details.role === "superAdmin") && (
+            <DeleteRecordDialog recordId={record.id} eventId={eventId} parentSetState={parentSetState} />
           )}
         </div>
       </div>

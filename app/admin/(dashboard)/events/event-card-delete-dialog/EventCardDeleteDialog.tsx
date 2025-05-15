@@ -5,9 +5,9 @@ import { useApiContext } from "@/contexts/ApiContext";
 import { ButtonDemo, DialogDemo } from "@/components/index";
 import localData from "@/localData";
 
-const {redDragonImage} = localData.images
+const { redDragonImage } = localData.images;
 
-const EventCardDeleteDialog = ({ item = {}, state = {} }:{ [key: string]: any}) => {
+const EventCardDeleteDialog = ({ item = {}, state = {} }: { [key: string]: any }) => {
   return (
     <DialogDemo
       color="destructive"
@@ -15,7 +15,12 @@ const EventCardDeleteDialog = ({ item = {}, state = {} }:{ [key: string]: any}) 
       title={"Delete Event"}
       description={"This will permanently remove the event"}
       trigger={
-        <ButtonDemo variant="destructive" text="Delete" className={`ml-auto flex cursor-pointer w-full`} />
+        <ButtonDemo
+          // size="sm"
+          variant="destructive"
+          text="Delete"
+          className={`ml-auto flex cursor-pointer w-full`}
+        />
       }
     >
       {(closeDialog) => <Content closeDialog={closeDialog} {...{ ...item, ...state }} />}

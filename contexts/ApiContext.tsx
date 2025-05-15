@@ -25,6 +25,10 @@ type FetchedEventsProps = {
   isLoading: boolean;
   list: { [key: string]: any }[];
 };
+type FetchEventsHistoryRecordsProps = {
+  isLoading: boolean;
+  list: { [key: string]: any }[];
+};
 
 type FetchedUsersProps = {
   isLoading: boolean;
@@ -54,6 +58,7 @@ type ApiContextType = {
   setFetchedCurrentUser: (_: any) => void;
   fetchedUser: FetchedUserProps;
   fetchedEvents: FetchedEventsProps;
+  fetchEventsHistoryRecords: FetchEventsHistoryRecordsProps;
   fetchedPages: FetchedPagesProps;
 
   getEvents: ({ setIsLoading }: { [key: string]: any }) => void;
@@ -62,7 +67,13 @@ type ApiContextType = {
   deleteEvent: ({ id, setIsLoading }: { [key: string]: any }) => void;
   addEventParticipationRecord: ({ setIsLoading }: { [key: string]: any }) => void;
   updateEventParticipationRecord: ({ setIsLoading }: { [key: string]: any }) => void;
+  deleteEventParticipationRecord: ({ setIsLoading }: { [key: string]: any }) => void;
   getEventParticipationRecords: ({ setIsLoading }: { [key: string]: any }) => void;
+
+  addEventsHistoryRecord: ({}: { [key: string]: any }) => Promise<void>;
+  updateEventsHistoryRecord: ({}: { [key: string]: any }) => Promise<void>;
+  getEventsHistoryRecord: ({}: { [key: string]: any }) => Promise<void>;
+  getEventsHistoryRecords: ({}: { [key: string]: any }) => Promise<void>;
 
   getUser: ({ setIsLoading }: { [key: string]: any }) => void;
   getUsers: ({ setIsLoading }: { [key: string]: any }) => void;
@@ -90,6 +101,10 @@ export default function ApiProvider({
   children: React.ReactNode;
 }>) {
   const [fetchedEvents, setFetchedEvents] = useState<FetchedEventsProps>({
+    isLoading: false,
+    list: [],
+  });
+  const [fetchEventsHistoryRecords, setFetchEventsHistoryRecords] = useState<FetchEventsHistoryRecordsProps>({
     isLoading: false,
     list: [],
   });
@@ -245,6 +260,7 @@ export default function ApiProvider({
     setIsLoading(false);
     callback();
   };
+
   const updateEventParticipationRecord = async ({
     eventId = "",
     recordId = "",
@@ -254,12 +270,31 @@ export default function ApiProvider({
   }) => {
     setIsLoading(true);
     try {
-      await updateDoc(doc(db, "events", eventId, "participationRecords",recordId), fields);
+      await updateDoc(doc(db, "events", eventId, "participationRecords", recordId), fields);
       // getEvents({});
       successAlert("Record has been updated successfully.");
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=updateEventParticipationRecord= request error");
+    }
+    setIsLoading(false);
+    callback();
+  };
+
+  const deleteEventParticipationRecord = async ({
+    eventId = "",
+    recordId = "",
+    setIsLoading = (_: boolean) => {},
+    callback = () => {},
+  }) => {
+    setIsLoading(true);
+    try {
+      await deleteDoc(doc(db, "events", eventId, "participationRecords", recordId));
+      // getEvents({});
+      successAlert("Record has been deleted successfully.");
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=deleteEventParticipationRecord= request error");
     }
     setIsLoading(false);
     callback();
@@ -281,6 +316,74 @@ export default function ApiProvider({
       console.error(err, "=getEventParticipationRecords= request error");
     }
     setIsLoading(false);
+  };
+
+  // EVENTSHISTORY
+  const addEventsHistoryRecord = async ({
+    participantId = "",
+    fields = {},
+    successCallback = () => {},
+    setIsLoading = (_: boolean) => {},
+  }) => {
+    setIsLoading(true);
+    try {
+      await setDoc(doc(db, "eventsHistory", participantId), fields);
+      successCallback();
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=addEventsHistoryRecord= request error");
+    }
+    setIsLoading(false);
+  };
+  const updateEventsHistoryRecord = async ({
+    participantId = "",
+    updatedFields = {},
+    successCallback = () => {},
+    setIsLoading = (_: boolean) => {},
+  }) => {
+    setIsLoading(true);
+    try {
+      await updateDoc(doc(db, "eventsHistory", participantId), updatedFields);
+      successCallback();
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=updateEventsHistoryRecord= request error");
+    }
+    setIsLoading(false);
+  };
+  const getEventsHistoryRecord = async ({
+    participantId = "",
+    successCallback = (_: any) => {},
+    setIsLoading = (_: boolean) => {},
+  }) => {
+    setIsLoading(true);
+    try {
+      const res = await getDoc(doc(db, "eventsHistory", participantId));
+      const data = { id: res.id, ...res.data() };
+      successCallback({ data });
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=getEventsHistoryRecord= request error");
+    }
+    setIsLoading(false);
+  };
+  const getEventsHistoryRecords = async ({
+    successCallback = (_: any) => {},
+    setIsLoading = (_: boolean) => {},
+  }) => {
+    setIsLoading(true);
+    setFetchEventsHistoryRecords(prev=>({...prev, isLoading:true}))
+    try {
+      const res = await getDocs(collection(db, "eventsHistory"));
+      const data = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      successCallback({ data });
+      setFetchEventsHistoryRecords(prev=>({...prev,list: data, isLoading:true}))
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=getEventsHistoryRecords= request error");
+    }
+    setIsLoading(false);
+    setFetchEventsHistoryRecords(prev=>({...prev, isLoading:false}))
   };
 
   // USERS
@@ -419,8 +522,6 @@ export default function ApiProvider({
     setIsLoading(false);
   };
 
-  // PARTICIPATIONRECORDS
-
   // WEBSITECONTENT
   const getContents = async ({ setIsLoading = (_: boolean) => {} }) => {
     setIsLoading(true);
@@ -470,6 +571,7 @@ export default function ApiProvider({
     if (!currentUser?.uid) return;
     getUser({ id: currentUser?.uid });
     getUsers({});
+    getEventsHistoryRecords({})
   }, [currentUser, state.isDBUserCreated]);
 
   useEffect(() => {
@@ -481,6 +583,7 @@ export default function ApiProvider({
       value={{
         fetchedEvents,
         fetchedUsers,
+        fetchEventsHistoryRecords,
         fetchedCurrentUser,
         setFetchedCurrentUser,
         fetchedUser,
@@ -492,7 +595,13 @@ export default function ApiProvider({
         updateEvent,
         addEventParticipationRecord,
         updateEventParticipationRecord,
+        deleteEventParticipationRecord,
         getEventParticipationRecords,
+
+        addEventsHistoryRecord,
+        updateEventsHistoryRecord,
+        getEventsHistoryRecord,
+        getEventsHistoryRecords,
 
         getUser,
         getUsers,

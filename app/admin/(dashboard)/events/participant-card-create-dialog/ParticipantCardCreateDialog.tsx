@@ -46,6 +46,7 @@ const ParticipantCardCreateDialog = ({
       description={"Join now — the event needs heroes, not spectators!"}
       trigger={
         <ButtonDemo
+          // size='sm'
           color="success"
           text="Participate"
           className={`ml-auto flex cursor-pointer w-full ${className}`}
@@ -91,19 +92,29 @@ const Content = ({
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    console.log(item, 'here')
+
     const fields = {
       status: 'pending',
+      event: {
+        name: item.name || parentState.name ||  "",
+        description: item.description || parentState.description ||  "",
+        points: item.points || parentState.points ||  "",
+        type: item.type || parentState.type ||  "",
+        createdBy: item.createdBy || "",
+        createdAt: item.createdAt || ""
+      },
       participant: {
         screenshot: state.screenshot,
         comment: state.comment,
         uid: details.uid,
         name: details.displayName,
         avatar: details.base64PhotoURL || details.photoURL,
-        rank: details.rank
+        rank: details.rank,
       },
       createdAt: new Date(),
       createdBy: details?.displayName,
-      // userId: details?.uid,
+      userId: details?.uid,
     };
 
     const size = getBase64ImageSize(state.screenshot).kilobytes;
