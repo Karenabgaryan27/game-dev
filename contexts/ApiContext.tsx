@@ -74,6 +74,7 @@ type ApiContextType = {
   updateEventsHistoryRecord: ({}: { [key: string]: any }) => Promise<void>;
   getEventsHistoryRecord: ({}: { [key: string]: any }) => Promise<void>;
   getEventsHistoryRecords: ({}: { [key: string]: any }) => Promise<void>;
+  deleteEventsHistoryRecords: ({}: { [key: string]: any }) => Promise<void>;
 
   getUser: ({ setIsLoading }: { [key: string]: any }) => void;
   getUsers: ({ setIsLoading }: { [key: string]: any }) => void;
@@ -367,23 +368,46 @@ export default function ApiProvider({
     }
     setIsLoading(false);
   };
+  const deleteEventsHistoryRecords = async ({
+    successCallback = (_: any) => {},
+    setIsLoading = (_: boolean) => {},
+  }) => {
+    setIsLoading(true);
+    setFetchEventsHistoryRecords((prev) => ({ ...prev, isLoading: true }));
+    try {
+       const querySnapshot = await getDocs(collection(db, "eventsHistory"));
+
+      const deletePromises = querySnapshot.docs.map((document) =>
+        deleteDoc(doc(db, "eventsHistory", document.id))
+      );
+
+      await Promise.all(deletePromises);
+      successCallback({  });
+      setFetchEventsHistoryRecords((prev) => ({ ...prev, list: [], isLoading: true }));
+    } catch (err: any) {
+      errorAlert(err.message || "Internal server error. Please try again later.");
+      console.error(err, "=deleteEventsHistoryRecords= request error");
+    }
+    setIsLoading(false);
+    setFetchEventsHistoryRecords((prev) => ({ ...prev, isLoading: false }));
+  };
   const getEventsHistoryRecords = async ({
     successCallback = (_: any) => {},
     setIsLoading = (_: boolean) => {},
   }) => {
     setIsLoading(true);
-    setFetchEventsHistoryRecords(prev=>({...prev, isLoading:true}))
+    setFetchEventsHistoryRecords((prev) => ({ ...prev, isLoading: true }));
     try {
       const res = await getDocs(collection(db, "eventsHistory"));
       const data = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       successCallback({ data });
-      setFetchEventsHistoryRecords(prev=>({...prev,list: data, isLoading:true}))
+      setFetchEventsHistoryRecords((prev) => ({ ...prev, list: data, isLoading: true }));
     } catch (err: any) {
       errorAlert(err.message || "Internal server error. Please try again later.");
       console.error(err, "=getEventsHistoryRecords= request error");
     }
     setIsLoading(false);
-    setFetchEventsHistoryRecords(prev=>({...prev, isLoading:false}))
+    setFetchEventsHistoryRecords((prev) => ({ ...prev, isLoading: false }));
   };
 
   // USERS
@@ -571,7 +595,7 @@ export default function ApiProvider({
     if (!currentUser?.uid) return;
     getUser({ id: currentUser?.uid });
     getUsers({});
-    getEventsHistoryRecords({})
+    getEventsHistoryRecords({});
   }, [currentUser, state.isDBUserCreated]);
 
   useEffect(() => {
@@ -602,6 +626,7 @@ export default function ApiProvider({
         updateEventsHistoryRecord,
         getEventsHistoryRecord,
         getEventsHistoryRecords,
+        deleteEventsHistoryRecords,
 
         getUser,
         getUsers,

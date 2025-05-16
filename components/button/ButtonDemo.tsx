@@ -33,7 +33,7 @@ const buttonStyles = {
     success: "text-green-600 hover:text-green-600 hover:bg-green-50",
     blue: "bg-bluish hover:bg-bluish-hover",
     warning: "text-yellow-600 hover:text-yellow-600 hover:bg-yellow-50",
-    danger: "bg-danger hover:bg-danger-hover",
+    danger: " hover:bg-red-100 !text-red-500 ",
   },
   destructive: {
     primary: "",

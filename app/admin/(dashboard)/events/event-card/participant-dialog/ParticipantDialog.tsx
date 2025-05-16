@@ -102,7 +102,6 @@ const ParticipantDialogContent = ({
         },
       });
     };
-    console.log(record);
 
     getEventsHistoryRecord({
       participantId: record.userId,
@@ -119,6 +118,8 @@ const ParticipantDialogContent = ({
           },
           participant: {
             comment: record.participant.comment,
+            rank: record.participant.rank,
+            uid: record.participant.uid,
             createdAt: record.createdAt,
           },
         };

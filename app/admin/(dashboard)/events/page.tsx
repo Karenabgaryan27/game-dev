@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useApiContext } from "@/contexts/ApiContext";
-import { BreadcrumbDemo, Separator, CustomParallaxCard } from "@/components/index";
+import { BreadcrumbDemo, Separator, CustomParallaxCard, ButtonDemo } from "@/components/index";
 import EventCard from "./event-card/EventCard";
 import EventCardCreateDialog from "./event-card-create-dialog/EventCardCreateDialog";
 import localData from "@/localData";
@@ -10,6 +10,7 @@ import localData from "@/localData";
 import { DataTableDemo } from "./data-table/DataTableDemo";
 import { Payment, columns } from "./data-table/columns";
 import { Card, CardContent } from "@/components/ui/card";
+import { DeleteEventsHistoryDialog } from "./delete-events-history-dialog/DeleteEventsHistoryDialog";
 
 const { chakchaImage, elkridersImage, mapImage } = localData.images;
 
@@ -106,27 +107,58 @@ const Events = () => {
 };
 
 const Table = () => {
-  const { getEventsHistoryRecords } = useApiContext();
-  const [fetchedRecords, setFetchedRecords] = useState<{ [key: string]: any }[]>([]);
   const [filteredData, setFilteredData] = useState<Payment[]>([]);
 
-  // const data = getData();
-
-  const { getUsers, fetchEventsHistoryRecords } = useApiContext();
+  const {
+    getUsers,
+    fetchEventsHistoryRecords,
+    getEventsHistoryRecords,
+    fetchedUsers,
+    deleteEventsHistoryRecords,
+    fetchedCurrentUser: { details },
+  } = useApiContext();
 
   useEffect(() => {
     getUsers({});
   }, []);
 
   useEffect(() => {
-    if (!fetchEventsHistoryRecords.list.length) return;
-   
+    // if (!fetchEventsHistoryRecords.list.length) return;
+
     const getData = (): Payment[] => {
       return fetchEventsHistoryRecords.list
         .filter((filteredItem) => filteredItem.isDeleted !== true)
         .map((item) => {
+          const matchUser = fetchedUsers.list.find((user) => user.id == item.userId);
+
+          let points = 0;
+          let behemothPoints = 0;
+          let caravanPoints = 0;
+          let donationPoints = 0;
+          let customPoints = 0;
+          let gatesPoints = 0;
+
+          item.recordsList
+            // .filter((item: any) => item.status == "accepted")
+            .forEach((item: any) => {
+              if (item.status === "accepted") {
+                points += Number(item.event.points);
+                if (item.event.type === "Behemoth") behemothPoints += Number(item.event.points);
+                if (item.event.type === "Caravan") caravanPoints += Number(item.event.points);
+                if (item.event.type === "Resource Donation") donationPoints += Number(item.event.points);
+                if (item.event.type === "Custom") customPoints += Number(item.event.points);
+                if (item.event.type === "Gates") gatesPoints += Number(item.event.points);
+              }
+            });
           return {
-            ...item
+            ...item,
+            matchUser,
+            points,
+            behemothPoints,
+            caravanPoints,
+            donationPoints,
+            customPoints,
+            gatesPoints,
           };
         });
     };
@@ -136,12 +168,23 @@ const Table = () => {
     setFilteredData(data);
   }, [fetchEventsHistoryRecords]);
 
+ 
+
   return (
-    <Card className="mb-[200px]">
-      <CardContent>
-        <DataTableDemo data={filteredData} columns={columns} />
-      </CardContent>
-    </Card>
+    <>
+      {(details.role === "admin" || details.role === "superAdmin") && (
+        <div className="flex justify-end">
+          <DeleteEventsHistoryDialog
+          
+          />
+        </div>
+      )}
+      <Card className={`mb-[200px] ${fetchEventsHistoryRecords.isLoading ? "opacity-70 pointer-events-none" : ""}`}>
+        <CardContent>
+          <DataTableDemo data={filteredData} columns={columns} />
+        </CardContent>
+      </Card>
+    </>
   );
 };
 

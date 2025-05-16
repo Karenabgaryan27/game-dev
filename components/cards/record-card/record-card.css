@@ -1,0 +1,124 @@
+
+
+.record-card {
+  transform-style: preserve-3d;
+  width: 100%;
+  cursor: pointer;
+}
+
+.record-card:hover {
+  z-index: 1;
+}
+
+.record-card:hover .card-title {
+  transform: translateZ(100px);
+}
+
+.record-card:hover .card-description {
+  transform: translateZ(50px);
+}
+
+.record-card .card-inner {
+    
+  position: relative;
+  border-radius: 5px;
+   /* border: 1px solid rgba(0,0,0,0.03); */
+  height: 0;
+  width: 100%;
+  padding-top: 135%;
+  /* box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.4); */
+  box-shadow: 1px 1px 10px rgba(37, 99, 235, 0.3);
+  transition: transform 0.1s ease;
+  transform-style: preserve-3d;
+  /* background-color: #000; */
+  background: linear-gradient(180deg, #e0e0e0 0%, #a5a5a5 100%);
+  /* margin-bottom: 10px; */
+}
+
+.record-card .card-inner .wrapper {
+  transform-style: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
+}
+
+.record-card .card-title {
+  color: #222;
+  text-shadow: -5px 5px 10px rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  transition: transform 0.3s ease;
+  font-family: Bangers;
+  margin-bottom: 0.5rem;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.record-card .card-description {
+  /* text-shadow: -1px 1px 6px rgba(0, 0, 0, 0.9); */
+  line-height: 1;
+  font-size: 12px;
+  transition: transform 0.4s ease;
+  font-weight: bold;
+  /* font-family: Bangers; */
+
+
+}
+
+.record-card .card-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.record-card .card-cover-inner {
+  position: absolute;
+  top: -17px;
+  left: -17px;
+  width: calc(100% + 34px);
+  height: calc(100% + 34px);
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  border: 4px solid black;
+}
+
+.record-card .card-cover-inner img {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 1s ease;
+}
+.record-card:hover .card-cover-inner img {
+    transform: scale(1.1);
+    
+}
+.record-card .card-inner .second-image {
+    position: absolute;
+    /* top: 50%; */
+    /* transform: translateY(-50%); */
+    bottom: 0;
+}
+
+
+.record-card.red .card-inner {
+  /* background: linear-gradient(180deg, #d13b2f 0%, #891c13 100%); */
+  box-shadow: 1px 1px 6px rgba(220, 38, 38, 0.3);
+
+}
+.record-card.blue .card-inner {
+    /* background: linear-gradient(180deg, #4a90e2 0%, #003d99 100%); */
+    box-shadow: 1px 1px 6px rgba(37, 99, 235, 0.3);
+    
+}
+.record-card.green .card-inner {
+    /* background: linear-gradient(180deg, #4caf50 0%, #087f23 100%); */
+}

@@ -281,7 +281,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
           <CarouselDemo
             className="data-table-carousel  "
             items={heroes?.length ? heroes : [{}]}
-            itemClassName="basis-1/5  lg:basis-1/7"
+            itemClassName="basis-1/7  lg:basis-1/10"
           >
             {({ item, index }) => <HeroCard {...item} index={index} />}
           </CarouselDemo>
@@ -296,7 +296,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
           <CarouselDemo
             className="data-table-carousel  "
             items={artifacts?.length ? artifacts : [{}]}
-            itemClassName="basis-1/5  lg:basis-1/7"
+            itemClassName="basis-1/7  lg:basis-1/10"
           >
             {({ item, index }) => <ArtifactCard {...item} index={index} />}
           </CarouselDemo>
@@ -323,7 +323,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
   return (
     <tr className="">
       <td colSpan={columns.length + 1} className="overflow-hidden">
-        <div className="p-4      mb-5 shadow">
+        <div className="p-4 shadow">
           <div className="flex items-center space-x-3">
             <EyeIcon className="w-5 h-5 text-gray-600" />
             <span className="text-lg font-semibold text-gray-700">Details</span>
@@ -332,58 +332,56 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
             <div className="mt-3 text-sm text-gray-500">
               <div className=" w-full lg:flex gap-10 ">
                 <div className="flex-1">
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">In-Game ID:</div>
                     <div>{row.inGameID || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">In-Game Name (IGN):</div>
                     <div>{row.displayName || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Email:</div>
                     <div>{row.email || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Country:</div>
                     <div>{row.country || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Language(s)</div>
                     <div>{row.languages || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5  px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Power</div>
                     <div>{row.power || "-"}</div>
                   </div>
                 </div>
 
                 <div className="flex-1">
-                  <div className="flex items-center justify-between text-sm gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Rank:</div>
                     <div>{row.rank || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Faction:</div>
                     <div>{row.faction || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Game Time (UTC):</div>
                     <div>{row.gameTime || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Main Troop Type:</div>
                     <div>{row.mainTroopType || "-"}</div>
                   </div>
-                  <div className="flex items-center justify-between text-sm gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
+                  <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Troop Level:</div>
                     <div>{row.troopLevel || "-"}</div>
                   </div>
                 </div>
               </div>
             </div>
-            <br />
-            <br />
             <TabsDemo items={items} />
           </div>
         </div>

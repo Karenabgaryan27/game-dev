@@ -127,6 +127,7 @@ const images = {
   reallyImage: "/assets/images/rest/really.png",
   acceptedImage: "/assets/images/rest/accepted.png",
   rejectedImage: "/assets/images/rest/rejected.png",
+  documentImage: "/assets/images/rest/document.jpg",
 };
 
 const localData = {

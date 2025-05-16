@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -14,6 +14,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ChevronDown, ChevronLeft, ChevronRight, EyeIcon } from "lucide-react";
+import ParticipantDialog from "./participant-dialog/ParticipantDialog";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -27,15 +28,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import {
-  ButtonDemo,
-  SelectScrollable,
-  CarouselDemo,
-  HeroCard,
-  ArtifactCard,
-  TabsDemo,
-  CustomParallaxCard,
-} from "@/components/index.js";
+import { ButtonDemo, SelectScrollable, CarouselDemo, TabsDemo, RecordCard } from "@/components/index.js";
+import { useApiContext } from "@/contexts/ApiContext";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -44,6 +38,7 @@ interface DataTableProps<TData, TValue> {
 
 type IncludedProps = {
   details?: any;
+  pointsIndex?: any;
 };
 
 export function DataTableDemo<TData extends IncludedProps, TValue>({
@@ -93,9 +88,11 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
     setExpandedRows((prev) => (prev.includes(rowId) ? prev.filter((id) => id !== rowId) : [...prev, rowId]));
   };
 
+
+
   return (
-    <div className="w-full">
-      <div className="flex items-center py-4 gap-5">
+    <div className={`w-full `}>
+      <div className="flex items-center py-4 gap-5 justify-between gap-10">
         <Input
           placeholder="Filter names..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -128,7 +125,8 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
         </DropdownMenu>
       </div>
       <div className="rounded-md ">
-        <Table className="border-separate border-spacing-y-[7px]">
+        <Table className="">
+          {/* border-separate border-spacing-y-[7px] */}
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -153,25 +151,31 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
                 <React.Fragment key={row.id}>
                   <TableRow
                     data-state={row.getIsSelected() && "selected"}
-                    className={`${expandedRows.includes(row.id) ? "" : ""} ${
-                      index == 0
-                        ? "!bg-yellow-500"
-                        : index == 1
-                        ? "!bg-purple-500"
-                        : index == 2
-                        ? "!bg-green-500"
-                        : "!bg-blue-400"
-                    }  `}
+                    className={`${expandedRows.includes(row.id) ? "" : ""} 
+                    ${
+                      "!bg-blue-400"
+                      // row.original.pointsIndex == 1
+                      //   ? "!bg-yellow-500"
+                      //   : row.original.pointsIndex == 2
+                      //   ? "!bg-purple-500"
+                      //   : row.original.pointsIndex == 3
+                      //   ? "!bg-green-500"
+                      //     : "!bg-blue-400"
+                    }  
+                    `}
                   >
-                    <TableCell className={`text-white ${
-                      index == 0
-                        ? "py-6"
-                        : index == 1
-                        ? "py-4"
-                        : index == 2
-                        ? "py-3"
-                        : ""
-                    } `}>
+                    <TableCell
+                      className={`text-white ${
+                        ""
+                        // row.original.pointsIndex == 1
+                        //   ? "py-6"
+                        //   : row.original.pointsIndex == 2
+                        //   ? "py-4"
+                        //   : row.original.pointsIndex == 3
+                        //   ? "py-3"
+                        //   : ""
+                      } `}
+                    >
                       <Button
                         variant="ghost"
                         className="rounded-full w-[35px] h-[35px] cursor-pointer"
@@ -181,7 +185,7 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
                       </Button>
                     </TableCell>
                     {row.getVisibleCells().map((cell, index) => (
-                      <TableCell key={cell.id} className={`px-5 ${index === 1 ? "w-full" : ""} text-white`}>
+                      <TableCell key={cell.id} className={`px-5 ${index === 2 ? "w-full" : ""} text-white`}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
@@ -284,36 +288,32 @@ type ItemsProps = {
 };
 
 const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => {
-  const [heroes, setHeroes] = React.useState(row.heroes?.filter((item: any) => item.isFeatured));
-  const [artifacts, setArtifacts] = React.useState(row.artifacts?.filter((item: any) => item.isFeatured));
+  const [records, setRecords] = React.useState(row.recordsList);
 
   const items: ItemsProps[] = [
     {
-      label: "Heroes",
-      value: "heroes",
+      label: "Records",
+      value: "records",
       content: (
         <div className="md:px-10">
           <CarouselDemo
             className="data-table-carousel  "
-            items={heroes?.length ? heroes : [{}]}
-            itemClassName="basis-1/5  lg:basis-1/7"
+            items={records?.length ? records : [{}]}
+            itemClassName="basis-1/6  lg:basis-1/10"
           >
-            {({ item, index }) => <HeroCard {...item} index={index} />}
-          </CarouselDemo>
-        </div>
-      ),
-    },
-    {
-      label: "Artifacts",
-      value: "artifacts",
-      content: (
-        <div className="md:px-10">
-          <CarouselDemo
-            className="data-table-carousel  "
-            items={artifacts?.length ? artifacts : [{}]}
-            itemClassName="basis-1/5  lg:basis-1/7"
-          >
-            {({ item, index }) => <ArtifactCard {...item} index={index} />}
+            {({ item, index }) => {
+              return (
+                <ParticipantDialog
+                  record={item}
+                  recordRest={{ name: row.name, avatar: row.avatar }}
+                  trigger={
+                    <div>
+                      <RecordCard {...item} index={index} />
+                    </div>
+                  }
+                />
+              );
+            }}
           </CarouselDemo>
         </div>
       ),
@@ -323,15 +323,45 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
   return (
     <tr className="">
       <td colSpan={columns.length + 1} className="overflow-hidden">
-        <div className="p-4      mb-5 shadow">
+        <div className="p-4 shadow bg-blue-50">
           <div className="flex items-center space-x-3">
             <EyeIcon className="w-5 h-5 text-gray-600" />
             <span className="text-lg font-semibold text-gray-700">Details</span>
           </div>
           <div className="mt-2 text-sm text-gray-600">
-            <div className="mt-3 text-sm text-gray-500">Content</div>
-            <br />
-            <br />
+            <div className="mt-3 text-sm text-gray-500">
+              <div className=" w-full lg:flex gap-10 ">
+                <div className="flex-1">
+                  <div className="flex items-center justify-between text-xs gap-5  px-3 border-b-1  border-dashed border-blue-300  mb-3">
+                    <div className="font-bold">All Points:</div>
+                    <div>{row.points || 0}</div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs gap-5  px-3 border-b-1  border-dashed border-blue-300  mb-3">
+                    <div className="font-bold">Custom Points:</div>
+                    <div>{row.customPoints || 0}</div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs gap-5  px-3 border-b-1  border-dashed border-blue-300  mb-3">
+                    <div className="font-bold">Behemoth Points:</div>
+                    <div>{row.behemothPoints || 0}</div>
+                  </div>
+                </div>
+
+                <div className="flex-1">
+                  <div className="flex items-center justify-between text-xs gap-5  px-3 border-b-1  border-dashed border-blue-300  mb-3">
+                    <div className="font-bold">Caravan Points:</div>
+                    <div>{row.caravanPoints || 0}</div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs gap-5  px-3 border-b-1  border-dashed border-blue-300  mb-3">
+                    <div className="font-bold">Donation Points:</div>
+                    <div>{row.resourceDonation || "0"}</div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs gap-5  px-3 border-b-1  border-dashed border-blue-300  mb-3">
+                    <div className="font-bold">Gates Points:</div>
+                    <div>{row.gatesPoints || 0}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <TabsDemo items={items} />
           </div>
         </div>
