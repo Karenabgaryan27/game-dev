@@ -1,16 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {
-  Separator,
-  ButtonDemo,
-  DialogDemo,
-} from "@/components/index";
-import {  Pencil,  } from "lucide-react";
+import { Separator, ButtonDemo, DialogDemo } from "@/components/index";
+import { Pencil } from "lucide-react";
 import { useApiContext } from "@/contexts/ApiContext";
 import NestedDialogEdit from "./nested-dialog-edit/NestedDialogEdit";
 import NestedDialogCreate from "./nested-dialog-create/NestedDialogCreate";
-
 
 const HeroCardsDialog = () => {
   return (
@@ -31,9 +26,8 @@ const HeroCardsDialogContent = ({ closeDialog = () => {} }) => {
   const [heroes, setHeroes] = useState([]);
   const [featuredHeroes, setFeaturedHeroes] = useState([]);
 
-  const {  fetchedCurrentUser } = useApiContext();
+  const { fetchedCurrentUser } = useApiContext();
   const { details } = fetchedCurrentUser;
-
 
   useEffect(() => {
     if (!details.heroes) return;

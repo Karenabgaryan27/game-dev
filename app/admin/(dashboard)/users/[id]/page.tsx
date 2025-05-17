@@ -11,6 +11,7 @@ import {
   ButtonDemo,
   DialogDemo,
   CropDemo,
+  UnitCard
 } from "@/components/index";
 import localData from "@/localData";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
@@ -63,12 +64,13 @@ const Page = () => {
       <BreadcrumbDemo items={breadcrumbItems} />
       <br />
       <br />
-      <Card className="mb-[200px] min-h-[500px] relative pb-[100px]">
+      <Card className="mb-[300px] min-h-[500px] relative pb-[100px]">
         <CardContent>
           <ProfileHeader details={fetchedUser.details} />
           <UserInfoBlock details={fetchedUser.details} />
           <HeroesBlock details={fetchedUser.details} />
           <ArtifactsBlock details={fetchedUser.details} />
+          <UnitsBlock details={fetchedUser.details} />
           {/* <CustomArsenalBlock /> */}
         </CardContent>
       </Card>
@@ -182,7 +184,7 @@ const HeroesBlock = ({ details = {} }: { details: any }) => {
       <div className="mb-0">
         <Separator title="Featured Heroes" className="mb-3" titleClassName="bg-white" />
       </div>
-      <div className="settings mb-[50px] ml-auto flex justify-end gap-2">
+      <div className="settings mb-[30px] ml-auto flex justify-end gap-2">
         <ButtonDemo
           startIcon={<Expand />}
           onClick={() => handleResize()}
@@ -190,7 +192,7 @@ const HeroesBlock = ({ details = {} }: { details: any }) => {
           variant="ghost"
         />
       </div>
-      <div className={`card-group ${expand} hero-card-group mb-[200px]  `}>
+      <div className={`card-group ${expand} hero-card-group  mb-[77px]`}>
         {featuredHeroes.length ? (
           featuredHeroes.map((item: any, index) => <HeroCard key={index} {...item} />)
         ) : (
@@ -242,7 +244,67 @@ const ArtifactsBlock = ({ details = {} }: { details: any }) => {
       <div className="mb-0">
         <Separator title="Featured Artifacts" className="mb-3" titleClassName="bg-white" />
       </div>
-      <div className="settings mb-[50px] ml-auto flex justify-end gap-2">
+      <div className="settings mb-[30px] ml-auto flex justify-end gap-2">
+        <ButtonDemo
+          startIcon={<Expand />}
+          onClick={() => handleResize()}
+          className="rounded-full w-[35px] h-[35px]"
+          variant="ghost"
+        />
+      </div>
+      <div className={`card-group ${expand} hero-card-group  mb-[77px]`}>
+        {featuredArtifacts.length ? (
+          featuredArtifacts.map((item: any, index) => <ArtifactCard key={index} {...item} />)
+        ) : (
+          <ArtifactCard placeholderImage={heroPlaceholderImage} />
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ARTIFACTS BLOCK
+let unitCardIndex = 2;
+
+const UnitsBlock = ({ details = {} }: { details: any }) => {
+  const [expand, setExpand] = useState("md");
+  const [featuredUnits, setFeaturedUnits] = useState([]);
+
+  useEffect(() => {
+    if (!details.units) return;
+
+    const preFeaturedUnits = details.units
+      .filter((item: any) => item.isFeatured)
+      .map((item: any) => ({ ...item, glare: true, maxGlare: 0.8 }));
+    setFeaturedUnits(preFeaturedUnits);
+  }, [details.units]);
+
+  const handleResize = () => {
+    unitCardIndex++;
+
+    if (unitCardIndex > 3) unitCardIndex = 1;
+    // if(unitCardIndex < 1) unitCardIndex = 3
+    let preExpand = "";
+    switch (unitCardIndex) {
+      case 1:
+        preExpand = "sm";
+        break;
+      case 2:
+        preExpand = "md";
+        break;
+      case 3:
+        preExpand = "lg";
+        break;
+    }
+    setExpand(preExpand);
+  };
+
+  return (
+    <div className={`units-block `}>
+      <div className="mb-0">
+        <Separator title="Featured Units" className="mb-3" titleClassName="bg-white" />
+      </div>
+      <div className="settings mb-[30px] ml-auto flex justify-end gap-2 ">
         <ButtonDemo
           startIcon={<Expand />}
           onClick={() => handleResize()}
@@ -251,10 +313,12 @@ const ArtifactsBlock = ({ details = {} }: { details: any }) => {
         />
       </div>
       <div className={`card-group ${expand} hero-card-group `}>
-        {featuredArtifacts.length ? (
-          featuredArtifacts.map((item: any, index) => <ArtifactCard key={index} {...item} />)
+        {featuredUnits.length ? (
+          featuredUnits.map((item: any, index) => (
+            <UnitCard key={index} {...item} />
+          ))
         ) : (
-          <ArtifactCard placeholderImage={heroPlaceholderImage} />
+          <UnitCard placeholderImage={heroPlaceholderImage} />
         )}
       </div>
     </div>

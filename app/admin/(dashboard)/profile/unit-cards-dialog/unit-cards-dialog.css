@@ -1,0 +1,25 @@
+.unit-cards-dialog {
+  .card-gray {
+    background: linear-gradient(180deg, #e0e0e0 0%, #a5a5a5 100%);
+  }
+  .card-purple {
+    background: linear-gradient(180deg, #9f1faa 0%, #3e0059 100%);
+  }
+
+  .card-golden {
+    background: linear-gradient(180deg, #ffd700 0%, #b8860b 100%);
+  }
+
+  .card-red {
+    background: linear-gradient(180deg, #d13b2f 0%, #891c13 100%);
+  }
+  .card-blue {
+    background: linear-gradient(180deg, #4A90E2 0%, #003D99 100%);
+  }
+  .card-green  {
+    background: linear-gradient(180deg, #4caf50 0%, #087f23 100%);
+  }
+  .card-dark {
+    background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+  }
+}

@@ -58,7 +58,7 @@ const Account = () => {
       <br />
       <br />
 
-      <div className="   grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] justify-center gap-[20px] ">
+      <div className="mb-[300px]   grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] justify-center gap-[20px] ">
         <div className="min-h-[200px] flex-1   p-3 bg-gray-50 dark:bg-secondary rounded-lg">
           <h2 className="text-1xl mb-2 text-sm font-bold">Email/password sign in method:</h2>
           {isEmailPasswordMethodEnabled && <div className="text-success text-sm mb-4">Enabled</div>}

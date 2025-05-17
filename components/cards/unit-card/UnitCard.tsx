@@ -3,7 +3,7 @@ import useParallaxEffect from "../../../hooks/useParallaxEffect";
 import localData from "@/localData";
 import { useGlobalContext } from "@/contexts/context";
 
-const { heroPlaceholderImage } = localData.images;
+const { unitPlaceholderImage } = localData.images;
 
 // type HeroCardProps = {
 //   title?: string;
@@ -16,7 +16,7 @@ const { heroPlaceholderImage } = localData.images;
 //   index?: number;
 // };
 
-export default function HeroCard({
+export default function UnitCard({
   title,
   // description,
   label,
@@ -27,9 +27,7 @@ export default function HeroCard({
   reverse = false,
   glare = false,
   maxGlare = 0.8,
-  axisDepth = 10,
   index = 0,
-  customImage = "",
 }: {
   [key: string]: any;
 }) {
@@ -37,14 +35,13 @@ export default function HeroCard({
     reverse,
     glare,
     maxGlare,
-    axisDepth: axisDepth,
   });
 
-  const { heroImages } = useGlobalContext();
+  const { unitImages } = useGlobalContext();
 
   return (
     <div
-      className={`card hero-card ${className} ${color || "gray"}`}
+      className={`card unit-card ${className} ${color || 'gray'}`}
       onMouseMove={move}
       onMouseLeave={end}
       onMouseEnter={start}
@@ -55,9 +52,8 @@ export default function HeroCard({
         <img
           className={`card-image  ${color || "!grayscale !opacity-50"}`}
           src={
-            (imageID && heroImages.find((image: any) => image.id == imageID)?.url) ||
-            customImage ||
-            heroPlaceholderImage
+            (imageID && unitImages.find((image:  any) => image.id == imageID)?.url) ||
+            unitPlaceholderImage
           }
           alt=""
         />

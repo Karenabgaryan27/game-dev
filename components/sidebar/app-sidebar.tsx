@@ -15,7 +15,19 @@ import localData from "@/localData";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 
-const { faceImage, houseImage, userImage,userGearImage, penImage, gridImage, globImage, calendarImage } = localData.svgs;
+const {
+  faceImage,
+  houseImage,
+  userImage,
+  userGearImage,
+  penImage,
+  gridImage,
+  globImage,
+  calendarImage,
+} = localData.svgs;
+
+const {heroesImage}= localData.images
+
 
 const data = {
   apps: [
@@ -42,7 +54,6 @@ const data = {
       url: "/admin/events",
       icon: calendarImage,
     },
-    
   ],
   settings: [
     {
@@ -140,9 +151,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
 
       <SidebarFooter className="px-5">
-        <h6 className="mb-5 text-xs text-gray-400 group-data-[collapsible=icon]:opacity-0 duration-800 whitespace-nowrap">
+        {/* <h6 className="mb-5 text-xs text-gray-400 group-data-[collapsible=icon]:opacity-0 duration-800 whitespace-nowrap">
           Created by Next.js
-        </h6>
+        </h6> */}
+        <img className="grayscale opacity-10 max-w-full w-[150px]" src={heroesImage} alt="" />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

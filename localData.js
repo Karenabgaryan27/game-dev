@@ -104,6 +104,19 @@ const images = {
   femmeImage: "/assets/images/artifacts/femme-loup-haelor-call-of-dragons.png",
   tailledragonImage: "/assets/images/artifacts/tailledragon-call-of-dragons.png",
 
+  // UNITS
+    unitPlaceholderImage: "/assets/images/rest/soldier.png",
+  unit1Image: "/assets/images/units/unit-1.png",
+  unit2Image: "/assets/images/units/unit-2.png",
+  unit3Image: "/assets/images/units/unit-3.png",
+  unit4Image: "/assets/images/units/unit-4.png",
+  unit5Image: "/assets/images/units/unit-5.png",
+  unit6Image: "/assets/images/units/unit-6.png",
+  unit7Image: "/assets/images/units/unit-7.png",
+  unit8Image: "/assets/images/units/unit-8.png",
+  unit9Image: "/assets/images/units/unit-9.png",
+  unit10Image: "/assets/images/units/unit-10.png",
+
   // CUSTOM ARSENAL
   customArsenalScreenshot1Image: "/assets/images/rest/custom-arsenal-screenshot-1.png",
   customArsenalScreenshot2Image: "/assets/images/rest/custom-arsenal-screenshot-2.png",
@@ -124,10 +137,15 @@ const images = {
   maintenanceWorkerImage: "/assets/images/rest/maintenance-worker.jpg",
   heroesLookingDownImage: "/assets/images/rest/heroes-looking-down.jpg",
   mapImage: "/assets/images/rest/map.png",
+  transparentMapImage: "/assets/images/rest/transparent-map.png",
   reallyImage: "/assets/images/rest/really.png",
   acceptedImage: "/assets/images/rest/accepted.png",
   rejectedImage: "/assets/images/rest/rejected.png",
   documentImage: "/assets/images/rest/document.jpg",
+  statueLeftImage: "/assets/images/rest/statue-left.png",
+  statueRightImage: "/assets/images/rest/statue-right.png",
+  heroesImage: "/assets/images/rest/heroes.png",
+
 };
 
 const localData = {

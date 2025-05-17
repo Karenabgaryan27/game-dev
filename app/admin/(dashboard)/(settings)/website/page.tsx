@@ -47,7 +47,7 @@ const Pages = () => {
       <br />
       <br />
       <br />
-      <Card className="mb-[200px] min-h-[500px] relative">
+      <Card className="mb-[300px] min-h-[500px] relative">
         <CardHeader>
           <div className="bg-image" style={{backgroundImage: 'url("/assets/images/rest/soldier.png")'}}></div>
           <h2 className="text-1xl font-bold mb-3">Home Page</h2>

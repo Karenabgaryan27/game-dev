@@ -33,6 +33,7 @@ import {
   CarouselDemo,
   HeroCard,
   ArtifactCard,
+  UnitCard,
   TabsDemo,
   CustomParallaxCard,
 } from "@/components/index.js";
@@ -271,6 +272,7 @@ type ItemsProps = {
 const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => {
   const [heroes, setHeroes] = React.useState(row.heroes?.filter((item: any) => item.isFeatured));
   const [artifacts, setArtifacts] = React.useState(row.artifacts?.filter((item: any) => item.isFeatured));
+  const [units, setUnits] = React.useState(row.units?.filter((item: any) => item.isFeatured));
 
   const items: ItemsProps[] = [
     {
@@ -298,7 +300,22 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
             items={artifacts?.length ? artifacts : [{}]}
             itemClassName="basis-1/7  lg:basis-1/10"
           >
-            {({ item, index }) => <ArtifactCard {...item} index={index} />}
+          {({ item, index }) => <ArtifactCard {...item} index={index} />}
+          </CarouselDemo>
+        </div>
+      ),
+    },
+    {
+      label: "Units",
+      value: "units",
+      content: (
+        <div className="md:px-10">
+          <CarouselDemo
+            className="data-table-carousel  "
+            items={units?.length ? units : [{}]}
+            itemClassName="basis-1/7  lg:basis-1/10"
+            >
+            {({ item, index }) => <UnitCard {...item} index={index} />}
           </CarouselDemo>
         </div>
       ),

@@ -2,17 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import { useApiContext } from "@/contexts/ApiContext";
-import { BreadcrumbDemo, Separator, CustomParallaxCard, ButtonDemo } from "@/components/index";
+import { BreadcrumbDemo, Separator, CustomParallaxCard, ButtonDemo, HeroCard } from "@/components/index";
 import EventCard from "./event-card/EventCard";
 import EventCardCreateDialog from "./event-card-create-dialog/EventCardCreateDialog";
-import localData from "@/localData";
-
 import { DataTableDemo } from "./data-table/DataTableDemo";
 import { Payment, columns } from "./data-table/columns";
 import { Card, CardContent } from "@/components/ui/card";
 import { DeleteEventsHistoryDialog } from "./delete-events-history-dialog/DeleteEventsHistoryDialog";
+import localData from "@/localData";
 
-const { chakchaImage, elkridersImage, mapImage } = localData.images;
+const { chakchaImage, elkridersImage, transparentMapImage } = localData.images;
 
 const breadcrumbItems = [
   {
@@ -26,15 +25,24 @@ const breadcrumbItems = [
 
 const Page = () => {
   return (
-    <main className="events-page-page p-5">
+    <main className="events-page p-5">
       <h2 className="text-2xl mb-3">Events</h2>
       <BreadcrumbDemo items={breadcrumbItems} />
       <br />
       <br />
 
-      <div className="bg-blue-100 py-10 px-3 rounded-lg  mb-[100px]">
+      <div
+        className="bg-blue-100 py-3 px-3 rounded-lg  mb-[100px]"
+        style={{
+          background: 'url("/assets/images/rest/map-overlay.jpg")',
+          backgroundPosition: "top",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      >
         <div className="max-w-[500px] mx-auto">
-          <CustomParallaxCard axisDepth={45} image={mapImage} />
+          {/* <CustomParallaxCard axisDepth={45} image={mapImage} /> */}
+          <HeroCard customImage={transparentMapImage} glare={true} color="transparent" axisDepth={20} />
         </div>
       </div>
 
@@ -168,18 +176,18 @@ const Table = () => {
     setFilteredData(data);
   }, [fetchEventsHistoryRecords]);
 
- 
-
   return (
     <>
       {(details.role === "admin" || details.role === "superAdmin") && (
         <div className="flex justify-end">
-          <DeleteEventsHistoryDialog
-          
-          />
+          <DeleteEventsHistoryDialog />
         </div>
       )}
-      <Card className={`mb-[200px] ${fetchEventsHistoryRecords.isLoading ? "opacity-70 pointer-events-none" : ""}`}>
+      <Card
+        className={`mb-[200px] ${
+          fetchEventsHistoryRecords.isLoading ? "opacity-70 pointer-events-none" : ""
+        }`}
+      >
         <CardContent>
           <DataTableDemo data={filteredData} columns={columns} />
         </CardContent>

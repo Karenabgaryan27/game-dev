@@ -88,6 +88,19 @@ const artifactImages = [
   { id: "hero-bb21--fe3vrt4wfg", url: images.tailledragonImage },
 ];
 
+const unitImages = [
+  { id: "hero-bb21--x7l3zq9vta", url: images.unit1Image },
+  { id: "hero-bb21--p1m6ry4cjd", url: images.unit2Image },
+  { id: "hero-bb21--u0n9ks8wqe", url: images.unit3Image },
+  { id: "hero-bb21--d2f7cv5zlx", url: images.unit4Image },
+  { id: "hero-bb21--e8q4mx1vnb", url: images.unit5Image },
+  { id: "hero-bb21--a9z3pl7kyd", url: images.unit6Image },
+  { id: "hero-bb21--t3k6uw2hxo", url: images.unit7Image },
+  { id: "hero-bb21--v6e8rn3yzc", url: images.unit8Image },
+  { id: "hero-bb21--n4x1jd9qwb", url: images.unit9Image },
+  { id: "hero-bb21--h0l7tp5smk", url: images.unit10Image },
+]
+
 
 type StateType = {
   [key: string]: any;
@@ -98,6 +111,7 @@ type ContextType = {
   setState: (newState: StateType) => void;
   heroImages: any;
   artifactImages: any;
+  unitImages: any;
 };
 
 export const Context = createContext<ContextType | null>(null);
@@ -116,7 +130,8 @@ export default function Provider({
         ...state,
         setState,
         heroImages,
-        artifactImages
+        artifactImages,
+        unitImages
       }}
     >
       {children}

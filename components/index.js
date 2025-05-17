@@ -12,6 +12,7 @@ export { TableDemo } from "./table/TableDemo.tsx";
 export { default as ServiceCard } from "./cards/service-card/ServiceCard.tsx";
 export { default as HeroCard} from './cards/hero-card/HeroCard.tsx'
 export { default as ArtifactCard} from './cards/artifact-card/ArtifactCard.tsx'
+export { default as UnitCard} from './cards/unit-card/UnitCard.tsx'
 export { default as CustomParallaxCard} from './cards/custom-parallax-card/CustomParallaxCard.jsx'
 export { default as RecordCard} from './cards/record-card/RecordCard.tsx'
 export { CarouselDemo } from "./carousel/CarouselDemo.tsx";

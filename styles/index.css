@@ -7,12 +7,15 @@
 @import "../app/admin/(dashboard)/profile/profile.css";
 @import "../app/admin/(dashboard)/profile/hero-cards-dialog/hero-cards-dialog.css";
 @import "../app/admin/(dashboard)/profile/artifact-cards-dialog/artifact-cards-dialog.css";
+@import "../app/admin/(dashboard)/profile/unit-cards-dialog/unit-cards-dialog.css";
 @import "../app/admin/(dashboard)/dashboard/data-table/data-table.css";
+@import "../app/admin/(dashboard)/events/events.css";
 
 
 /* COMPONENTS */
 @import "../components/sidebar/app-sidebar.css";
 @import "../components/cards/hero-card/hero-card.css";
 @import "../components/cards/artifact-card/artifact-card.css";
+@import "../components/cards/unit-card/unit-card.css";
 @import "../components/cards/custom-parallax-card/custom-parallax-card.css";
 @import "../components/cards/record-card/record-card.css";
