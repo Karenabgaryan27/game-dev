@@ -33,7 +33,7 @@ export type Payment = {
 
 export const columns: ColumnDef<Payment>[] = [
   {
-    accessorKey: "pointsIndex",
+    accessorKey: "index",
     header: () => <div className="px-3 text-center">#</div>,
     enableHiding: false,
     cell: ({ row, table }) => {

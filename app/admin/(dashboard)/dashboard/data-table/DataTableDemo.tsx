@@ -37,6 +37,7 @@ import {
   TabsDemo,
   CustomParallaxCard,
 } from "@/components/index.js";
+import { useApiContext } from "@/contexts/ApiContext";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -52,16 +53,15 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
   columns,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([
-      {
-    id: "rank",
-    desc: true,
-  },
+    {
+      id: "rank",
+      desc: true,
+    },
   ]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [expandedRows, setExpandedRows] = React.useState<string[]>([]);
-  
 
   const table = useReactTable({
     data,
@@ -274,6 +274,8 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
   const [artifacts, setArtifacts] = React.useState(row.artifacts?.filter((item: any) => item.isFeatured));
   const [units, setUnits] = React.useState(row.units?.filter((item: any) => item.isFeatured));
 
+  const {fetchedCurrentUser: {details: fetchedCurrentUserDetails}} = useApiContext()
+
   const items: ItemsProps[] = [
     {
       label: "Heroes",
@@ -300,7 +302,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
             items={artifacts?.length ? artifacts : [{}]}
             itemClassName="basis-1/7  lg:basis-1/10"
           >
-          {({ item, index }) => <ArtifactCard {...item} index={index} />}
+            {({ item, index }) => <ArtifactCard {...item} index={index} />}
           </CarouselDemo>
         </div>
       ),
@@ -314,7 +316,7 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
             className="data-table-carousel  "
             items={units?.length ? units : [{}]}
             itemClassName="basis-1/7  lg:basis-1/10"
-            >
+          >
             {({ item, index }) => <UnitCard {...item} index={index} />}
           </CarouselDemo>
         </div>
@@ -359,11 +361,21 @@ const ExpandedRow = ({ row = [], columns = [] }: { row: any; columns: any }) => 
                   </div>
                   <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Email:</div>
-                    <div>{row.email || "-"}</div>
+                    <div>
+                      {(row.email &&
+                        ["admin", "superAdmin"].includes(fetchedCurrentUserDetails.role) &&
+                        row.email) ||
+                        "***"}
+                    </div>
                   </div>
                   <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Country:</div>
-                    <div>{row.country || "-"}</div>
+                    <div>
+                         {(row.country &&
+                        ["admin", "superAdmin"].includes(fetchedCurrentUserDetails.role) &&
+                        row.country) ||
+                        "***"}
+                    </div>
                   </div>
                   <div className="flex items-center justify-between text-xs gap-5 px-3 border-b-1 border-dashed border-gray-300  mb-3">
                     <div className="font-bold">Language(s)</div>

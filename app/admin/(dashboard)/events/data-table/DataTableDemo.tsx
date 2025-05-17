@@ -92,7 +92,7 @@ export function DataTableDemo<TData extends IncludedProps, TValue>({
 
   return (
     <div className={`w-full `}>
-      <div className="flex items-center py-4 gap-5 justify-between gap-10">
+      <div className="flex items-center py-4 justify-between gap-10">
         <Input
           placeholder="Filter names..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}

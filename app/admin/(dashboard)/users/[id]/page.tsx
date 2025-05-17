@@ -139,12 +139,12 @@ const UserInfoBlock = ({ details = {} }: { details: any }) => {
             <div>{details.gameTime || "-"}</div>
           </div>
           <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
-            <div className="font-bold">Main Troop Type:</div>
-            <div>{details.mainTroopType || "-"}</div>
+            <div className="font-bold">Main Unit Type:</div>
+            <div>{details.mainUnitType || "-"}</div>
           </div>
           <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
-            <div className="font-bold">Troop Level:</div>
-            <div>{details.troopLevel || "-"}</div>
+            <div className="font-bold">Unit Level:</div>
+            <div>{details.unitLevel || "-"}</div>
           </div>
           <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
             <div className="font-bold">Power:</div>

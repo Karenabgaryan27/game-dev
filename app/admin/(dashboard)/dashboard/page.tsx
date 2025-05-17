@@ -363,6 +363,12 @@ const Page = () => {
           return {
             status: "active",
             ...item,
+            name: item.name || "",
+            inGameID: item.inGameID || "",
+            power: item.power || "",
+            mainUnitType: item.mainUnitType || "",
+            unitLevel: item.unitLevel || "",
+            rank: item.rank || "",
           };
         });
     };

@@ -64,6 +64,24 @@ export const columns: ColumnDef<Payment>[] = [
   //   enableSorting: false,
   //   enableHiding: false,
   // },
+    {
+    accessorKey: "index",
+    header: () => <div className="px-3 text-center">#</div>,
+    enableHiding: false,
+    cell: ({ row, table }) => {
+      const sortedRows = table.getSortedRowModel().rows;
+      const sortedIndex = sortedRows.findIndex((r) => r.id === row.id);
+
+      return (
+        // <div className="rounded-full shadow-[1px_1px_6px_rgba(0,0,0,0.1)]  flex items-center justify-center w-[20px] h-[20px] font-bold">
+        <div>
+          
+        { sortedIndex + 1}
+          </div> 
+        // </div>
+      );
+    },
+  },
   {
     accessorKey: "avatar",
     header: () => <div className="px-3">Avatar </div>,
@@ -124,28 +142,28 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => <div className="capitalize ">{row.getValue("power") || "-"}</div>,
   },
   {
-    accessorKey: "mainTroopType",
+    accessorKey: "mainUnitType",
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Main Troop
+          Main Unit
           <ArrowUpDown />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="capitalize ">{row.getValue("mainTroopType") || "-"}</div>,
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("mainUnitType") || "-"}</div>,
   },
   {
-    accessorKey: "troopLevel",
+    accessorKey: "unitLevel",
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Troop Lvl
+          Unit Lvl
           <ArrowUpDown />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="capitalize ">{row.getValue("troopLevel") || "-"}</div>,
+    cell: ({ row }) => <div className="capitalize ">{row.getValue("unitLevel") || "-"}</div>,
   },
   {
     accessorKey: "rank",

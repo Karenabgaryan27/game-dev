@@ -22,8 +22,8 @@ type StateProps = {
   languages: string;
   faction: string;
   gameTime: string;
-  mainTroopType: string;
-  troopLevel: string;
+  mainUnitType: string;
+  unitLevel: string;
   power: string;
 };
 
@@ -49,8 +49,8 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
     languages: "",
     faction: "",
     gameTime: "",
-    mainTroopType: "",
-    troopLevel: "",
+    mainUnitType: "",
+    unitLevel: "",
     power: ''
   });
 
@@ -86,11 +86,11 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
     if (state.gameTime !== details.gameTime) {
       updatedFields.gameTime = state.gameTime;
     }
-    if (state.mainTroopType !== details.mainTroopType) {
-      updatedFields.mainTroopType = state.mainTroopType;
+    if (state.mainUnitType !== details.mainUnitType) {
+      updatedFields.mainUnitType = state.mainUnitType;
     }
-    if (state.troopLevel !== details.troopLevel) {
-      updatedFields.troopLevel = state.troopLevel;
+    if (state.unitLevel !== details.unitLevel) {
+      updatedFields.unitLevel = state.unitLevel;
     }
     if (state.power !== details.power) {
       updatedFields.power = state.power;
@@ -118,8 +118,8 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
       languages: details.languages,
       faction: details.faction,
       gameTime: details.gameTime,
-      mainTroopType: details.mainTroopType,
-      troopLevel: details.troopLevel,
+      mainUnitType: details.mainUnitType,
+      unitLevel: details.unitLevel,
       power: details.power,
     }));
   }, [fetchedCurrentUser]);
@@ -177,22 +177,22 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
             value={state.gameTime}
           />
           <InputDemo
-            label="main Troop Type"
+            label="main Unit Type"
             placeholder="e.g., Archer"
-            name="mainTroopType"
+            name="mainUnitType"
             type="text"
             callback={(e) => onChange(e)}
             className="mb-5"
-            value={state.mainTroopType}
+            value={state.mainUnitType}
           />
           <InputDemo
-            label="troop Level"
+            label="unit Level"
             placeholder="e.g., T4"
-            name="troopLevel"
+            name="unitLevel"
             type="text"
             callback={(e) => onChange(e)}
             className="mb-5"
-            value={state.troopLevel}
+            value={state.unitLevel}
           />
           <InputDemo
             label="Power"
