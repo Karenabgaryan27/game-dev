@@ -132,7 +132,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
    
           <InputDemo
             label="In-Game ID"
-            placeholder="In-Game ID"
+            placeholder="e.g., John Doe"
             name="inGameID"
             type="text"
             callback={(e) => onChange(e)}
@@ -141,7 +141,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
           />
           <InputDemo
             label="Country"
-            placeholder="Country"
+            placeholder="e.g., United States"
             name="country"
             type="text"
             callback={(e) => onChange(e)}
@@ -150,7 +150,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
           />
           <InputDemo
             label="Languages"
-            placeholder="Languages"
+            placeholder="e.g., English, Spanish"
             name="languages"
             type="text"
             callback={(e) => onChange(e)}
@@ -160,7 +160,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
 
           <InputDemo
             label="Faction"
-            placeholder="Faction"
+            placeholder="e.g., League of Order"
             name="faction"
             type="text"
             callback={(e) => onChange(e)}
@@ -169,7 +169,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
           />
           <InputDemo
             label="Game Time"
-            placeholder="Game Time"
+            placeholder="e.g., 13:00 – 17:00 UTC"
             name="gameTime"
             type="text"
             callback={(e) => onChange(e)}
@@ -178,7 +178,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
           />
           <InputDemo
             label="main Troop Type"
-            placeholder="main Troop Type"
+            placeholder="e.g., Archer"
             name="mainTroopType"
             type="text"
             callback={(e) => onChange(e)}
@@ -187,7 +187,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
           />
           <InputDemo
             label="troop Level"
-            placeholder="troop Level"
+            placeholder="e.g., T4"
             name="troopLevel"
             type="text"
             callback={(e) => onChange(e)}
@@ -196,7 +196,7 @@ const UserInfoDialogContent = ({ closeDialog = () => {} }) => {
           />
           <InputDemo
             label="Power"
-            placeholder="Power"
+            placeholder="e.g., 10M"
             name="power"
             type="text"
             callback={(e) => onChange(e)}

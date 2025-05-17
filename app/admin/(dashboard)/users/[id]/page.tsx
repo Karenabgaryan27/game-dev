@@ -11,7 +11,7 @@ import {
   ButtonDemo,
   DialogDemo,
   CropDemo,
-  UnitCard
+  UnitCard,
 } from "@/components/index";
 import localData from "@/localData";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
@@ -80,6 +80,9 @@ const Page = () => {
 
 // USER INFO BLOCK
 const UserInfoBlock = ({ details = {} }: { details: any }) => {
+  const {
+    fetchedCurrentUser: { details: fetchedCurrentUserDetails },
+  } = useApiContext();
   return (
     <div className="mb-[150px] relative  py-5">
       <div>
@@ -102,11 +105,21 @@ const UserInfoBlock = ({ details = {} }: { details: any }) => {
           </div>
           <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
             <div className="font-bold">Email:</div>
-            <div>{details.email || "-"}</div>
+            <div>
+              {(details.email &&
+                ["admin", "superAdmin"].includes(fetchedCurrentUserDetails.role) &&
+                details.email) ||
+                "***"}
+            </div>
           </div>
           <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
             <div className="font-bold">Country:</div>
-            <div>{details.country || "-"}</div>
+            <div>
+              {(details.country &&
+                ["admin", "superAdmin"].includes(fetchedCurrentUserDetails.role) &&
+                details.country) ||
+                "***"}
+            </div>
           </div>
           <div className="flex items-center justify-between text-sm gap-5 py-1 px-3 border-b-1 border-dashed border-gray-300  mb-3">
             <div className="font-bold">Language(s)</div>
@@ -314,9 +327,7 @@ const UnitsBlock = ({ details = {} }: { details: any }) => {
       </div>
       <div className={`card-group ${expand} hero-card-group `}>
         {featuredUnits.length ? (
-          featuredUnits.map((item: any, index) => (
-            <UnitCard key={index} {...item} />
-          ))
+          featuredUnits.map((item: any, index) => <UnitCard key={index} {...item} />)
         ) : (
           <UnitCard placeholderImage={heroPlaceholderImage} />
         )}

@@ -54,7 +54,7 @@ const ParticipantDialogContent = ({ record = {}, recordRest = {} }: any) => {
       <div className="dialog-body mb-5">
         <div className=" bg-blue-100 p-5 rounded-lg mb-10">
           <div className="flex gap-5">
-            <div className="w-[70px] h-[70px] rounded-full overflow-hidden border mb-3 shadow-lg">
+            <div className="w-[70px] h-[70px] rounded-full overflow-hidden border  shadow-lg">
               <img
                 className="w-full h-full object-cover"
                 src={recordRest.avatar || avatarPlaceholderImage}
@@ -106,9 +106,9 @@ const ParticipantDialogContent = ({ record = {}, recordRest = {} }: any) => {
             <div
               className={`flex gap-5 ${
                 record.status === "accepted" ? "bg-green-100" : "bg-red-100"
-              } p-5 rounded-lg mb-3`}
+              } p-5 rounded-lg`}
             >
-              <div className="w-[70px] h-[70px] rounded-full overflow-hidden border mb-3 shadow-lg">
+              <div className="w-[70px] h-[70px] rounded-full overflow-hidden border shadow-lg">
                 <img className="w-full h-full object-cover" src={reviewerAvatar} alt="" />
               </div>
               <div>
